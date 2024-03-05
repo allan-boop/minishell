@@ -6,11 +6,11 @@
 /*   By: gdoumer <gdoumer@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/24 21:20:01 by gdoumer           #+#    #+#             */
-/*   Updated: 2024/01/23 14:26:24 by gdoumer          ###   ########.fr       */
+/*   Updated: 2024/03/05 17:55:14 by gdoumer          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "./include/libft.h"
+#include "libft.h"
 
 int	ft_memcmp(const void *s1, const void *s2, size_t n)
 {

@@ -6,14 +6,11 @@
 /*   By: gdoumer <gdoumer@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/25 13:32:48 by gdoumer           #+#    #+#             */
-/*   Updated: 2024/01/26 19:05:48 by gdoumer          ###   ########.fr       */
+/*   Updated: 2024/03/05 17:57:05 by gdoumer          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "./include/libft.h"
-
-#include "./include/libft.h"
-#include <string.h>
+#include "libft.h"
 
 char	*ft_strdup(const char *s)
 {

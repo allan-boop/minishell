@@ -3,7 +3,7 @@
 #########################################
 NAME	= minishell
 
-INCLUDES_PATH=	includes
+INCLUDES_PATH=	include
 CC=				gcc
 CFLAGS=			-Wall -Wextra -Werror
 
