@@ -1,6 +1,8 @@
 #ifndef MINISHELL_H
 # define MINISHELL_H
 
+# define MANY_ARGS "Too many arguments.\n"
+
 # include <stdio.h>
 # include <readline/readline.h>
 # include <readline/history.h>
@@ -19,5 +21,7 @@
 # include <termios.h>
 # include <curses.h>
 # include <term.h>
+
+void	ft_error(int argc, char ** argv);
 
 #endif
