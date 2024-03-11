@@ -1,6 +1,6 @@
-#include "minishell.h"
+#include "../include/minishell.h"
 
-void	ft_nb_args(int argc, char **argv)
+void	ft_nb_args(int argc)
 {
 	if (argc != 1)
 	{

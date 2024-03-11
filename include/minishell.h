@@ -3,6 +3,7 @@
 
 # define MANY_ARGS "Too many arguments.\n"
 
+# include "libft.h"
 # include <stdio.h>
 # include <readline/readline.h>
 # include <readline/history.h>
@@ -22,6 +23,18 @@
 # include <curses.h>
 # include <term.h>
 
-void	ft_nb_args(int argc, char ** argv);
+
+typedef struct s_mini
+{
+
+}	t_mini;
+
+
+void	ft_loop(char **envp);
+void	ft_nb_args(int argc);
+void	init_struct(t_mini *shell);
+void	ft_parsing(t_mini *shell, char *line);
+void	ft_execution(t_mini *shell, char **envp);
+void	ft_free_all(t_mini *shell, char *line);
 
 #endif

@@ -16,7 +16,11 @@ all: $(NAME)
 ########################################
 SRC_FILES =	minishell.c \
 			ft_error.c \
-			ft_loop.c
+			ft_loop.c \
+			init_struct.c \
+			parsing.c \
+			execution.c \
+			ft_free.c
 
 SRC_FILES := $(addprefix src/, $(SRC_FILES))
 OBJ_FILES = $(SRC_FILES:.c=.o)
@@ -33,10 +37,10 @@ DO_LIBS:
 
 $(NAME): $(OBJ_FILES) | DO_LIBS
 	@echo LINKING
-	$(CC) $^ -L$(LIBS_DIR) $(CFLAGS) -o $@ -lm
+	@$(CC) $^ -L$(LIBS_DIR) -lft -lreadline $(CFLAGS) -o $@ -lm
 
 %.o: %.c
-	$(CC) $(CFLAGS) -c $< -o $@
+	@$(CC) $(CFLAGS) -c $< -o $@
 
 clean:
 	@rm -f $(OBJ_FILES)
