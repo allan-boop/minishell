@@ -9,7 +9,6 @@ void	ft_loop(char **envp)
 	{
 		init_struct(&shell);
 		line = readline("pikapika$ ");
-
 		if (line == NULL)
 		{
 			ft_printf("\n");
@@ -20,6 +19,7 @@ void	ft_loop(char **envp)
 		{
 			add_history(line);
 			ft_parsing(shell, line);
+			create_ast(shell);
 			ft_execution(shell, envp);
 		}
 		ft_free_all(shell, line);
