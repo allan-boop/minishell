@@ -2,6 +2,7 @@
 # define MINISHELL_H
 
 # define MANY_ARGS "Too many arguments.\n"
+# define MALLOC_FAIL "Error: malloc failed.\n"
 
 # include "libft.h"
 # include <stdio.h>
