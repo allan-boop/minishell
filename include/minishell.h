@@ -22,6 +22,6 @@
 # include <curses.h>
 # include <term.h>
 
-void	ft_error(int argc, char ** argv);
+void	ft_nb_args(int argc, char ** argv);
 
 #endif

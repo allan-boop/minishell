@@ -15,7 +15,8 @@ all: $(NAME)
 ## SOURCES
 ########################################
 SRC_FILES =	minishell.c \
-			ft_error.c
+			ft_error.c \
+			ft_loop.c
 
 SRC_FILES := $(addprefix src/, $(SRC_FILES))
 OBJ_FILES = $(SRC_FILES:.c=.o)
