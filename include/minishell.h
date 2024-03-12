@@ -5,29 +5,46 @@
 # define MALLOC_FAIL "Error: malloc failed.\n"
 
 # include "libft.h"
+# include <term.h>
 # include <stdio.h>
-# include <readline/readline.h>
-# include <readline/history.h>
+# include <errno.h>
 # include <stdlib.h>
 # include <unistd.h>
-# include <sys/types.h>
-# include <sys/wait.h>
-# include <sys/time.h>
-# include <sys/stat.h>
-# include <sys/resource.h>
 # include <signal.h>
 # include <dirent.h>
 # include <string.h>
-# include <errno.h>
-# include <sys/ioctl.h>
-# include <termios.h>
 # include <curses.h>
-# include <term.h>
+# include <termios.h>
+# include <sys/wait.h>
+# include <sys/time.h>
+# include <sys/stat.h>
+# include <sys/types.h>
+# include <sys/ioctl.h>
+# include <sys/resource.h>
+# include <readline/history.h>
+# include <readline/readline.h>
 
+typedef struct s_malloc_ptr
+{
+	void			*ptr;
+	t_malloc_ptr	*next;
+}	t_malloc_ptr;
+
+typedef struct s_tree
+{
+	char	*content;
+	bool	is_sign;
+	bool	is_command;
+	char	*path;
+	bool	is_other;
+	t_tree	*child;
+	t_tree	parent;
+}	t_tree;
 
 typedef struct s_mini
 {
-	int		i;
+	char	**tab_pars;
+	t_tree	*ast;
 }	t_mini;
 
 
@@ -36,7 +53,6 @@ void	ft_nb_args(int argc);
 void	init_struct(t_mini **shell);
 void	ft_parsing(t_mini *shell, char *line);
 void	ft_execution(t_mini *shell, char **envp);
-void	ft_free_all(t_mini *shell, char *line);
 void	create_ast(t_mini *shell);
 
 #endif
