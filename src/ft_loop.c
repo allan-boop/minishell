@@ -21,6 +21,5 @@ void	ft_loop(char **envp)
 			create_ast(shell);
 			ft_execution(shell, envp);
 		}
-		ft_free_all(shell, line);
 	}
 }

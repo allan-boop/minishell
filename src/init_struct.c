@@ -8,5 +8,4 @@ void	init_struct(t_mini **shell)
 		printf(MALLOC_FAIL);
 		exit(1);
 	}
-	(*shell)->nb_malloc = 0;
 }

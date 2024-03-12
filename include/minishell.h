@@ -1,8 +1,8 @@
 #ifndef MINISHELL_H
 # define MINISHELL_H
 
-# define MANY_ARGS "fly.\n"
-# define MALLOC_FAIL "attack fatal fouder\n"
+# define MANY_ARGS "Too many arguments.\n"
+# define MALLOC_FAIL "Error: malloc failed.\n"
 # define NEW 2
 # define DELETE 3
 # define CLEAR 4
@@ -29,19 +29,15 @@
 
 typedef struct s_malloc_ptr
 {
-	void			*ptr;
-	t_malloc_ptr	*next;
+	void				*ptr;
+	struct s_malloc_ptr	*next;
 }	t_malloc_ptr;
 
 typedef struct s_tree
 {
-	char	*content;
-	bool	is_sign;
-	bool	is_command;
-	char	*path;
-	bool	is_other;
-	t_tree	*child;
-	t_tree	parent;
+	char			*content;
+	struct s_tree	*child;
+	struct s_tree	*parent;
 }	t_tree;
 
 typedef struct s_mini
@@ -57,5 +53,6 @@ void	init_struct(t_mini **shell);
 void	ft_parsing(t_mini *shell, char *line);
 void	ft_execution(t_mini *shell, char **envp);
 void	create_ast(t_mini *shell);
+void	*malloc_factory(size_t size, int type, void *ptr);
 
 #endif
