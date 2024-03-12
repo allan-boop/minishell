@@ -7,7 +7,7 @@ void	ft_loop(char **envp)
 
 	while (1)
 	{
-		init_struct(&shell);
+		shell = ft_alloc(sizeof(t_mini));
 		line = readline("pikapika$ ");
 		if (line == NULL)
 		{
@@ -21,5 +21,7 @@ void	ft_loop(char **envp)
 			create_ast(shell);
 			ft_execution(shell, envp);
 		}
+		free(line);
+		ft_del_all();
 	}
 }

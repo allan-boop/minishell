@@ -17,7 +17,6 @@ all: $(NAME)
 SRC_FILES =	minishell.c \
 			ft_error.c \
 			ft_loop.c \
-			init_struct.c \
 			parsing.c \
 			create_ast.c \
 			execution.c \

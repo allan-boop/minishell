@@ -49,7 +49,6 @@ typedef struct s_mini
 
 void	ft_loop(char **envp);
 void	ft_nb_args(int argc);
-void	init_struct(t_mini **shell);
 void	ft_parsing(t_mini *shell, char *line);
 void	ft_execution(t_mini *shell, char **envp);
 void	create_ast(t_mini *shell);
