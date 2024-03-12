@@ -54,5 +54,9 @@ void	ft_parsing(t_mini *shell, char *line);
 void	ft_execution(t_mini *shell, char **envp);
 void	create_ast(t_mini *shell);
 void	*malloc_factory(size_t size, int type, void *ptr);
+void	*ft_alloc(int size);
+void	*ft_del_alloc(void *var);
+void	*ft_del_all(void);
+void	*malloc_factory(size_t size, int type, void *ptr);
 
 #endif

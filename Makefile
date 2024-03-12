@@ -21,7 +21,8 @@ SRC_FILES =	minishell.c \
 			parsing.c \
 			create_ast.c \
 			execution.c \
-			malloc_factory.c
+			malloc_factory.c \
+			m_factory_manager.c
 
 SRC_FILES := $(addprefix src/, $(SRC_FILES))
 OBJ_FILES = $(SRC_FILES:.c=.o)
