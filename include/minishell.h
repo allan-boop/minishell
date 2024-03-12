@@ -1,8 +1,11 @@
 #ifndef MINISHELL_H
 # define MINISHELL_H
 
-# define MANY_ARGS "Too many arguments.\n"
-# define MALLOC_FAIL "Error: malloc failed.\n"
+# define MANY_ARGS "fly.\n"
+# define MALLOC_FAIL "attack fatal fouder\n"
+# define NEW 2
+# define DELETE 3
+# define CLEAR 4
 
 # include "libft.h"
 # include <term.h>

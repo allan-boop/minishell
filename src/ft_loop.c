@@ -14,7 +14,6 @@ void	ft_loop(char **envp)
 			ft_printf("\n");
 			exit(0);
 		}
-
 		if (line[0] != '\0')
 		{
 			add_history(line);
