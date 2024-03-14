@@ -13,6 +13,7 @@ static void	signal_handler(int sig)
 	}
 	else if (sig == SIGQUIT)
 		signal(SIGQUIT, signal_handler);
+
 }
 
 void	ft_signal(void)
