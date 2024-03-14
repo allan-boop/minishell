@@ -3,9 +3,11 @@
 
 # define MANY_ARGS "Too many arguments.\n"
 # define MALLOC_FAIL "Error: malloc failed.\n"
+# define SIGNAL_FAIL "Error: signal failed.\n"
 # define NEW 2
 # define DELETE 3
 # define CLEAR 4
+# define PROMPT "pikapika$ "
 
 # include "libft.h"
 # include <term.h>
@@ -47,15 +49,16 @@ typedef struct s_mini
 }	t_mini;
 
 
-void	ft_loop(char **envp);
+void	ft_signal(void);
+void	*ft_del_all(void);
+void	*ft_alloc(int size);
 void	ft_nb_args(int argc);
+void	ft_loop(char **envp);
+void	*ft_del_alloc(void *var);
+void	create_ast(t_mini *shell);
 void	ft_parsing(t_mini *shell, char *line);
 void	ft_execution(t_mini *shell, char **envp);
-void	create_ast(t_mini *shell);
 void	*malloc_factory(size_t size, int type, void *ptr);
-void	*ft_alloc(int size);
-void	*ft_del_alloc(void *var);
-void	*ft_del_all(void);
 void	*malloc_factory(size_t size, int type, void *ptr);
 
 #endif

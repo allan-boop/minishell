@@ -5,10 +5,11 @@ void	ft_loop(char **envp)
 	char	*line;
 	t_mini	*shell;
 
+	ft_signal();
 	while (1)
 	{
 		shell = ft_alloc(sizeof(t_mini));
-		line = readline("pikapika$ ");
+		line = readline(PROMPT);
 		if (line == NULL)
 		{
 			ft_printf("\n");
