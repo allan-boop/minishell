@@ -23,6 +23,6 @@ void	ft_loop(char **envp)
 			ft_execution(shell, envp);
 		}
 		free(line);
-		ft_del_all();
+		ft_del_alloc(shell);
 	}
 }

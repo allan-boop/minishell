@@ -1,19 +1,22 @@
 #include "../include/minishell.h"
 
-void	clear_all(t_malloc_ptr *list_malloc)
+void	clear_all(t_malloc_ptr **list_malloc)
 {
 	t_malloc_ptr	*tmp;
+	t_malloc_ptr	*l_m;
 
-	while (list_malloc)
+	l_m = *list_malloc;
+	while (l_m)
 	{
-		free(list_malloc->ptr);
-		tmp = list_malloc;
-		list_malloc = list_malloc->next;
+		free(l_m->ptr);
+		l_m->ptr = NULL;
+		tmp = l_m;
+		l_m = l_m->next;
 		tmp->next = NULL;
-		tmp->ptr = NULL;
 		free(tmp);
 		tmp = NULL;
 	}
+	*list_malloc = NULL;
 }
 
 void	*create_node(void *new_ptr)
@@ -26,41 +29,43 @@ void	*create_node(void *new_ptr)
 	return (new_node);
 }
 
-void	add_node(t_malloc_ptr *list_malloc, t_malloc_ptr *new)
+void	add_node(t_malloc_ptr **list_malloc, t_malloc_ptr *new)
 {
-	if (!list_malloc)
+	t_malloc_ptr	*l_m;
+
+	l_m = *list_malloc;
+	if (!*list_malloc)
 	{
-		list_malloc = new;
-		list_malloc->next = NULL;
+		*list_malloc = new;
+		(*list_malloc)->next = NULL;
 		return ;
 	}
-	while (list_malloc->next)
-		list_malloc = list_malloc->next;
-	list_malloc->next = new;
+	while (l_m->next)
+		l_m = l_m->next;
+	l_m->next = new;
 }
 
-void	del_node(t_malloc_ptr *list_malloc, void *var)
+void	del_node(t_malloc_ptr **list_malloc, void *var)
 {
 	t_malloc_ptr	*tmp;
+	t_malloc_ptr	*l_m;
 
-	if (!list_malloc)
+	if (!*list_malloc)
 		return ;
-	while (list_malloc->next && list_malloc->ptr != var)
+	l_m = *list_malloc;
+	if (l_m->ptr == var)
 	{
-		tmp = list_malloc;
-		list_malloc = list_malloc->next;
+		*list_malloc = l_m->next;
+		free(l_m->ptr);
+		l_m->ptr = NULL;
+		free(l_m);
+		l_m = NULL;
+		return ;
 	}
-	if (list_malloc->ptr == var)
-	{
-		free(list_malloc->ptr);
-		if (list_malloc->next)
-			tmp->next = list_malloc->next;
-		else
-			tmp->next = NULL;
-		list_malloc->next = NULL;
-		free(list_malloc);
-		list_malloc = NULL;
-	}
+	while (l_m->next && l_m->next->ptr != var)
+		l_m = l_m->next;
+	tmp = NULL;
+	del_if_same(l_m, tmp, var);
 }
 
 void	*malloc_factory(size_t size, int type, void *ptr)
@@ -78,12 +83,12 @@ void	*malloc_factory(size_t size, int type, void *ptr)
 			exit(1);
 		}
 		new_node = create_node(new_ptr);
-		add_node(list_malloc, new_node);
+		add_node(&list_malloc, new_node);
 		return (new_ptr);
 	}
 	else if (type == DELETE)
-		del_node(list_malloc, ptr);
+		del_node(&list_malloc, ptr);
 	else if (type == CLEAR)
-		clear_all(list_malloc);
+		clear_all(&list_malloc);
 	return (NULL);
 }

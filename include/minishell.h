@@ -48,7 +48,6 @@ typedef struct s_mini
 	t_tree	*ast;
 }	t_mini;
 
-
 void	ft_signal(void);
 void	*ft_del_all(void);
 void	*ft_alloc(int size);
@@ -60,5 +59,6 @@ void	ft_parsing(t_mini *shell, char *line);
 void	ft_execution(t_mini *shell, char **envp);
 void	*malloc_factory(size_t size, int type, void *ptr);
 void	*malloc_factory(size_t size, int type, void *ptr);
+void	del_if_same(t_malloc_ptr *l_m, t_malloc_ptr *tmp, void *var);
 
 #endif
