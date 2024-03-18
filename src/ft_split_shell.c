@@ -79,6 +79,7 @@ static char	**divide(char const *s, char c, char **tab_shell)
 			j++;
 		}
 	}
+	tab_shell[j] = NULL;
 	return (tab_shell);
 }
 

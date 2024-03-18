@@ -5,7 +5,7 @@ NAME	= minishell
 
 INCLUDES_PATH=	include
 CC=				gcc
-CFLAGS=			-Wall -Wextra -Werror
+CFLAGS=			-Wall -Wextra -Werror -g3
 
 LIBS_DIR=	./libft
 
