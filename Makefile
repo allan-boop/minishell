@@ -24,6 +24,8 @@ SRC_FILES =	minishell.c \
 			create_ast.c \
 			ft_split_shell.c \
 			malloc_factory.c \
+			ft_substr_shell.c \
+			ft_strdup_shell.c \
 			m_factory_manager.c
 
 SRC_FILES := $(addprefix src/, $(SRC_FILES))

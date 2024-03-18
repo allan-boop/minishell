@@ -1,15 +1,3 @@
-/* ************************************************************************** */
-/*                                                                            */
-/*                                                        :::      ::::::::   */
-/*   ft_split_shell.c                                   :+:      :+:    :+:   */
-/*                                                    +:+ +:+         +:+     */
-/*   By: gdoumer <gdoumer@student.42.fr>            +#+  +:+       +#+        */
-/*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/10/31 12:48:04 by gdoumer           #+#    #+#             */
-/*   Updated: 2024/03/18 13:10:54 by gdoumer          ###   ########.fr       */
-/*                                                                            */
-/* ************************************************************************** */
-
 #include "../include/minishell.h"
 
 static size_t	count_words_split(char const *s, char c)
@@ -82,7 +70,7 @@ static char	**divide(char const *s, char c, char **tab_shell)
 		{
 			while (s[i] != '\0' && s[i] != c)
 				i++;
-			tab_shell[j] = ft_substr(s, start, i - start);
+			tab_shell[j] = ft_substr_shell(s, start, i - start);
 			if (!tab_shell[j])
 			{
 				unblock(tab_shell);

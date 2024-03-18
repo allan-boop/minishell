@@ -56,11 +56,13 @@ void	ft_nb_args(int argc);
 void	ft_loop(char **envp);
 void	*ft_del_alloc(void *var);
 void	create_ast(t_mini *shell);
+char	*ft_strdup_shell(const char *s);
 void	ft_parsing(t_mini *shell, char *line);
 char	**ft_split_shell(char const *s, char c);
 void	ft_execution(t_mini *shell, char **envp);
 void	*malloc_factory(size_t size, int type, void *ptr);
 void	*malloc_factory(size_t size, int type, void *ptr);
 void	del_if_same(t_malloc_ptr *l_m, t_malloc_ptr *tmp, void *var);
+char	*ft_substr_shell(char const *s, unsigned int start, size_t len);
 
 #endif
