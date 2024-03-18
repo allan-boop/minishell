@@ -1,16 +1,16 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_split.c                                         :+:      :+:    :+:   */
+/*   ft_split_shell.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: gdoumer <gdoumer@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/31 12:48:04 by gdoumer           #+#    #+#             */
-/*   Updated: 2024/03/15 14:09:59 by gdoumer          ###   ########.fr       */
+/*   Updated: 2024/03/18 13:10:54 by gdoumer          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libft.h"
+#include "../include/minishell.h"
 
 static size_t	count_words_split(char const *s, char c)
 {
@@ -42,30 +42,30 @@ static size_t	count_words_split(char const *s, char c)
 
 static char	**allocate_memory(size_t count)
 {
-	char	**tab;
+	char	**tab_shell;
 
-	tab = (char **)ft_calloc(sizeof(char *), (count + 1));
-	if (!tab)
+	tab_shell = (char **)ft_alloc(sizeof(char *) * (count + 1));
+	if (!tab_shell)
 		return (NULL);
-	tab[0] = NULL;
-	return ((char **) tab);
+	tab_shell[0] = NULL;
+	return ((char **) tab_shell);
 }
 
-static void	unblock(char **tab)
+static void	unblock(char **tab_shell)
 {
 	int	i;
 
 	i = 0;
-	while (tab[i])
+	while (tab_shell[i])
 	{
-		free(tab[i]);
-		tab[i] = NULL;
+		free(tab_shell[i]);
+		tab_shell[i] = NULL;
 		i++;
 	}
-	free(tab);
+	free(tab_shell);
 }
 
-static char	**divide(char const *s, char c, char **tab)
+static char	**divide(char const *s, char c, char **tab_shell)
 {
 	unsigned int		i;
 	int					j;
@@ -82,30 +82,30 @@ static char	**divide(char const *s, char c, char **tab)
 		{
 			while (s[i] != '\0' && s[i] != c)
 				i++;
-			tab[j] = ft_substr(s, start, i - start);
-			if (!tab[j])
+			tab_shell[j] = ft_substr(s, start, i - start);
+			if (!tab_shell[j])
 			{
-				unblock(tab);
+				unblock(tab_shell);
 				return (NULL);
 			}
 			j++;
 		}
 	}
-	return (tab);
+	return (tab_shell);
 }
 
-char	**ft_split(char const *s, char c)
+char	**ft_split_shell(char const *s, char c)
 {
 	size_t	count;
-	char	**tab;
+	char	**tab_shell;
 
 	count = count_words_split(s, c);
-	tab = allocate_memory(count);
-	if (!tab)
+	tab_shell = allocate_memory(count);
+	if (!tab_shell)
 		return (NULL);
-	if (!divide(s, c, tab))
+	if (!divide(s, c, tab_shell))
 	{
 		return (NULL);
 	}
-	return (tab);
+	return (tab_shell);
 }

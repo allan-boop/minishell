@@ -15,15 +15,16 @@ all: $(NAME)
 ## SOURCES
 ########################################
 SRC_FILES =	minishell.c \
-			ft_error.c \
+			utils.c \
 			ft_loop.c \
 			parsing.c \
-			create_ast.c \
+			ft_error.c \
 			execution.c \
-			malloc_factory.c \
-			m_factory_manager.c \
 			ft_signal.c \
-			utils.c
+			create_ast.c \
+			ft_split_shell.c \
+			malloc_factory.c \
+			m_factory_manager.c
 
 SRC_FILES := $(addprefix src/, $(SRC_FILES))
 OBJ_FILES = $(SRC_FILES:.c=.o)

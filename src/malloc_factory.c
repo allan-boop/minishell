@@ -1,5 +1,16 @@
 #include "../include/minishell.h"
 
+void	malloc_siz(void *ptr)
+{
+	static int		size;
+
+	if (!size)
+		size = malloc_usable_size(ptr);
+	else
+		size = size + malloc_usable_size(ptr);
+	printf("size = %d\n", size);
+}
+
 void	clear_all(t_malloc_ptr **list_malloc)
 {
 	t_malloc_ptr	*tmp;
