@@ -58,17 +58,40 @@ static char	**divide(char const *s, char c, char **tab_shell)
 	unsigned int		i;
 	int					j;
 	size_t				start;
+	char				quote;
 
 	i = 0;
 	j = 0;
 	while (s[i])
 	{
-		while (s[i] == c)
-			i++;
-		start = i;
-		if (s[i] != c && s[i] != '\0')
+		printf("s[i] = %c\n", s[i]);
+		quote = 'a';
+		if (s[i] == c)
+			while (s[i] == c)
+				i++;
+		if (s[i] == 34 || s[i] == 39)
 		{
-			while (s[i] != '\0' && s[i] != c)
+			quote = s[i];
+			i++;
+		}
+		start = i;
+		if (quote == 34 || quote == 39)
+		{
+			i++;
+			while (s[i] != '\0' && s[i] != quote)
+				i++;
+			tab_shell[j] = ft_substr_shell(s, start, i - start);
+			if (!tab_shell[j])
+			{
+				unblock(tab_shell);
+				return (NULL);
+			}
+			j++;
+			i++;
+		}
+		else if (s[i] != c && s[i] != '\0')
+		{
+			while (s[i] != '\0' && s[i] != c && s[i] != 34 && s[i] != 39)
 				i++;
 			tab_shell[j] = ft_substr_shell(s, start, i - start);
 			if (!tab_shell[j])
