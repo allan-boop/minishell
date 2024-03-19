@@ -43,8 +43,8 @@ static char	**ft_put_space_between(char **tab_line)
 		j = 0;
 		i++;
 	}
-	printf("tab_line = %s\n", *tab_line);
-	printf("tab_line2 = %s\n", tab_line[1]);
+	printf("Tab = %s\n", *tab_line);
+	printf("Tab2 = %s\n", tab_line[1]);
 	return (tab_line);
 }
 

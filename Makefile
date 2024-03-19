@@ -15,17 +15,15 @@ all: $(NAME)
 ## SOURCES
 ########################################
 SRC_FILES =	minishell.c \
-			utils.c \
 			ft_loop.c \
 			parsing.c \
 			ft_error.c \
 			execution.c \
 			ft_signal.c \
 			create_ast.c \
+			utils_parsing.c \
 			ft_split_shell.c \
 			malloc_factory.c \
-			ft_substr_shell.c \
-			ft_strdup_shell.c \
 			m_factory_manager.c
 
 SRC_FILES := $(addprefix src/, $(SRC_FILES))

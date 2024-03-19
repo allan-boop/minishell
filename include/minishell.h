@@ -59,6 +59,7 @@ void	create_ast(t_mini *shell);
 char	*ft_strdup_shell(const char *s);
 void	ft_parsing(t_mini *shell, char *line);
 char	**ft_split_shell(char const *s, char c);
+size_t	count_words_split(char const *s, char c);
 void	ft_execution(t_mini *shell, char **envp);
 void	*malloc_factory(size_t size, int type, void *ptr);
 void	*malloc_factory(size_t size, int type, void *ptr);
