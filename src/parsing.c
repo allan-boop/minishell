@@ -1,5 +1,13 @@
 #include "../include/minishell.h"
 
+static void	ft_replace_quote(char **line, int i)
+{
+	if ((*line)[i] == 34)
+		(*line)[i] = 2;
+	else if ((*line)[i] == 39)
+		(*line)[i] = 3;
+}
+
 static void	ft_replace_space(char **line)
 {
 	int		i;
@@ -11,6 +19,7 @@ static void	ft_replace_space(char **line)
 		if ((*line)[i] == 34 || (*line)[i] == 39)
 		{
 			quote = (*line)[i];
+			ft_replace_quote(line, i);
 			if ((*line)[i + 1])
 				i++;
 			while ((*line)[i] && (*line)[i] != quote)
@@ -19,10 +28,13 @@ static void	ft_replace_space(char **line)
 					(*line)[i] = 1;
 				i++;
 			}
+			if ((*line)[i] && (*line)[i] == quote && (*line)[i] == 34)
+				(*line)[i] = 2;
+			else if ((*line)[i] && (*line)[i] == quote && (*line)[i] == 39)
+				(*line)[i] = 3;
 		}
 		i++;
 	}
-	printf("line = %s\n", *line);
 }
 
 static char	**ft_put_space_between(char **tab_line)
@@ -38,23 +50,21 @@ static char	**ft_put_space_between(char **tab_line)
 		{
 			if (tab_line[i][j] == 1)
 				tab_line[i][j] = ' ';
+			else if (tab_line[i][j] == 2)
+				tab_line[i][j] = 34;
+			else if (tab_line[i][j] == 3)
+				tab_line[i][j] = 39;
 			j++;
 		}
 		j = 0;
 		i++;
 	}
-	printf("Tab = %s\n", *tab_line);
-	printf("Tab2 = %s\n", tab_line[1]);
 	return (tab_line);
 }
 
 void	ft_parsing(t_mini *shell, char *line)
 {
-	char	**tab_line;
-
 	ft_replace_space(&line);
-	tab_line = ft_split_shell(line, ' ');
-	tab_line = ft_put_space_between(tab_line);
-	(void)tab_line;
-	(void)shell;
+	shell->tab_pars = ft_split_shell(line, ' ');
+	shell->tab_pars = ft_put_space_between(shell->tab_pars);
 }

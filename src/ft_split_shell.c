@@ -1,10 +1,5 @@
 #include "../include/minishell.h"
 
-static void	delete_quote(char **tab_shell)
-{
-
-}
-
 static char	**allocate_memory(size_t count)
 {
 	char	**tab_shell;
@@ -74,6 +69,5 @@ char	**ft_split_shell(char const *s, char c)
 	{
 		return (NULL);
 	}
-	delete_quote(tab_shell);
 	return (tab_shell);
 }
