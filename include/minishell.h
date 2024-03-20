@@ -39,7 +39,10 @@ typedef struct s_malloc_ptr
 typedef struct s_tree
 {
 	char			*content;
-	struct s_tree	*child;
+	size_t			nb_child;
+	size_t			nb_parent;
+	struct s_tree	*child_one;
+	struct s_tree	*child_two;
 	struct s_tree	*parent;
 }	t_tree;
 

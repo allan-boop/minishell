@@ -2,5 +2,7 @@
 
 void	create_ast(t_mini *shell)
 {
-	(void)shell;
+	ft_give_token();
+	first_node();
+	children_node();
 }
