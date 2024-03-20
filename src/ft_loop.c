@@ -6,6 +6,7 @@ void	ft_loop(char **envp)
 	t_mini	*shell;
 	t_tree	*ast;
 
+	(void)ast;
 	ft_signal();
 	while (1)
 	{
