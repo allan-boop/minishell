@@ -18,6 +18,7 @@ SRC_FILES =	minishell.c \
 			ft_loop.c \
 			parsing.c \
 			ft_error.c \
+			init_ast.c \
 			execution.c \
 			ft_signal.c \
 			create_ast.c \

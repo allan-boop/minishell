@@ -61,6 +61,7 @@ void	*ft_del_alloc(void *var);
 t_tree	*create_ast(t_mini *shell);
 void	ft_check_quote(char *line);
 char	*ft_strdup_shell(const char *s);
+void	init_ast(t_mini *shell, t_tree *ast);
 void	ft_parsing(t_mini *shell, char *line);
 char	**ft_split_shell(char const *s, char c);
 size_t	count_words_split(char const *s, char c);

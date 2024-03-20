@@ -7,7 +7,5 @@ t_tree	*create_ast(t_mini *shell)
 	ast = ft_alloc(sizeof(t_tree));
 	if (!ast)
 		return (NULL);
-	ft_give_token();
-	first_node();
-	children_node();
+	init_ast(shell, ast);
 }
