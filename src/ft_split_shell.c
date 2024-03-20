@@ -42,6 +42,7 @@ static char	**divide(char const *s, char c, char **tab_shell, size_t start)
 			while (s[i] != '\0' && s[i] != c)
 				i++;
 			tab_shell[j] = ft_substr(s, start, i - start);
+			printf("tab_shell[%d] = %s\n", j, tab_shell[j]);
 			if (!tab_shell[j])
 			{
 				unblock(tab_shell);

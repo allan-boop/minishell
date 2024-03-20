@@ -56,6 +56,7 @@ void	ft_nb_args(int argc);
 void	ft_loop(char **envp);
 void	*ft_del_alloc(void *var);
 void	create_ast(t_mini *shell);
+void	ft_check_quote(char *line);
 char	*ft_strdup_shell(const char *s);
 void	ft_parsing(t_mini *shell, char *line);
 char	**ft_split_shell(char const *s, char c);
