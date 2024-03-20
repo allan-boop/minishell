@@ -37,7 +37,7 @@ char	*ft_substr_shell(char const *s, unsigned int start, size_t len)
 	if (!s)
 		return (0);
 	if (start >= ft_strlen(s))
-		return (ft_strdup(""));
+		return (ft_strdup_shell(""));
 	if (len > ft_strlen(s) - start)
 		len = ft_strlen(s) - start;
 	i = 0;
