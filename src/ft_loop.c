@@ -4,6 +4,7 @@ void	ft_loop(char **envp)
 {
 	char	*line;
 	t_mini	*shell;
+	t_tree	*ast;
 
 	ft_signal();
 	while (1)
@@ -19,7 +20,7 @@ void	ft_loop(char **envp)
 		{
 			add_history(line);
 			ft_parsing(shell, line);
-			create_ast(shell);
+			ast = create_ast(shell);
 			ft_execution(shell, envp);
 		}
 		free(line);

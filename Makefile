@@ -22,9 +22,10 @@ SRC_FILES =	minishell.c \
 			ft_signal.c \
 			create_ast.c \
 			utils_parsing.c \
+			ft_give_token.c \
 			ft_split_shell.c \
 			malloc_factory.c \
-			m_factory_manager.c
+			m_factory_manager.c \
 
 SRC_FILES := $(addprefix src/, $(SRC_FILES))
 OBJ_FILES = $(SRC_FILES:.c=.o)
