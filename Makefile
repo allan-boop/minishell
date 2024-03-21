@@ -16,14 +16,14 @@ all: $(NAME)
 ########################################
 SRC_FILES =	minishell.c \
 			ft_loop.c \
+			ft_path.c \
 			parsing.c \
 			ft_error.c \
-			init_ast.c \
 			execution.c \
 			ft_signal.c \
 			create_ast.c \
+			give_token.c \
 			utils_parsing.c \
-			ft_give_token.c \
 			ft_split_shell.c \
 			malloc_factory.c \
 			m_factory_manager.c \

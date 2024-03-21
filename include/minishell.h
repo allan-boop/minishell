@@ -20,6 +20,7 @@
 # include <string.h>
 # include <curses.h>
 # include <malloc.h>
+# include <stdbool.h>
 # include <termios.h>
 # include <sys/wait.h>
 # include <sys/time.h>
@@ -41,6 +42,10 @@ typedef struct s_tree
 	char			*content;
 	size_t			nb_child;
 	size_t			nb_parent;
+	bool			is_operator;
+	bool			is_cmd;
+	bool			is_var;
+	bool			is_str;
 	struct s_tree	*child_one;
 	struct s_tree	*child_two;
 	struct s_tree	*parent;
@@ -58,14 +63,18 @@ void	*ft_alloc(int size);
 void	ft_nb_args(int argc);
 void	ft_loop(char **envp);
 void	*ft_del_alloc(void *var);
-t_tree	*create_ast(t_mini *shell);
 void	ft_check_quote(char *line);
+void	ft_replace_space(char **line);
 char	*ft_strdup_shell(const char *s);
-void	init_ast(t_mini *shell, t_tree *ast);
+void	give_token(t_tree *node, char **envp);
 void	ft_parsing(t_mini *shell, char *line);
+char	**ft_put_space_between(char **tab_line);
+t_tree	*create_ast(t_mini *shell, char **envp);
 char	**ft_split_shell(char const *s, char c);
+char	*find_path(char *tab_line, char **envp);
 size_t	count_words_split(char const *s, char c);
 void	ft_execution(t_mini *shell, char **envp);
+char	*ft_strjoin_shell(char const *s1, char const *s2);
 void	*malloc_factory(size_t size, int type, void *ptr);
 void	*malloc_factory(size_t size, int type, void *ptr);
 void	del_if_same(t_malloc_ptr *l_m, t_malloc_ptr *tmp, void *var);
