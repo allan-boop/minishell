@@ -23,10 +23,11 @@ static int	define_token_operator(t_tree *node)
 	return (0);
 }
 
-static int	define_token_cmd(t_tree *node)
+static int	define_token_cmd(t_tree *node, char **envp)
 {
-	(void)node;
-	return (0);
+	ft_replace_space(&node->content);
+	find_path(node->content, envp);
+	ft_put_space_between(&node->content);
 }
 
 static int	define_token_var(t_tree *node)
@@ -41,7 +42,7 @@ static int	define_token_str(t_tree *node)
 	return (0);
 }
 
-void	give_token(t_tree *node)
+void	give_token(t_tree *node, char **envp)
 {
 	node->is_operator = false;
 	node->is_cmd = false;
@@ -49,7 +50,7 @@ void	give_token(t_tree *node)
 	node->is_str = false;
 	if (define_token_operator(node) == 1)
 		node->is_operator = true;
-	else if (define_token_cmd(node) == 2)
+	else if (define_token_cmd(node, envp) == 2)
 		node->is_cmd = true;
 	else if (define_token_var(node) == 3)
 		node->is_var = true;

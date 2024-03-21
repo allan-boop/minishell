@@ -8,7 +8,7 @@ static void	ft_replace_quote(char **line, int i)
 		(*line)[i] = 3;
 }
 
-static void	ft_replace_space(char **line)
+void	ft_replace_space(char **line)
 {
 	int		i;
 	char	quote;
@@ -37,7 +37,7 @@ static void	ft_replace_space(char **line)
 	}
 }
 
-static char	**ft_put_space_between(char **tab_line)
+char	**ft_put_space_between(char **tab_line)
 {
 	int	i;
 	int	j;

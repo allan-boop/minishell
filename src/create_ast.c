@@ -7,7 +7,7 @@
 // 	tmp = ast;
 // }
 
-static t_tree	*create_node(t_mini *shell, size_t i)
+static t_tree	*create_node(t_mini *shell, size_t i, char **envp)
 {
 	t_tree	*node;
 
@@ -15,12 +15,12 @@ static t_tree	*create_node(t_mini *shell, size_t i)
 	if (!node)
 		return (NULL);
 	node->content = shell->tab_pars[i];
-	give_token(node);
-	
+	give_token(node, envp);
+
 	return (node);
 }
 
-t_tree	*create_ast(t_mini *shell)
+t_tree	*create_ast(t_mini *shell, char **envp)
 {
 	t_tree	*ast;
 	t_tree	*node;
@@ -32,7 +32,7 @@ t_tree	*create_ast(t_mini *shell)
 		return (NULL);
 	while (shell->tab_pars[i])
 	{
-		node = create_node(shell, i);
+		node = create_node(shell, i, envp);
 		(void)node;
 //		add_node(ast, node);
 		i++;
