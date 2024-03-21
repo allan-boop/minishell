@@ -26,8 +26,10 @@ static int	define_token_operator(t_tree *node)
 static int	define_token_cmd(t_tree *node, char **envp)
 {
 	ft_replace_space(&node->content);
-	find_path(node->content, envp);
+	if (find_path(node->content, envp) != 0)
+		return (2);
 	ft_put_space_between(&node->content);
+	return (0);
 }
 
 static int	define_token_var(t_tree *node)

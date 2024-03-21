@@ -16,15 +16,15 @@ char	*find_path(char *tab_line, char **envp)
 	{
 		part_path = ft_strjoin_shell(paths[i], "/");
 		path = ft_strjoin_shell(part_path, tab_line);
-		free(part_path);
+		ft_del_alloc(part_path);
 		if (access(path, F_OK) == 0)
 			return (path);
-		free(path);
+		ft_del_alloc(path);
 		i++;
 	}
 	i = -1;
 	while (paths[++i])
-		free(paths[i]);
-	free(paths);
+		ft_del_alloc(paths[i]);
+	ft_del_alloc(paths);
 	return (0);
 }
