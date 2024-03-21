@@ -16,7 +16,6 @@ static t_tree	*create_node(t_mini *shell, size_t i)
 		return (NULL);
 	node->content = shell->tab_pars[i];
 	give_token(node);
-
 	return (node);
 }
 
