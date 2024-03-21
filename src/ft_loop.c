@@ -4,9 +4,9 @@ void	ft_loop(char **envp)
 {
 	char	*line;
 	t_mini	*shell;
-	t_tree	*ast;
+	t_tree	*list;
 
-	(void)ast;
+	(void)list;
 	ft_signal();
 	while (1)
 	{
@@ -21,7 +21,7 @@ void	ft_loop(char **envp)
 		{
 			add_history(line);
 			ft_parsing(shell, line);
-			ast = create_list(shell);
+			list = create_list(shell);
 			ft_execution(shell, envp);
 		}
 		free(line);

@@ -70,8 +70,9 @@ char	*ft_space_pipe(char *line)
 			quote = line[i];
 			tmp[j] = line[i];
 			i++;
+			j++;
 			while (line[i] != quote)
-				tmp[j] = line[i++];
+				tmp[j++] = line[i++];
 		}
 		ft_space_pipe_two(&i, &j, line, tmp);
 	}
