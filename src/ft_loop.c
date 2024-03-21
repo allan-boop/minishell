@@ -21,7 +21,7 @@ void	ft_loop(char **envp)
 		{
 			add_history(line);
 			ft_parsing(shell, line);
-			ast = create_ast(shell, envp);
+			ast = create_list(shell);
 			ft_execution(shell, envp);
 		}
 		free(line);

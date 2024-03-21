@@ -65,7 +65,9 @@ char	**ft_put_space_between(char **tab_line)
 
 void	ft_parsing(t_mini *shell, char *line)
 {
+
 	ft_check_quote(line);
+	line = ft_space_pipe(line);
 	ft_replace_space(&line);
 	shell->tab_pars = ft_split_shell(line, ' ');
 	shell->tab_pars = ft_put_space_between(shell->tab_pars);
