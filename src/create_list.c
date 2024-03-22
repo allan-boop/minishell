@@ -4,7 +4,13 @@ static void	add_node(t_list *list, t_list *node)
 {
 	t_list	*last;
 
-
+	if (!list)
+		return ;
+	last = list;
+	while (last->next)
+		last = last->next;
+	last->next = node;
+	node->prev = last;
 }
 
 static t_list	*create_node(t_mini *shell, size_t i)
@@ -38,6 +44,8 @@ t_list	*create_list(t_mini *shell)
 	while (shell->tab_pars[i])
 	{
 		node = create_node(shell, i);
+		if (!node)
+			return (NULL);
 		add_node(list, node);
 		i++;
 	}

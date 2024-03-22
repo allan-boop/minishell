@@ -40,13 +40,9 @@ typedef struct s_malloc_ptr
 typedef struct s_list
 {
 	char			*content;
-	size_t			nb_child;
-	size_t			nb_parent;
 	bool			is_operator;
 	struct s_list	*next;
 	struct s_list	*prev;
-	struct s_list	**child;
-	struct s_list	*parent;
 }	t_list;
 
 typedef struct s_mini
