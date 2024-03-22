@@ -4,7 +4,7 @@ void	ft_loop(char **envp)
 {
 	char	*line;
 	t_mini	*shell;
-	t_tree	*list;
+	t_list	*list;
 
 	(void)list;
 	ft_signal();

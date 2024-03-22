@@ -37,21 +37,22 @@ typedef struct s_malloc_ptr
 	struct s_malloc_ptr	*next;
 }	t_malloc_ptr;
 
-typedef struct s_tree
+typedef struct s_list
 {
 	char			*content;
 	size_t			nb_child;
 	size_t			nb_parent;
 	bool			is_operator;
-	bool			is_cmd;
-	struct s_tree	**child;
-	struct s_tree	*parent;
-}	t_tree;
+	struct s_list	*next;
+	struct s_list	*prev;
+	struct s_list	**child;
+	struct s_list	*parent;
+}	t_list;
 
 typedef struct s_mini
 {
 	char	**tab_pars;
-	t_tree	*ast;
+	t_list	*ast;
 }	t_mini;
 
 void	ft_signal(void);
@@ -60,10 +61,10 @@ void	*ft_alloc(int size);
 void	ft_nb_args(int argc);
 void	ft_loop(char **envp);
 void	*ft_del_alloc(void *var);
-void	give_token(t_tree *node);
+void	give_token(t_list *node);
 char	*ft_space_pipe(char *line);
 void	ft_check_quote(char *line);
-t_tree	*create_list(t_mini *shell);
+t_list	*create_list(t_mini *shell);
 int		ft_len_space_pipe(char *line);
 void	ft_replace_space(char **line);
 char	*ft_strdup_shell(const char *s);

@@ -1,39 +1,44 @@
 #include "../include/minishell.h"
 
-// static void	add_node(t_tree *list, t_tree *node)
-// {
-// 	t_tree	*tmp;
-
-// 	tmp = list;
-// }
-
-static t_tree	*create_node(t_mini *shell, size_t i)
+static void	add_node(t_list *list, t_list *node)
 {
-	t_tree	*node;
+	t_list	*last;
 
-	node = ft_alloc(sizeof(t_tree));
+
+}
+
+static t_list	*create_node(t_mini *shell, size_t i)
+{
+	t_list	*node;
+
+	node = ft_alloc(sizeof(t_list));
 	if (!node)
 		return (NULL);
 	node->content = shell->tab_pars[i];
+	node->nb_child = 0;
+	node->nb_parent = 0;
 	give_token(node);
+	node->next = NULL;
+	node->prev = NULL;
+	node->child = NULL;
+	node->parent = NULL;
 	return (node);
 }
 
-t_tree	*create_list(t_mini *shell)
+t_list	*create_list(t_mini *shell)
 {
-	t_tree	*list;
-	t_tree	*node;
+	t_list	*list;
+	t_list	*node;
 	size_t	i;
 
 	i = 0;
-	list = ft_alloc(sizeof(t_tree));
+	list = ft_alloc(sizeof(t_list));
 	if (!list)
 		return (NULL);
 	while (shell->tab_pars[i])
 	{
 		node = create_node(shell, i);
-		(void)node;
-//		add_node(list, node);
+		add_node(list, node);
 		i++;
 	}
 	return (list);
