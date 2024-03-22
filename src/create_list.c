@@ -1,52 +1,91 @@
 #include "../include/minishell.h"
 
-static void	add_node(t_list *list, t_list *node)
+void	add_node_back(t_list_struct **list, t_list_struct *node)
 {
-	t_list	*last;
+	t_list_struct	*last;
 
-	if (!list)
+	if (!node)
 		return ;
-	last = list;
+	if (!*list)
+	{
+		*list = node;
+		return ;
+	}
+	last = *list;
 	while (last->next)
 		last = last->next;
 	last->next = node;
 	node->prev = last;
 }
 
-static t_list	*create_node(t_mini *shell, size_t i)
+void	add_node_front(t_list_struct *list, t_list_struct *node)
 {
-	t_list	*node;
+	if (!list)
+	{
+		list = node;
+		return ;
+	}
+	node->next = list;
+	list->prev = node;
+}
 
-	node = ft_alloc(sizeof(t_list));
+void	del_node_list(t_list_struct **list, t_list_struct *node)
+{
+	t_list_struct	*prev;
+	t_list_struct	*next;
+	int				i;
+
+	i = 0;
+	if (node)
+	{
+		if (node->next == NULL && node->prev == node)
+			i = 1;
+		prev = node->prev;
+		next = node->next;
+		if (prev)
+			prev->next = next;
+		if (next)
+			next->prev = prev;
+		if (node->content)
+			ft_del_alloc(node->content);
+		node->next = NULL;
+		node->prev = NULL;
+		ft_del_alloc(node);
+	}
+	if (i == 1)
+		*list = NULL;
+	return ;
+}
+
+t_list_struct	*create_node_list(t_mini *shell, size_t i)
+{
+	t_list_struct	*node;
+
+	node = ft_alloc(sizeof(t_list_struct));
 	if (!node)
 		return (NULL);
 	node->content = shell->tab_pars[i];
-	node->nb_child = 0;
-	node->nb_parent = 0;
 	give_token(node);
 	node->next = NULL;
-	node->prev = NULL;
-	node->child = NULL;
-	node->parent = NULL;
+	node->prev = node;
 	return (node);
 }
 
-t_list	*create_list(t_mini *shell)
+t_list_struct	*create_list(t_mini *shell)
 {
-	t_list	*list;
-	t_list	*node;
-	size_t	i;
+	t_list_struct	*list;
+	size_t			i;
+	t_list_struct	*node;
 
 	i = 0;
-	list = ft_alloc(sizeof(t_list));
+	list = ft_alloc(sizeof(t_list_struct));
 	if (!list)
 		return (NULL);
+	list = NULL;
 	while (shell->tab_pars[i])
 	{
-		node = create_node(shell, i);
-		if (!node)
-			return (NULL);
-		add_node(list, node);
+		node = create_node_list(shell, i);
+		add_node_back(&list, node);
 		i++;
 	}
 	return (list);

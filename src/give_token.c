@@ -1,6 +1,6 @@
 #include "../include/minishell.h"
 
-static int	define_token_operator(t_list *node)
+static int	define_token_operator(t_list_struct *node)
 {
 	if (node->content[0] == '|')
 	{
@@ -11,7 +11,7 @@ static int	define_token_operator(t_list *node)
 	return (0);
 }
 
-void	give_token(t_list *node)
+void	give_token(t_list_struct *node)
 {
 	node->is_operator = false;
 	if (define_token_operator(node) == 1)

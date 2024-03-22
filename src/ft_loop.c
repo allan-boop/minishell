@@ -2,9 +2,9 @@
 
 void	ft_loop(char **envp)
 {
-	char	*line;
-	t_mini	*shell;
-	t_list	*list;
+	char			*line;
+	t_mini			*shell;
+	t_list_struct	*list;
 
 	(void)list;
 	ft_signal();
