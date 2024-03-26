@@ -38,20 +38,32 @@ void	ft_error_parsing(t_list_struct	*list)
 	while (list)
 	{
 		printf("test\n");
-		if (list->is_redir == true && list->next == NULL)
+		if (list->is_redir == true)
 		{
-			printf("Error redirection.\n");
-			exit (1);
+			if (list->next == NULL)
+			{
+				printf("Error redirection.\n");
+				exit (1);
+			}
+			else if (list->next->is_redir == true
+				|| list->next->is_operator == true)
+			{
+				printf("Error redirection.\n");
+				exit (1);
+			}
 		}
-		if (list->is_redir == true && list->next->is_redir == true)
+		if (list->is_operator == true)
 		{
-			printf("Error redirection.\n");
-			exit (1);
-		}
-		if (list->is_redir == true && list->next->is_operator == true)
-		{
-			printf("Error redirection.\n");
-			exit (1);
+			if (list->next == NULL)
+			{
+				printf("Error pipe.\n");
+				exit (1);
+			}
+			else if (list->next->is_operator == true)
+			{
+				printf("Error operator.\n");
+				exit (1);
+			}
 		}
 		list = list->next;
 	}
