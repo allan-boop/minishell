@@ -88,5 +88,6 @@ t_list_struct	*create_list(t_mini *shell)
 		add_node_back(&list, node);
 		i++;
 	}
+	ft_error_parsing(list);
 	return (list);
 }

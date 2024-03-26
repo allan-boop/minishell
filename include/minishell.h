@@ -42,6 +42,7 @@ typedef struct s_list_struct
 	char					*content;
 	bool					is_operator;
 	bool					is_redir;
+	bool					error_parsing;
 	struct s_list_struct	*next;
 	struct s_list_struct	*prev;
 }	t_list_struct;
@@ -63,6 +64,7 @@ void			ft_check_quote(char *line);
 t_list_struct	*create_list(t_mini *shell);
 int				ft_len_space_pipe(char *line);
 void			ft_replace_space(char **line);
+void			ft_error_parsing(t_list_struct	*list);
 void			give_token(t_list_struct *node);
 char			*ft_strdup_shell(const char *s);
 void			ft_space_redirect(int *i, int *j, char *line, char *tmp);
