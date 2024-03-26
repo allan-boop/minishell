@@ -27,7 +27,7 @@ void	ft_len_space_redirect(int *i, char *line, size_t *len)
 	}
 }
 
-static void	ft_space_redirect_two(int *i, int *j, char *line, char *tmp)
+void	ft_space_redirect(int *i, int *j, char *line, char *tmp)
 {
 	char	chev;
 
@@ -51,10 +51,4 @@ static void	ft_space_redirect_two(int *i, int *j, char *line, char *tmp)
 		tmp[*j] = ' ';
 		(*j)++;
 	}
-}
-
-void	ft_space_redirect(int *i, int *j, char *line, char *tmp)
-{
-	if (line[*i] == '>' || line[*i] == '<')
-		ft_space_redirect_two(i, j, line, tmp);
 }

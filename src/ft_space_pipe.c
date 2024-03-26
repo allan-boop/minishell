@@ -59,11 +59,16 @@ void	ft_space_pipe_two(int *i, int *j, char *line, char *tmp)
 			(*j)++;
 		}
 	}
-	ft_space_redirect(i, j, line, tmp);
-	tmp[*j] = line[*i];
-	(*j)++;
-	if (line[*i])
-		(*i)++;
+	if (line[*i] == '>' || line[*i] == '<')
+		ft_space_redirect(i, j, line, tmp);
+	else
+	{
+		tmp[*j] = line[*i];
+		(*j)++;
+		if (line[*i])
+			(*i)++;
+	}
+
 }
 
 char	*ft_space_pipe(char *line)
@@ -85,7 +90,7 @@ char	*ft_space_pipe(char *line)
 			tmp[j] = line[i];
 			i++;
 			j++;
-			while (line[i] != quote)
+			while (line[i] && line[i] != quote)
 				tmp[j++] = line[i++];
 		}
 		ft_space_pipe_two(&i, &j, line, tmp);
