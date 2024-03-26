@@ -32,3 +32,27 @@ void	ft_check_quote(char *line)
 		i++;
 	}
 }
+
+void	ft_error_parsing(t_list_struct	*list)
+{
+	while (list)
+	{
+		printf("test\n");
+		if (list->is_redir == true && list->next == NULL)
+		{
+			printf("Error redirection.\n");
+			exit (1);
+		}
+		if (list->is_redir == true && list->next->is_redir == true)
+		{
+			printf("Error redirection.\n");
+			exit (1);
+		}
+		if (list->is_redir == true && list->next->is_operator == true)
+		{
+			printf("Error redirection.\n");
+			exit (1);
+		}
+		list = list->next;
+	}
+}
