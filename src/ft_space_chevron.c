@@ -12,7 +12,7 @@ void	ft_len_space_redirect(int *i, char *line, size_t *len)
 			inv_chev = 60;
 		else
 			inv_chev = 62;
-		if (line[*i - 1] != ' ')
+		if (*i > 0 && line[*i - 1] != ' ')
 			(*len)++;
 		if (line[*i + 1] == chev)
 			(*i)++;
@@ -32,7 +32,7 @@ void	ft_space_redirect(int *i, int *j, char *line, char *tmp)
 	char	chev;
 
 	chev = line[*i];
-	if (line[*i - 1] != ' ')
+	if (*i > 0 && line[*i - 1] != ' ')
 	{
 		tmp[*j] = ' ';
 		(*j)++;

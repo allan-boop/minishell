@@ -68,7 +68,6 @@ void	ft_space_pipe_two(int *i, int *j, char *line, char *tmp)
 		if (line[*i])
 			(*i)++;
 	}
-
 }
 
 char	*ft_space_pipe(char *line)
