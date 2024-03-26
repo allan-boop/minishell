@@ -16,7 +16,7 @@ static void	ft_len_space_pipe_two(int *i, char *line, size_t *len, char quote)
 			printf("Error bad pipe.\n");
 			exit(1);
 		}
-		if (line[*i - 1] != ' ')
+		if (*i > 0 && line[*i - 1] != ' ')
 			(*len)++;
 		if (line[*i + 1] != ' ')
 			(*len)++;
@@ -45,7 +45,7 @@ void	ft_space_pipe_two(int *i, int *j, char *line, char *tmp)
 {
 	if (line[*i] == '|')
 	{
-		if (line[*i - 1] != ' ')
+		if (*i > 0 && line[*i - 1] != ' ')
 		{
 			tmp[*j] = ' ';
 			(*j)++;
