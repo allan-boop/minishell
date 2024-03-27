@@ -1,6 +1,6 @@
 #include "../include/minishell.h"
 
-void	ft_len_space_redirect(int *i, char *line, size_t *len)
+int	ft_len_space_redirect(int *i, char *line, size_t *len)
 {
 	char	chev;
 	char	inv_chev;
@@ -19,12 +19,13 @@ void	ft_len_space_redirect(int *i, char *line, size_t *len)
 		if (line[*i] == inv_chev || line[*i + 1] == chev
 			|| line[*i + 1] == inv_chev)
 		{
-			printf("Error bad chevron.\n");
-			exit(1);
+			syntax_error(REDIR_FAIL);
+			return (-1);
 		}
 		if (line[*i + 1] != ' ')
 			(*len)++;
 	}
+	return (0);
 }
 
 void	ft_space_redirect(int *i, int *j, char *line, char *tmp)

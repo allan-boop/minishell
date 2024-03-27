@@ -1,5 +1,22 @@
 #include "../include/minishell.h"
 
+void	prompt_treatment(char *line, t_mini *shell, char **envp)
+{
+	int				error;
+
+	if (line[0] != '\0')
+	{
+		add_history(line);
+		error = ft_parsing(shell, line);
+		if (error == 0)
+		{
+			list = create_list(shell);
+			if (list->error_parsing == false)
+				ft_execution(shell, envp);
+		}
+	}
+}
+
 void	ft_loop(char **envp)
 {
 	char			*line;
@@ -17,13 +34,7 @@ void	ft_loop(char **envp)
 			ft_printf("\n");
 			exit(0);
 		}
-		if (line[0] != '\0')
-		{
-			add_history(line);
-			ft_parsing(shell, line);
-			list = create_list(shell);
-			ft_execution(shell, envp);
-		}
+		prompt_treatment(line, shell, envp);
 		free(line);
 		ft_del_all();
 	}

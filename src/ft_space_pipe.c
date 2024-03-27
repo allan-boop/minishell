@@ -1,6 +1,6 @@
 #include "../include/minishell.h"
 
-static void	ft_len_space_pipe_two(int *i, char *line, size_t *len, char quote)
+static int	ft_len_space_pipe_two(int *i, char *line, size_t *len, char quote)
 {
 	if (line[*i] == 34 || line[*i] == 39)
 	{
@@ -13,14 +13,15 @@ static void	ft_len_space_pipe_two(int *i, char *line, size_t *len, char quote)
 	{
 		if (line[*i + 1] == '|')
 		{
-			printf("Error bad pipe.\n");
-			exit(1);
+			syntax_error(PIPE_FAIL);
+			return (-1);
 		}
 		if (*i > 0 && line[*i - 1] != ' ')
 			(*len)++;
 		if (line[*i + 1] != ' ')
 			(*len)++;
 	}
+	return (0);
 }
 
 int	ft_len_space_pipe(char *line)
@@ -34,14 +35,16 @@ int	ft_len_space_pipe(char *line)
 	quote = 0;
 	while (line[i])
 	{
-		ft_len_space_pipe_two(&i, line, &len, quote);
-		ft_len_space_redirect(&i, line, &len);
+		if (ft_len_space_pipe_two(&i, line, &len, quote) == -1)
+			return (-1);
+		if (ft_len_space_redirect(&i, line, &len) == -1)
+			return (-1);
 		i++;
 	}
 	return (len);
 }
 
-void	ft_space_pipe_two(int *i, int *j, char *line, char *tmp)
+static void	ft_space_pipe_two(int *i, int *j, char *line, char *tmp)
 {
 	if (line[*i] == '|')
 	{
@@ -70,31 +73,38 @@ void	ft_space_pipe_two(int *i, int *j, char *line, char *tmp)
 	}
 }
 
+void	ft_space_pipe_one(int *i, int *j, char *line, char *tmp)
+{
+	char	quote;
+
+	if (line[*i] == 34 || line[*i] == 39)
+	{
+		quote = line[*i];
+		tmp[(*j)++] = line[(*i)++];
+		while (line[*i] && line[*i] != quote)
+			tmp[(*j)++] = line[(*i)++];
+	}
+}
+
 char	*ft_space_pipe(char *line)
 {
 	char	*tmp;
-	char	quote;
 	int		i;
 	int		j;
 
 	i = 0;
 	j = 0;
+	if (ft_len_space_pipe(line) == -1)
+		return (NULL);
 	tmp = ft_alloc(ft_strlen(line) + ft_len_space_pipe(line) + 1);
+	if (!tmp)
+		return (NULL);
 	ft_bzero(tmp, ft_strlen(line) + ft_len_space_pipe(line) + 1);
 	while (line[i])
 	{
-		if (line[i] == 34 || line[i] == 39)
-		{
-			quote = line[i];
-			tmp[j] = line[i];
-			i++;
-			j++;
-			while (line[i] && line[i] != quote)
-				tmp[j++] = line[i++];
-		}
+		ft_space_pipe_one(&i, &j, line, tmp);
 		ft_space_pipe_two(&i, &j, line, tmp);
 	}
-	printf("//%d\n", tmp[j - 1]);
 	ft_del_alloc(line);
 	return (tmp);
 }
