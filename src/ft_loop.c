@@ -3,6 +3,7 @@
 void	prompt_treatment(char *line, t_mini *shell, char **envp)
 {
 	int				error;
+	t_list_struct	*list;
 
 	if (line[0] != '\0')
 	{
@@ -21,9 +22,7 @@ void	ft_loop(char **envp)
 {
 	char			*line;
 	t_mini			*shell;
-	t_list_struct	*list;
 
-	(void)list;
 	ft_signal();
 	while (1)
 	{

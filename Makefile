@@ -21,8 +21,9 @@ SRC_FILES =	minishell.c \
 			ft_error.c \
 			execution.c \
 			ft_signal.c \
-			create_list.c \
 			give_token.c \
+			create_list.c \
+			ft_copy_envp.c \
 			ft_space_pipe.c \
 			utils_parsing.c \
 			ft_split_shell.c \
