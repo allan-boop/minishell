@@ -63,11 +63,15 @@ char	**ft_put_space_between(char **tab_line)
 	return (tab_line);
 }
 
-void	ft_parsing(t_mini *shell, char *line)
+int	ft_parsing(t_mini *shell, char *line)
 {
-	ft_check_quote(line);
+	if (ft_check_quote(line) == 1)
+		return (1);
 	line = ft_space_pipe(line);
+	if (!line)
+		return (1);
 	ft_replace_space(&line);
 	shell->tab_pars = ft_split_shell(line, ' ');
 	shell->tab_pars = ft_put_space_between(shell->tab_pars);
+	return (0);
 }

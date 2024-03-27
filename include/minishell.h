@@ -4,6 +4,10 @@
 # define MANY_ARGS "Too many arguments.\n"
 # define MALLOC_FAIL "Error: malloc failed.\n"
 # define SIGNAL_FAIL "Error: signal failed.\n"
+# define REDIR_FAIL "Error syntax: redirection failed.\n"
+# define OPERATOR_FAIL "Error syntax: operator failed.\n"
+# define QUOTE_FAIL "Error syntax: quote failed.\n"
+# define PIPE_FAIL "Error syntax: pipe failed.\n"
 # define NEW 2
 # define DELETE 3
 # define CLEAR 4
@@ -60,16 +64,17 @@ void			ft_nb_args(int argc);
 void			ft_loop(char **envp);
 void			*ft_del_alloc(void *var);
 char			*ft_space_pipe(char *line);
-void			ft_check_quote(char *line);
+int				ft_check_quote(char *line);
 t_list_struct	*create_list(t_mini *shell);
 int				ft_len_space_pipe(char *line);
 void			ft_replace_space(char **line);
-void			ft_error_parsing(t_list_struct	*list);
+int				syntax_error(char *msg);
+int				ft_error_parsing(t_list_struct	*list);
 void			give_token(t_list_struct *node);
 char			*ft_strdup_shell(const char *s);
 void			ft_space_redirect(int *i, int *j, char *line, char *tmp);
-void			ft_len_space_redirect(int *i, char *line, size_t *len);
-void			ft_parsing(t_mini *shell, char *line);
+int				ft_len_space_redirect(int *i, char *line, size_t *len);
+int				ft_parsing(t_mini *shell, char *line);
 char			**ft_put_space_between(char **tab_line);
 char			**ft_split_shell(char const *s, char c);
 char			*find_path(char *tab_line, char **envp);
