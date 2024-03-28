@@ -57,6 +57,13 @@ typedef struct s_mini
 	t_list_struct	*list;
 }	t_mini;
 
+typedef struct s_team_shell
+{
+	char	**copy_envp;
+	int		last_return;
+
+}	t_team_shell;
+
 void			ft_signal(void);
 void			*ft_del_all(void);
 void			*ft_alloc(int size);
