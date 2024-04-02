@@ -8,20 +8,25 @@ Autrement:
 	modifier variable.
 */
 
-void	ft_export_var(void)
-{}
-
 void	ft_add_new_var(void)
-{}
+{
+
+}
 
 void	ft_print_export(void)
-{}
+{
 
-void	ft_already_exist(void)
-{}
+}
+
+int	ft_already_exist(void)
+{
+
+}
 
 void	ft_modify_var(void)
-{}
+{
+
+}
 
 void	ft_export(char **args)
 {
@@ -30,8 +35,6 @@ void	ft_export(char **args)
 		ft_print_export();
 		return ;
 	}
-	ft_export_var();
-
 	if (ft_already_exist() == 0)
 		ft_add_new_var();
 	else
