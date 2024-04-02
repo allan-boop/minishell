@@ -1,5 +1,39 @@
 #include "../include/minishell.h"
 
+t_envp	*ft_lstnew_envp(void *content)
+{
+	t_envp	*new;
+
+	new = ft_alloc(sizeof(t_envp));
+	if (!new)
+		return (NULL);
+	new->var = content;
+	new->tmp_var = NULL;
+	new->index = 0;
+	new->last_return = 0;
+	new->next = NULL;
+	return (new);
+}
+
+static void	ft_lstadd_back_envp(t_mini **shell, t_envp *new)
+{
+	t_envp	*last;
+
+	if (!shell)
+		return ;
+	if (!*shell)
+	{
+		(*shell)->team_envp = new;
+		return ;
+	}
+	last = (*shell)->team_envp;
+	while (last->next)
+	{
+		last = last->next;
+	}
+	last->next = new;
+}
+
 static int	ft_tab_len(char **envp)
 {
 	int	i;
@@ -12,13 +46,17 @@ static int	ft_tab_len(char **envp)
 	return (i);
 }
 
-char	**ft_copy_envp(char **envp)
+void	ft_copy_envp(char **envp, t_mini *shell)
 {
-	char	**copy_envp;
+	int		len;
+	t_envp	*new;
 
-	copy_envp = ft_calloc(ft_tab_len(envp) + 1, sizeof(char *));
-	if (!copy_envp)
-		return (NULL);
-	ft_memcpy(copy_envp, envp, ft_tab_len(envp) * sizeof(char *));
-	return (copy_envp);
+	len = ft_tab_len(envp);
+	while (len > 0)
+	{
+		new = ft_lstnew_envp(envp[len - 1]);
+		ft_lstadd_back(&shell, new);
+		len--;
+	}
+	return ;
 }

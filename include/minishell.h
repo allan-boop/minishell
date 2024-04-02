@@ -51,18 +51,21 @@ typedef struct s_list_struct
 	struct s_list_struct	*prev;
 }	t_list_struct;
 
+typedef struct s_envp
+{
+	char			*var;
+	char			*tmp_var;
+	int				index;
+	int				last_return;
+	struct t_envp	*next;
+}	t_envp;
+
 typedef struct s_mini
 {
 	char			**tab_pars;
 	t_list_struct	*list;
+	t_envp			*team_envp;
 }	t_mini;
-
-typedef struct s_team_shell
-{
-	char	**copy_envp;
-	int		last_return;
-
-}	t_team_shell;
 
 void			ft_signal(void);
 void			*ft_del_all(void);
@@ -74,7 +77,7 @@ void			*ft_del_alloc(void *var);
 char			*ft_space_pipe(char *line);
 int				ft_check_quote(char *line);
 t_list_struct	*create_list(t_mini *shell);
-char			**ft_copy_envp(char **envp);
+char			**ft_copy_envp(char **envp, t_mini *shell);
 int				ft_len_space_pipe(char *line);
 void			ft_replace_space(char **line);
 void			give_token(t_list_struct *node);
