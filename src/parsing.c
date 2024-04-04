@@ -57,7 +57,6 @@ char	**ft_put_space_between(char **tab_line)
 			j++;
 		}
 		j = 0;
-		printf("tab_line[%d] = %s\n", i, tab_line[i]);
 		i++;
 	}
 	return (tab_line);

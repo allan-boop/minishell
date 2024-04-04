@@ -62,3 +62,9 @@ int	ft_error_parsing(t_list_struct	*list)
 	}
 	return (0);
 }
+
+bool	ft_error(char *cmd, char *msg, int ret)
+{
+	ft_printf("%s: %s\n", cmd, msg);
+	return (ret);
+}

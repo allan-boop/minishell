@@ -48,6 +48,4 @@ void	give_token(t_list_struct *node)
 		node->is_operator = true;
 	else if (define_token_redirection(node) == 1)
 		node->is_redir = true;
-	printf("node->is_operator = %d\n", node->is_operator);
-	printf("node->is_redirection = %d\n", node->is_redir);
 }

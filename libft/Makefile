@@ -68,7 +68,8 @@ SRC_FILES = ft_isalpha.c \
 				ft_count_words.c \
 				ft_len_y.c \
 				ft_len_x.c \
-				ft_strlower.c
+				ft_strlower.c \
+				ft_strcmp.c
 
 OBJ_FILES =	$(SRC_FILES:.c=.o)
 
