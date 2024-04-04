@@ -21,20 +21,21 @@ SRC_FILES =	minishell.c \
 			ft_error.c \
 			execution.c \
 			ft_signal.c \
-			ft_export.c \
+			utils_envp.c \
 			give_token.c \
 			create_list.c \
 			ft_copy_envp.c \
-			ft_space_pipe.c \
 			utils_parsing.c \
-			ft_split_shell.c \
+			ft_space_pipe.c \
 			malloc_factory.c \
-			m_factory_manager.c \
-			ft_space_chevron.c \
 			builtins/ft_cd.c \
+			ft_split_shell.c \
 			builtins/ft_pwd.c \
 			builtins/ft_exit.c \
-			builtins/ft_echo.c
+			builtins/ft_echo.c \
+			ft_space_chevron.c \
+			m_factory_manager.c \
+			builtins/ft_export.c
 
 SRC_FILES := $(addprefix src/, $(SRC_FILES))
 OBJ_FILES = $(SRC_FILES:.c=.o)

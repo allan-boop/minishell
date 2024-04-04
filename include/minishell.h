@@ -57,7 +57,7 @@ typedef struct s_envp
 	char			*tmp_var;
 	int				index;
 	int				last_return;
-	struct t_envp	*next;
+	struct s_envp	*next;
 }	t_envp;
 
 typedef struct s_mini
@@ -67,19 +67,19 @@ typedef struct s_mini
 	t_envp			*team_envp;
 }	t_mini;
 
-void			ft_signal(void);
-void			*ft_del_all(void);
 bool			ft_pwd(void);
 bool			ft_exit(void);
-bool			ft_echo(t_mini *shell);
+void			ft_signal(void);
+void			*ft_del_all(void);
 void			*ft_alloc(int size);
 void			ft_nb_args(int argc);
 void			ft_loop(char **envp);
-bool			ft_error(char *cmd, char *msg, int ret);
+bool			ft_echo(t_mini *shell);
 int				syntax_error(char *msg);
 void			*ft_del_alloc(void *var);
 char			*ft_space_pipe(char *line);
 int				ft_check_quote(char *line);
+char			**ft_sort_envp(char **envp);
 t_list_struct	*create_list(t_mini *shell);
 int				ft_len_space_pipe(char *line);
 void			ft_replace_space(char **line);
@@ -91,6 +91,7 @@ int				ft_error_parsing(t_list_struct	*list);
 char			**ft_put_space_between(char **tab_line);
 char			**ft_split_shell(char const *s, char c);
 char			*find_path(char *tab_line, char **envp);
+bool			ft_error(char *cmd, char *msg, int ret);
 size_t			count_words_split(char const *s, char c);
 void			ft_execution(t_mini *shell, char **envp);
 void			ft_copy_envp(char **envp, t_mini *shell);

@@ -51,12 +51,18 @@ void	ft_copy_envp(char **envp, t_mini *shell)
 	int		len;
 	t_envp	*new;
 
+	ft_sort_envp(envp);
 	len = ft_tab_len(envp);
 	while (len > 0)
 	{
 		new = ft_lstnew_envp(envp[len - 1]);
-		ft_lstadd_back(&shell, new);
+		ft_lstadd_back_envp(&shell, new);
 		len--;
+	}
+	while (shell->team_envp->next)
+	{
+		printf("%s/n", shell->team_envp->var);
+		shell->team_envp = shell->team_envp->next;
 	}
 	return ;
 }
