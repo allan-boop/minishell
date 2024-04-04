@@ -20,6 +20,7 @@ t_envp	*ft_lstnew_envp(void *content)
 	if (!new)
 		return (NULL);
 	new->var = content;
+	new->value = NULL;
 	new->last_return = 0;
 	new->next = NULL;
 	return (new);
@@ -55,7 +56,7 @@ void	ft_copy_envp(char **envp, t_mini *shell)
 	ft_sort_envp(envp);
 	len = ft_tab_len(envp);
 	shell->team_envp = NULL;
-	while (i < len - 1)
+	while (i < len)
 	{
 		new = ft_lstnew_envp(envp[i]);
 		ft_lstadd_back_envp(&shell, new);
