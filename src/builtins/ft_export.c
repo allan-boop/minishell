@@ -39,23 +39,26 @@ Autrement:
 // 	}
 // }
 
-// void	ft_print_export(t_mini *shell)
-// {
-// 	while (shell->team_envp->next)
-// 	{
-// 		printf("declare -x ");
-// 		printf("%s\n", shell->team_envp->var);
-// 		shell->team_envp = shell->team_envp->next;
-// 	}
-// 	if (shell->team_envp->var)
-// 		return ;
-// 	while (shell->team_envp->next)
-// 	{
-// 		printf("declare -x ");
-// 		printf("%s\n", shell->team_envp->var);
-// 		shell->team_envp = shell->team_envp->next;
-// 	}
-// }
+void	ft_print_export(t_mini *shell)
+{
+	t_envp	*tmp;
+
+	tmp = shell->team_envp;
+	while (tmp->next)
+	{
+		printf("declare -x ");
+		printf("%s\n", tmp->var);
+		tmp = tmp->next;
+	}
+	if (tmp->var)
+		return ;
+	while (tmp->next)
+	{
+		printf("declare -x ");
+		printf("%s\n", tmp->var);
+		tmp = tmp->next;
+	}
+}
 
 // int	ft_already_exist(void)
 // {
@@ -67,16 +70,17 @@ Autrement:
 
 // }
 
-// void	ft_export(char **args, t_mini *shell)
-// {
-// 	ft_sort_envp(shell);
-// 	if (args[1] == NULL)
-// 	{
-// 		ft_print_export(shell);
-// 		return ;
-// 	}
-// 	else if (ft_already_exist() == 0)
-// 		ft_add_new_var();
-// 	else
-// 		ft_modify_var();
-// }
+bool	ft_export(char **args, t_mini *shell, char **envp)
+{
+	ft_sort_envp(envp);
+	if (args[1] == NULL)
+	{
+		ft_print_export(shell);
+		return (true);
+	}
+	// else if (ft_already_exist() == 0)
+	// 	ft_add_new_var();
+	// else
+	// 	ft_modify_var();
+	return (false);
+}
