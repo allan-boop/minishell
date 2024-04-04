@@ -1,6 +1,6 @@
 #include "../include/minishell.h"
 
-t_envp	*ft_lstnew_envp(void *content)
+static t_envp	*ft_lstnew_envp(void *content)
 {
 	t_envp	*new;
 
