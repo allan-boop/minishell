@@ -66,9 +66,13 @@ typedef struct s_team_shell
 
 void			ft_signal(void);
 void			*ft_del_all(void);
+bool			ft_pwd(void);
+bool			ft_exit(void);
+bool			ft_echo(t_mini *shell);
 void			*ft_alloc(int size);
 void			ft_nb_args(int argc);
 void			ft_loop(char **envp);
+bool			ft_error(char *cmd, char *msg, int ret);
 int				syntax_error(char *msg);
 void			*ft_del_alloc(void *var);
 char			*ft_space_pipe(char *line);
@@ -79,6 +83,7 @@ int				ft_len_space_pipe(char *line);
 void			ft_replace_space(char **line);
 void			give_token(t_list_struct *node);
 char			*ft_strdup_shell(const char *s);
+bool			ft_cd(t_mini *shell, char **envp);
 int				ft_parsing(t_mini *shell, char *line);
 int				ft_error_parsing(t_list_struct	*list);
 char			**ft_put_space_between(char **tab_line);
