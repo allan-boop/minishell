@@ -76,6 +76,7 @@ void			*ft_alloc(int size);
 void			ft_nb_args(int argc);
 void			ft_loop(char **envp);
 bool			ft_error(char *cmd, char *msg, int ret);
+void			ft_replace_space_in_str(char *line);
 int				syntax_error(char *msg);
 void			*ft_del_alloc(void *var);
 char			*ft_space_pipe(char *line);

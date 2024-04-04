@@ -11,7 +11,7 @@ void	prompt_treatment(char *line, t_mini *shell, char **envp)
 		{
 			shell->list = create_list(shell);
 			add_history(line);
-			ft_copy_envp(envp, shell);
+			//ft_copy_envp(envp, shell);
 			if (shell->list->error_parsing == false)
 				ft_execution(shell, envp);
 		}
