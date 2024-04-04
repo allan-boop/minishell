@@ -1,6 +1,6 @@
 #include "../include/minishell.h"
 
-void	prompt_treatment(char *line, t_mini *shell, char **envp)
+void	prompt_treatment(char *line, t_mini *shell, char **envp, char **argv)
 {
 	int				error;
 
@@ -11,14 +11,14 @@ void	prompt_treatment(char *line, t_mini *shell, char **envp)
 		{
 			shell->list = create_list(shell);
 			add_history(line);
-			//ft_copy_envp(envp, shell);
+			ft_copy_envp(envp, shell);
 			if (shell->list->error_parsing == false)
-				ft_execution(shell, envp);
+				ft_execution(shell, envp, argv);
 		}
 	}
 }
 
-void	ft_loop(char **envp)
+void	ft_loop(char **envp, char **argv)
 {
 	char			*line;
 	t_mini			*shell;
@@ -33,7 +33,7 @@ void	ft_loop(char **envp)
 			ft_printf("\n");
 			exit(0);
 		}
-		prompt_treatment(line, shell, envp);
+		prompt_treatment(line, shell, envp, argv);
 		free(line);
 		ft_del_all();
 	}
