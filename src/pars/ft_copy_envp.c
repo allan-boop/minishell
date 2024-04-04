@@ -1,4 +1,4 @@
-#include "../include/minishell.h"
+#include "../../include/minishell.h"
 
 static t_envp	*ft_lstnew_envp(void *content)
 {

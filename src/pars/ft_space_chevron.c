@@ -1,4 +1,4 @@
-#include "../include/minishell.h"
+#include "../../include/minishell.h"
 
 int	ft_len_space_redirect(int *i, char *line, size_t *len)
 {

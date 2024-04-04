@@ -16,27 +16,27 @@ all: $(NAME)
 ########################################
 SRC_FILES =	minishell.c \
 			ft_loop.c \
-			ft_path.c \
-			parsing.c \
+			pars/ft_path.c \
+			pars/parsing.c \
 			ft_error.c \
-			execution.c \
+			exec/execution.c \
 			ft_signal.c \
-			utils_envp.c \
-			give_token.c \
-			create_list.c \
-			ft_copy_envp.c \
-			utils_parsing.c \
-			ft_space_pipe.c \
+			pars/utils_envp.c \
+			pars/give_token.c \
+			pars/create_list.c \
+			pars/ft_copy_envp.c \
+			pars/utils_parsing.c \
+			pars/ft_space_pipe.c \
 			malloc_factory.c \
 			builtins/ft_cd.c \
-			ft_split_shell.c \
+			pars/ft_split_shell.c \
 			builtins/ft_pwd.c \
 			builtins/ft_exit.c \
 			builtins/ft_echo.c \
-			ft_space_chevron.c \
+			pars/ft_space_chevron.c \
 			m_factory_manager.c \
-			builtins/ft_export.c
-			utils.c
+			builtins/ft_export.c \
+			exec/utils.c
 
 SRC_FILES := $(addprefix src/, $(SRC_FILES))
 OBJ_FILES = $(SRC_FILES:.c=.o)

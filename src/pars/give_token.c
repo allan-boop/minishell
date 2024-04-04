@@ -1,4 +1,4 @@
-#include "../include/minishell.h"
+#include "../../include/minishell.h"
 
 static int	define_token_redirection(t_list_struct *node)
 {

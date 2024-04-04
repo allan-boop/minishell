@@ -1,4 +1,4 @@
-#include "../include/minishell.h"
+#include "../../include/minishell.h"
 
 void	add_node_back(t_list_struct **list, t_list_struct *node)
 {
