@@ -33,7 +33,8 @@ SRC_FILES =	minishell.c \
 			builtins/ft_cd.c \
 			builtins/ft_pwd.c \
 			builtins/ft_exit.c \
-			builtins/ft_echo.c
+			builtins/ft_echo.c \
+			utils.c
 
 SRC_FILES := $(addprefix src/, $(SRC_FILES))
 OBJ_FILES = $(SRC_FILES:.c=.o)
