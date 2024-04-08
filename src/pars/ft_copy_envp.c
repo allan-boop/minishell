@@ -1,6 +1,6 @@
 #include "../../include/minishell.h"
 
-static int	ft_tab_len(char **envp)
+int	ft_tab_len(char **envp)
 {
 	int	i;
 
@@ -12,22 +12,26 @@ static int	ft_tab_len(char **envp)
 	return (i);
 }
 
-static t_envp	*ft_lstnew_envp(void *content)
+t_envp	*ft_lstnew_envp(void *content)
 {
 	t_envp	*new;
+	char	*name_var;
+	char	*value_var;
 
 	new = ft_alloc(sizeof(t_envp));
 	if (!new)
 		return (NULL);
-	new->var = content;
-	new->tmp_var = NULL;
-	new->index = 0;
+	name_var = ft_find_name_var(content);
+	value_var = ft_find_value_var(content);
+	new->whole_var = content;
+	new->var = name_var;
+	new->value = value_var;
 	new->last_return = 0;
 	new->next = NULL;
 	return (new);
 }
 
-static void	ft_lstadd_back_envp(t_mini **shell, t_envp *new)
+void	ft_lstadd_back_envp(t_mini **shell, t_envp *new)
 {
 	t_envp	*last;
 
@@ -57,7 +61,7 @@ void	ft_copy_envp(char **envp, t_mini *shell)
 	ft_sort_envp(envp);
 	len = ft_tab_len(envp);
 	shell->team_envp = NULL;
-	while (i < len - 1)
+	while (i < len)
 	{
 		new = ft_lstnew_envp(envp[i]);
 		ft_lstadd_back_envp(&shell, new);

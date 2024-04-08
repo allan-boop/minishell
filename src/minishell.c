@@ -4,6 +4,6 @@ int	main(int argc, char **argv, char **envp)
 {
 	(void)argv;
 	ft_nb_args(argc);
-	ft_loop(envp, argv);
+	ft_loop(envp);
 	return (0);
 }
