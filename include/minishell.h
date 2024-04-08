@@ -8,6 +8,7 @@
 # define OPERATOR_FAIL "Error syntax: operator failed.\n"
 # define QUOTE_FAIL "Error syntax: quote failed.\n"
 # define PIPE_FAIL "Error syntax: pipe failed.\n"
+# define INVALID_IDENTIFIER "Is not a valid identifier.\n"
 # define NEW 2
 # define DELETE 3
 # define CLEAR 4
@@ -89,6 +90,7 @@ t_envp			*ft_lstnew_envp(void *content);
 void			give_token(t_list_struct *node);
 char			*ft_strdup_shell(const char *s);
 char			*ft_find_name_var(char *content);
+int				ft_current_arg(char *current_arg);
 bool			ft_cd(t_mini *shell, char **envp);
 char			*ft_find_value_var(char *content);
 void			ft_replace_space_in_str(char *line);

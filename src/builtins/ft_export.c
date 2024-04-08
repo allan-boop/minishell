@@ -22,8 +22,7 @@ void	ft_print_export(t_mini *shell)
 	tmp = shell->team_envp;
 	while (tmp)
 	{
-		printf("declare -x ");
-		printf("%s\n", tmp->whole_var);
+		printf("declare -x %s=\"%s\"\n", tmp->var, tmp->value);
 		tmp = tmp->next;
 	}
 }
@@ -51,11 +50,8 @@ static int	ft_already_exist(char *existing_var, char **envp)
 {
 	char	*just_name_var;
 	int		i;
-	int		j;
 
 	just_name_var = ft_find_name_var(existing_var);
-	j = ft_strlen(just_name_var);
-	just_name_var[j + 1] = '\0';
 	i = 0;
 	while (envp[i])
 	{
@@ -70,10 +66,17 @@ bool	ft_export(t_mini *shell, char **envp)
 {
 	shell->tab_index++;
 	ft_sort_envp(envp);
-	if (shell->tab_pars[shell->tab_index] == NULL)
+	if (shell->tab_pars[shell->tab_index] == NULL
+		|| shell->tab_pars[shell->tab_index][0] == '#'
+		|| shell->tab_pars[shell->tab_index][0] == ';')
 	{
 		ft_print_export(shell);
 		return (true);
+	}
+	if (ft_current_arg(shell->tab_pars[shell->tab_index]) == 1)
+	{
+		syntax_error(INVALID_IDENTIFIER);
+		return (false);
 	}
 	else if (ft_already_exist(shell->tab_pars[shell->tab_index], envp) == 0)
 		ft_add_new_var(&shell, envp);
