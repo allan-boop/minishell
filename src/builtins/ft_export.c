@@ -1,44 +1,8 @@
 #include "../../include/minishell.h"
 
-/*
-Si export sans argument, afficher toutes les variables d'environnement.
-Si variable_inexistante == true:
-	alors creer variable.
-Autrement:
-	modifier variable.
-*/
-
-// void	ft_add_new_var(t_mini **shell)
-// {
-// 	t_envp	*new;
-// 	t_envp	*tmp;
-// 	int		i;
-// 	int		j;
-
-// 	new = ft_lstnew_envp((*shell)->tab_pars[(*shell)->tab_index]);
-// 	tmp = (*shell)->team_envp;
-// 	i = 0;
-// 	j = 0;
-// 	while (tmp->next && ft_strcmp(tmp->var, ((*shell)->tab_pars[(*shell)->tab_index])) < 0)
-// 	{
-// 		tmp = tmp->next;
-// 		i++;
-// 	}
-// 	tmp = (*shell)->team_envp;
-// 	while (j < i)
-// 	{
-// 		tmp = tmp->next;
-// 		j++;
-// 	}
-// 	new->next = tmp->next;
-// 	tmp->next = new;
-// }
-
 void	ft_add_new_var(t_mini **shell, char **envp)
 {
 	int		i;
-	int		len;
-	t_envp	*new;
 
 	i = 0;
 	while (envp[i])
@@ -46,15 +10,8 @@ void	ft_add_new_var(t_mini **shell, char **envp)
 	envp[i] = ft_strdup((*shell)->tab_pars[(*shell)->tab_index]);
 	envp[i + 1] = NULL;
 	ft_sort_envp(envp);
-	len = ft_tab_len(envp);
 	(*shell)->team_envp = NULL;
-	i = 0;
-	while (i < len - 1)
-	{
-		new = ft_lstnew_envp(envp[i]);
-		ft_lstadd_back_envp(shell, new);
-		i++;
-	}
+	ft_create_list(envp, shell);
 	return ;
 }
 
@@ -66,24 +23,45 @@ void	ft_print_export(t_mini *shell)
 	while (tmp)
 	{
 		printf("declare -x ");
-		printf("%s\n", tmp->var);
+		printf("%s\n", tmp->whole_var);
 		tmp = tmp->next;
 	}
 }
 
-// void	ft_modify_var(void)
-// {
-
-// }
-
-static int	ft_already_exist(t_mini shell)
+void	ft_modify_var(t_mini *shell, char *existing_var, char **envp)
 {
-	while (shell.team_envp && shell.team_envp->var)
+	char	*just_name_var;
+	char	*new_var;
+	char	*new_value;
+	int		i;
+
+	just_name_var = ft_find_name_var(existing_var);
+	i = 0;
+	while (ft_strcmp(ft_find_name_var(envp[i]), just_name_var) != 0)
+		i++;
+	new_value = ft_find_value_var(existing_var);
+	new_var = ft_strjoin(just_name_var, "=");
+	new_var = ft_strjoin(new_var, new_value);
+	envp[i] = new_var;
+	ft_sort_envp(envp);
+	ft_create_list(envp, &shell);
+}
+
+static int	ft_already_exist(char *existing_var, char **envp)
+{
+	char	*just_name_var;
+	int		i;
+	int		j;
+
+	just_name_var = ft_find_name_var(existing_var);
+	j = ft_strlen(just_name_var);
+	just_name_var[j + 1] = '\0';
+	i = 0;
+	while (envp[i])
 	{
-		if (ft_strnstr(shell.team_envp->var, shell.tab_pars[shell.tab_index],
-				ft_strlen(shell.team_envp->var) == 0))
+		if (ft_strcmp(ft_find_name_var(envp[i]), just_name_var) == 0)
 			return (1);
-		shell.team_envp = shell.team_envp->next;
+		i++;
 	}
 	return (0);
 }
@@ -97,9 +75,9 @@ bool	ft_export(t_mini *shell, char **envp)
 		ft_print_export(shell);
 		return (true);
 	}
-	else if (ft_already_exist(*shell) == 0)
+	else if (ft_already_exist(shell->tab_pars[shell->tab_index], envp) == 0)
 		ft_add_new_var(&shell, envp);
-	// else
-	// 	ft_modify_var();
+	else if (ft_already_exist(shell->tab_pars[shell->tab_index], envp) == 1)
+		ft_modify_var(shell, shell->tab_pars[shell->tab_index], envp);
 	return (false);
 }

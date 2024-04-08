@@ -53,6 +53,7 @@ typedef struct s_list_struct
 
 typedef struct s_envp
 {
+	char			*whole_var;
 	char			*var;
 	char			*value;
 	int				last_return;
@@ -87,7 +88,9 @@ void			ft_replace_space(char **line);
 t_envp			*ft_lstnew_envp(void *content);
 void			give_token(t_list_struct *node);
 char			*ft_strdup_shell(const char *s);
+char			*ft_find_name_var(char *content);
 bool			ft_cd(t_mini *shell, char **envp);
+char			*ft_find_value_var(char *content);
 void			ft_replace_space_in_str(char *line);
 bool			ft_export(t_mini *shell, char **envp);
 int				ft_parsing(t_mini *shell, char *line);
@@ -101,6 +104,7 @@ size_t			count_words_split(char const *s, char c);
 void			ft_execution(t_mini *shell, char **envp);
 void			ft_copy_envp(char **envp, t_mini *shell);
 t_list_struct	*create_node_list(t_mini *shell, size_t i);
+void			ft_create_list(char **envp, t_mini **shell);
 void			ft_lstadd_back_envp(t_mini **shell, t_envp *new);
 char			*ft_strjoin_shell(char const *s1, char const *s2);
 void			*malloc_factory(size_t size, int type, void *ptr);
@@ -110,6 +114,7 @@ void			ft_space_redirect(int *i, int *j, char *line, char *tmp);
 void			add_node_front(t_list_struct *list, t_list_struct *node);
 void			del_node_list(t_list_struct **list, t_list_struct *node);
 void			del_if_same(t_malloc_ptr *l_m, t_malloc_ptr *tmp, void *var);
+void			ft_modify_var(t_mini *shell, char *existing_var, char **envp);
 char			*ft_substr_shell(char const *s, unsigned int start, size_t len);
 
 #endif

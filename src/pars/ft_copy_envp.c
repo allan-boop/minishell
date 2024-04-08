@@ -15,12 +15,17 @@ int	ft_tab_len(char **envp)
 t_envp	*ft_lstnew_envp(void *content)
 {
 	t_envp	*new;
+	char	*name_var;
+	char	*value_var;
 
 	new = ft_alloc(sizeof(t_envp));
 	if (!new)
 		return (NULL);
-	new->var = content;
-	new->value = NULL;
+	name_var = ft_find_name_var(content);
+	value_var = ft_find_value_var(content);
+	new->whole_var = content;
+	new->var = name_var;
+	new->value = value_var;
 	new->last_return = 0;
 	new->next = NULL;
 	return (new);
