@@ -31,6 +31,7 @@ SRC_FILES =	minishell.c \
 			builtins/ft_cd.c \
 			pars/ft_split_shell.c \
 			builtins/ft_pwd.c \
+			pars/ft_find_var.c \
 			builtins/ft_exit.c \
 			builtins/ft_echo.c \
 			pars/ft_space_chevron.c \
