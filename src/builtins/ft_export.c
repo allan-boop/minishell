@@ -30,18 +30,27 @@ void	ft_print_export(t_mini *shell)
 void	ft_modify_var(t_mini *shell, char *existing_var, char **envp)
 {
 	char	*just_name_var;
+	char	*just_name_var_plus;
 	char	*new_var;
 	char	*new_value;
 	int		i;
 
 	just_name_var = ft_find_name_var(existing_var);
+	just_name_var_plus = ft_strdup(just_name_var);
+	if (ft_check_last(just_name_var) == 1)
+		just_name_var_plus[ft_strlen(just_name_var) - 1] = '\0';
 	i = 0;
-	while (ft_strcmp(ft_find_name_var(envp[i]), just_name_var) != 0)
+	while (ft_strcmp(ft_find_name_var(envp[i]), just_name_var_plus) != 0)
 		i++;
-	new_value = ft_find_value_var(existing_var);
-	new_var = ft_strjoin(just_name_var, "=");
-	new_var = ft_strjoin(new_var, new_value);
-	envp[i] = new_var;
+	if (ft_check_last(just_name_var) == 1)
+		ft_check_plus(envp, just_name_var_plus, existing_var);
+	else
+	{
+		new_value = ft_find_value_var(existing_var);
+		new_var = ft_strjoin_shell(just_name_var, "=");
+		new_var = ft_strjoin(new_var, new_value);
+		envp[i] = new_var;
+	}
 	ft_sort_envp(envp);
 	ft_create_list(envp, &shell);
 }
@@ -53,6 +62,8 @@ static int	ft_already_exist(char *existing_var, char **envp)
 
 	just_name_var = ft_find_name_var(existing_var);
 	i = 0;
+	if (ft_check_last(just_name_var) == 1)
+		return (1);
 	while (envp[i])
 	{
 		if (ft_strcmp(ft_find_name_var(envp[i]), just_name_var) == 0)
@@ -73,7 +84,7 @@ bool	ft_export(t_mini *shell, char **envp)
 		ft_print_export(shell);
 		return (true);
 	}
-	if (ft_current_arg(shell->tab_pars[shell->tab_index]) == 1)
+	if (ft_current_arg(shell->tab_pars[shell->tab_index], envp) == 1)
 	{
 		syntax_error(INVALID_IDENTIFIER);
 		return (false);
