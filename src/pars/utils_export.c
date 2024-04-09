@@ -13,7 +13,7 @@ void	ft_check_plus(char **envp, char *just_name_var, char *existing_var)
 	char	*tmp;
 
 	i = 0;
-	while (ft_strcmp(ft_find_name_var(envp[i]), just_name_var) != 0)
+	while (ft_strcmp_shell(ft_find_name_var(envp[i]), just_name_var) != 0)
 		i++;
 	tmp = ft_strjoin_shell(just_name_var, "=");
 	envp[i] = ft_strjoin_shell(tmp, ft_find_value_var(envp[i]));

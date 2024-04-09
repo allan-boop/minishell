@@ -40,7 +40,7 @@ void	ft_modify_var(t_mini *shell, char *existing_var, char **envp)
 	if (ft_check_last(just_name_var) == 1)
 		just_name_var_plus[ft_strlen(just_name_var) - 1] = '\0';
 	i = 0;
-	while (ft_strcmp(ft_find_name_var(envp[i]), just_name_var_plus) != 0)
+	while (ft_strcmp_shell(ft_find_name_var(envp[i]), just_name_var_plus) != 0)
 		i++;
 	if (ft_check_last(just_name_var) == 1)
 		ft_check_plus(envp, just_name_var_plus, existing_var);
