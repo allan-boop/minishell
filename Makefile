@@ -37,7 +37,8 @@ SRC_FILES =	minishell.c \
 			pars/ft_space_chevron.c \
 			m_factory_manager.c \
 			builtins/ft_export.c \
-			exec/utils.c
+			exec/utils.c \
+			builtins/ft_echo_utils.c
 
 SRC_FILES := $(addprefix src/, $(SRC_FILES))
 OBJ_FILES = $(SRC_FILES:.c=.o)
