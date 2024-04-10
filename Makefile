@@ -18,6 +18,7 @@ SRC_FILES =	minishell.c \
 			ft_loop.c \
 			ft_error.c \
 			ft_signal.c \
+			exec/utils.c \
 			pars/ft_path.c \
 			pars/parsing.c \
 			malloc_factory.c \
@@ -38,7 +39,7 @@ SRC_FILES =	minishell.c \
 			pars/ft_space_pipe.c \
 			pars/ft_split_shell.c \
 			pars/ft_space_chevron.c \
-			exec/utils.c
+			pars/utils_export_quote.c
 
 SRC_FILES := $(addprefix src/, $(SRC_FILES))
 OBJ_FILES = $(SRC_FILES:.c=.o)

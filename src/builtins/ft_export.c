@@ -86,6 +86,7 @@ static int	ft_already_exist(char *existing_var, char **envp)
 bool	ft_export(t_mini *shell, char **envp)
 {
 	shell->tab_index++;
+//	shell->tab_index = ft_del_quotes(shell->tab_index);
 	ft_sort_envp(envp);
 	if (shell->tab_pars[shell->tab_index] == NULL
 		|| shell->tab_pars[shell->tab_index][0] == '#'

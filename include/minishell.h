@@ -80,6 +80,7 @@ bool			ft_echo(t_mini *shell);
 int				ft_tab_len(char **envp);
 int				syntax_error(char *msg);
 void			*ft_del_alloc(void *var);
+char			*ft_del_quotes(char *arg);
 char			*ft_space_pipe(char *line);
 int				ft_check_quote(char *line);
 char			**ft_sort_envp(char **envp);
