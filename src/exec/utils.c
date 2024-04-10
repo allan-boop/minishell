@@ -8,7 +8,7 @@ static void	ft_replace_quote(char *line, int i)
 		line[i] = 3;
 }
 
-void	ft_replace_space_in_str(char *line)
+void	ft_replace_space_in_str(char *line, bool only_quote)
 {
 	int		i;
 	char	quote;
@@ -24,7 +24,7 @@ void	ft_replace_space_in_str(char *line)
 				i++;
 			while (line[i] && line[i] != quote)
 			{
-				if (line[i] == ' ')
+				if (only_quote == false && line[i] == ' ')
 					line[i] = 1;
 				i++;
 			}
