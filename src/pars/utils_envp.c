@@ -27,7 +27,7 @@ char	**ft_sort_envp(char **envp)
 	{
 		temp = envp[i];
 		j = i - 1;
-		while (j >= 0 && strcmp(envp[j], temp) > 0)
+		while (j >= 0 && ft_strcmp_shell(envp[j], temp) > 0)
 		{
 			envp[j + 1] = envp[j];
 			j--;
