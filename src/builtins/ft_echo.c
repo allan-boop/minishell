@@ -24,55 +24,91 @@ char	*clean_var(char *str)
 	return (var);
 }
 
+bool	ft_n_option(bool *n_option, bool is_n_option, t_mini *shell, int *i)
+{
+	int	j;
+
+	while (is_n_option == true)
+	{
+		j = 0;
+		if (shell->tab_pars[*i][j] == '-'
+			&& shell->tab_pars[*i][j + 1] == 'n')
+		{
+			j++;
+			while (shell->tab_pars[*i][j] == 'n')
+				j++;
+			if (shell->tab_pars[*i][j] == '\0')
+			{
+				*n_option = true;
+				(*i)++;
+			}
+			else
+				is_n_option = false;
+		}
+		else
+			is_n_option = false;
+	}
+	return (false);
+}
+
+void	print_exp_var(char *tab_pars, char **envp, int *j, char *str)
+{
+	while (str)
+	{
+		while (tab_pars[*j] != '$')
+			ft_printf("%c", tab_pars[(*j)++], 1);
+		tab_pars[(*j)++] = 'q';
+		str = clean_var(str);
+		while (tab_pars[*j] != '\0'
+			&& tab_pars[*j] != '$'
+			&& tab_pars[*j] != ' '
+			&& tab_pars[*j] != 2
+			&& tab_pars[*j] != 3
+			&& tab_pars[*j] != 34
+			&& tab_pars[*j] != 39)
+			(*j)++;
+		ft_putstr_fd(ft_getenv(str + 1, envp), 1);
+		str = ft_strchr(tab_pars, '$');
+	}	
+}
+
+void	if_exp_var(t_mini *shell, char **envp, int *i)
+{
+	int		j;
+	char	*str;
+
+	str = ft_strchr(shell->tab_pars[*i], '$');
+	if (str)
+	{
+		j = 0;
+		print_exp_var(shell->tab_pars[*i], envp, &j, str);
+		while (shell->tab_pars[*i][j])
+			ft_printf("%c", shell->tab_pars[*i][j++], 1);
+		if (shell->tab_pars[*i + 1] != NULL)
+			ft_putstr_fd(" ", 1);
+	}
+	else
+	{
+		ft_putstr_fd(shell->tab_pars[*i], 1);
+		if (shell->tab_pars[*i + 1] != NULL)
+			ft_putstr_fd(" ", 1);
+	}	
+}
+
 bool	ft_echo(t_mini *shell, char **envp)
 {
 	int		i;
 	bool	n_option;
-	int		j;
-	char	*str;
+	bool	is_n_option;
 
 	i = 1;
 	n_option = false;
+	is_n_option = true;
 	while (shell->tab_pars[i] != NULL)
 	{
-		if (ft_strcmp(shell->tab_pars[i], "-n") == 0 && i == 1)
-		{
-			n_option = true;
-			i++;
-		}
+		is_n_option = ft_n_option(&n_option, is_n_option, shell, &i);
 		ft_replace_space_in_str(shell->tab_pars[i], true);
-		str = ft_strchr(shell->tab_pars[i], '$');
-		if (str)
-		{
-			j = 0;
-			while (str)
-			{
-				while (shell->tab_pars[i][j] != '$')
-					ft_printf("%c", shell->tab_pars[i][j++], 1);
-				shell->tab_pars[i][j++] = 'q';
-				str = clean_var(str);
-				while (shell->tab_pars[i][j] != '\0'
-					&& shell->tab_pars[i][j] != '$'
-					&& shell->tab_pars[i][j] != ' '
-					&& shell->tab_pars[i][j] != 2
-					&& shell->tab_pars[i][j] != 3
-					&& shell->tab_pars[i][j] != 34
-					&& shell->tab_pars[i][j] != 39)
-					j++;
-				ft_putstr_fd(ft_getenv(str + 1, envp), 1);
-				str = ft_strchr(shell->tab_pars[i], '$');
-			}
-			while (shell->tab_pars[i][j])
-				ft_printf("%c", shell->tab_pars[i][j++], 1);
-			if (shell->tab_pars[i + 1] != NULL)
-				ft_putstr_fd(" ", 1);
-		}
-		else
-		{
-			ft_putstr_fd(shell->tab_pars[i], 1);
-			if (shell->tab_pars[i + 1] != NULL)
-				ft_putstr_fd(" ", 1);
-		}
+		if_exp_var(shell, envp, &i);
 		i++;
 	}
 	if (n_option == false)
