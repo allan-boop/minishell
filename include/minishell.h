@@ -8,6 +8,7 @@
 # define OPERATOR_FAIL "Error syntax: operator failed.\n"
 # define QUOTE_FAIL "Error syntax: quote failed.\n"
 # define PIPE_FAIL "Error syntax: pipe failed.\n"
+# define INVALID_IDENTIFIER "Is not a valid identifier.\n"
 # define NEW 2
 # define DELETE 3
 # define CLEAR 4
@@ -79,6 +80,7 @@ bool			ft_echo(t_mini *shell, char **envp);
 int				ft_tab_len(char **envp);
 int				syntax_error(char *msg);
 void			*ft_del_alloc(void *var);
+char			*ft_del_quotes(char *arg);
 char			*ft_space_pipe(char *line);
 int				ft_check_quote(char *line);
 char			**ft_sort_envp(char **envp);
@@ -88,6 +90,7 @@ void			ft_replace_space(char **line);
 t_envp			*ft_lstnew_envp(void *content);
 void			give_token(t_list_struct *node);
 char			*ft_strdup_shell(const char *s);
+int				ft_check_last(char *current_arg);
 char			*ft_find_name_var(char *content);
 bool			ft_cd(t_mini *shell, char **envp);
 char			*ft_find_value_var(char *content);
@@ -105,6 +108,7 @@ void			ft_execution(t_mini *shell, char **envp);
 void			ft_copy_envp(char **envp, t_mini *shell);
 t_list_struct	*create_node_list(t_mini *shell, size_t i);
 void			ft_create_list(char **envp, t_mini **shell);
+int				ft_current_arg(char *current_arg, char **envp);
 void			ft_lstadd_back_envp(t_mini **shell, t_envp *new);
 char			*ft_strjoin_shell(char const *s1, char const *s2);
 void			*malloc_factory(size_t size, int type, void *ptr);
@@ -116,5 +120,7 @@ void			del_node_list(t_list_struct **list, t_list_struct *node);
 void			del_if_same(t_malloc_ptr *l_m, t_malloc_ptr *tmp, void *var);
 void			ft_modify_var(t_mini *shell, char *existing_var, char **envp);
 char			*ft_substr_shell(char const *s, unsigned int start, size_t len);
+void			ft_add_new_var(t_mini **shell, char **envp, char *existing_var);
+void			ft_check_plus(char **envp, char *just_name_var, char *existing_var);
 
 #endif

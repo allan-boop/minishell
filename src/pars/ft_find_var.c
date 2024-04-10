@@ -6,6 +6,8 @@ char	*ft_find_name_var(char *content)
 	char	*name_var;
 
 	i = 0;
+	if (!content)
+		return (NULL);
 	while (content[i] != '=')
 		i++;
 	name_var = ft_substr_shell(content, 0, i);
@@ -18,6 +20,8 @@ char	*ft_find_value_var(char *content)
 	char	*value_var;
 
 	i = 0;
+	if (!content)
+		return (NULL);
 	while (content[i] != '=')
 		i++;
 	value_var = ft_substr_shell(content, i + 1, ft_strlen(content) - i);
