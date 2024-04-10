@@ -36,3 +36,24 @@ void	ft_replace_space_in_str(char *line, bool only_quote)
 		i++;
 	}
 }
+
+void	ft_replace_quote_export(char *line)
+{
+	int		i;
+
+	i = 0;
+	while (line[i])
+	{
+		if (line[i] == 34 || line[i] == 39)
+		{
+			while (line[i])
+			{
+				line[i] = line[i + 1];
+				i++;
+			}
+			line[i] = '\0';
+			i = 0;
+		}
+		i++;
+	}
+}

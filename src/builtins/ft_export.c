@@ -86,15 +86,16 @@ static int	ft_already_exist(char *existing_var, char **envp)
 bool	ft_export(t_mini *shell, char **envp)
 {
 	shell->tab_index++;
-//	shell->tab_index = ft_del_quotes(shell->tab_index);
 	ft_sort_envp(envp);
-	if (shell->tab_pars[shell->tab_index] == NULL
-		|| shell->tab_pars[shell->tab_index][0] == '#'
-		|| shell->tab_pars[shell->tab_index][0] == ';')
+	if (shell->tab_pars[1] == NULL
+		|| shell->tab_pars[1][0] == '#'
+		|| shell->tab_pars[1][0] == ';')
 	{
 		ft_print_export(shell);
 		return (true);
 	}
+	if (ft_del_quotes(shell->tab_pars[shell->tab_index], shell) == 1)
+		return (false);
 	if (ft_current_arg(shell->tab_pars[shell->tab_index], envp) == 1)
 	{
 		syntax_error(INVALID_IDENTIFIER);
