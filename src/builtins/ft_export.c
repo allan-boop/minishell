@@ -1,13 +1,23 @@
 #include "../../include/minishell.h"
 
-void	ft_add_new_var(t_mini **shell, char **envp)
+void	ft_add_new_var(t_mini **shell, char **envp, char *existing_var)
 {
 	int		i;
+	char	*tmp;
+	char	*just_name_var;
 
 	i = 0;
 	while (envp[i])
 		i++;
-	envp[i] = ft_strdup((*shell)->tab_pars[(*shell)->tab_index]);
+	just_name_var = ft_find_name_var(existing_var);
+	if (ft_check_last(just_name_var) == 1)
+	{
+		just_name_var[ft_strlen(just_name_var) - 1] = '\0';
+		tmp = ft_strjoin_shell(just_name_var, "=");
+		envp[i] = ft_strjoin(tmp, ft_find_value_var(existing_var));
+	}
+	else
+		envp[i] = ft_strdup((*shell)->tab_pars[(*shell)->tab_index]);
 	envp[i + 1] = NULL;
 	ft_sort_envp(envp);
 	(*shell)->team_envp = NULL;
@@ -63,7 +73,7 @@ static int	ft_already_exist(char *existing_var, char **envp)
 	just_name_var = ft_find_name_var(existing_var);
 	i = 0;
 	if (ft_check_last(just_name_var) == 1)
-		return (1);
+		just_name_var[ft_strlen(just_name_var) - 1] = '\0';
 	while (envp[i])
 	{
 		if (ft_strcmp(ft_find_name_var(envp[i]), just_name_var) == 0)
@@ -90,7 +100,7 @@ bool	ft_export(t_mini *shell, char **envp)
 		return (false);
 	}
 	else if (ft_already_exist(shell->tab_pars[shell->tab_index], envp) == 0)
-		ft_add_new_var(&shell, envp);
+		ft_add_new_var(&shell, envp, shell->tab_pars[shell->tab_index]);
 	else if (ft_already_exist(shell->tab_pars[shell->tab_index], envp) == 1)
 		ft_modify_var(shell, shell->tab_pars[shell->tab_index], envp);
 	return (false);

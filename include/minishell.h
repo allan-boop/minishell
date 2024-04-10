@@ -119,6 +119,7 @@ void			del_node_list(t_list_struct **list, t_list_struct *node);
 void			del_if_same(t_malloc_ptr *l_m, t_malloc_ptr *tmp, void *var);
 void			ft_modify_var(t_mini *shell, char *existing_var, char **envp);
 char			*ft_substr_shell(char const *s, unsigned int start, size_t len);
+void			ft_add_new_var(t_mini **shell, char **envp, char *existing_var);
 void			ft_check_plus(char **envp, char *just_name_var, char *existing_var);
 
 #endif
