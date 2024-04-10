@@ -53,6 +53,8 @@ bool	ft_n_option(bool *n_option, bool is_n_option, t_mini *shell, int *i)
 
 void	print_exp_var(char *tab_pars, char **envp, int *j, char *str)
 {
+	int		k;
+
 	while (str)
 	{
 		while (tab_pars[*j] != '$')
@@ -67,7 +69,13 @@ void	print_exp_var(char *tab_pars, char **envp, int *j, char *str)
 			&& tab_pars[*j] != 34
 			&& tab_pars[*j] != 39)
 			(*j)++;
-		ft_putstr_fd(ft_getenv(str + 1, envp), 1);
+		k = 0;
+		while (envp[k])
+		{
+			if (ft_strcmp(str + 1, ft_find_name_var(envp[k])) == 0)
+				ft_putstr_fd(ft_getenv(str + 1, envp), 1);
+			k++;
+		}
 		str = ft_strchr(tab_pars, '$');
 	}	
 }
@@ -81,7 +89,8 @@ void	if_exp_var(t_mini *shell, char **envp, int *i)
 	if (str)
 	{
 		j = 0;
-		print_exp_var(shell->tab_pars[*i], envp, &j, str);
+		if (ft_is_in_quote(shell->tab_pars[*i], str) == 0)
+			print_exp_var(shell->tab_pars[*i], envp, &j, str);
 		while (shell->tab_pars[*i][j])
 			ft_printf("%c", shell->tab_pars[*i][j++], 1);
 		if (shell->tab_pars[*i + 1] != NULL)
