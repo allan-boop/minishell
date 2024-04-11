@@ -96,6 +96,7 @@ char			*ft_find_value_var(char *content);
 bool			ft_echo(t_mini *shell, char **envp);
 char			*ft_getenv(char *name, char **envp);
 void			ft_replace_quote_export(char *line);
+bool			ft_print_export_alone(t_mini *shell);
 int				ft_is_in_quote(char *line, char *str);
 bool			ft_export(t_mini *shell, char **envp);
 int				ft_parsing(t_mini *shell, char *line);

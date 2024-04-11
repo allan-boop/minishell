@@ -22,7 +22,7 @@ bool	custom_builtin(t_mini *shell, char **envp)
 void	ft_execution(t_mini *shell, char **envp)
 {
 	shell->tab_index = 0;
-	if (custom_builtin(shell, envp) == false)
+	if (custom_builtin(shell, envp) == true)
 		return ;
 //	other_builtin(shell, envp);
 }
