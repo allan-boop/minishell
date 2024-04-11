@@ -32,7 +32,10 @@ void	ft_print_export(t_mini *shell)
 	tmp = shell->team_envp;
 	while (tmp)
 	{
-		printf("declare -x %s=\"%s\"\n", tmp->var, tmp->value);
+		if (tmp->value[0] == 0)
+			printf("declare -x %s\n", tmp->var);
+		else
+			printf("declare -x %s=\"%s\"\n", tmp->var, tmp->value);
 		tmp = tmp->next;
 	}
 }
@@ -87,14 +90,15 @@ bool	ft_export(t_mini *shell, char **envp)
 {
 	shell->tab_index++;
 	ft_sort_envp(envp);
-	if (shell->tab_pars[1] == NULL
-		|| shell->tab_pars[1][0] == '#'
-		|| shell->tab_pars[1][0] == ';')
+	if (ft_strcmp_shell(shell->tab_pars[shell->tab_index - 1], "export") == 0
+		&& (shell->tab_pars[1] == NULL
+			|| shell->tab_pars[1][0] == '#'
+		|| shell->tab_pars[1][0] == ';'))
 	{
 		ft_print_export(shell);
 		return (true);
 	}
-	if (ft_del_quotes(shell->tab_pars[shell->tab_index], shell) == 1)
+	if (ft_del_quotes(shell->tab_pars[shell->tab_index]) == 1)
 		return (false);
 	if (ft_current_arg(shell->tab_pars[shell->tab_index], envp) == 1)
 	{

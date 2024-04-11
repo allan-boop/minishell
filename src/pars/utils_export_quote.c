@@ -25,15 +25,10 @@ static int	ft_check_name_quotes(char *arg)
 	return (0);
 }
 
-int	ft_del_quotes(char *arg, t_mini *shell)
+int	ft_del_quotes(char *arg)
 {
 	if (ft_check_name_quotes(arg) == 1)
 		return (1);
-	if (shell->tab_pars[shell->tab_index + 1] != NULL)
-	{
-		syntax_error(INVALID_IDENTIFIER);
-		return (1);
-	}
 	ft_replace_quote_export(arg);
 	return (0);
 }
