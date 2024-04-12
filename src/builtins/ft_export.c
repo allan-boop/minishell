@@ -82,7 +82,7 @@ bool	ft_export(t_mini *shell, char **envp)
 		|| shell->tab_pars[shell->tab_index][0] != '<'))
 	{
 		ft_sort_envp(envp);
-		if (ft_del_quotes(shell->tab_pars[shell->tab_index]) == 1)
+		if (ft_del_quotes(&shell->tab_pars[shell->tab_index]) == 1)
 			return (true);
 		if (ft_current_arg(shell->tab_pars[shell->tab_index], envp) == 1)
 		{

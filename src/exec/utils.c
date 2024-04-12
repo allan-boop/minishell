@@ -37,7 +37,7 @@ void	ft_replace_space_in_str(char *line, bool only_quote)
 	}
 }
 
-int	ft_replace_quote_export(char *line)
+int	ft_replace_quote_export(char **line)
 {
 	char	*new_line;
 	char	*tmp;
@@ -52,16 +52,17 @@ int	ft_replace_quote_export(char *line)
 	start = 0;
 	end = 0;
 	i = 0;
-	printf("line = %s\n", line);
-	while (line[i])
+	new_line = NULL;
+	printf("line = %s\n", *line);
+	while ((*line)[i])
 	{
-		if (line[i] == 34 || line[i] == 39)
+		if ((*line)[i] == 34 || (*line)[i] == 39)
 		{
-			quote = line[i];
+			quote = (*line)[i];
 			start = ++i;
-			while (line[i] && line[i] != quote)
+			while ((*line)[i] && (*line)[i] != quote)
 			{
-				if (!line[i])
+				if (!(*line)[i])
 					return (syntax_error(QUOTE_FAIL),1);
 				i++;
 			}
@@ -69,24 +70,41 @@ int	ft_replace_quote_export(char *line)
 		}
 		if (start != 0 && end != 0)
 		{
-			new_line = ft_substr_shell(line, 0, start - 1);
+			new_line = ft_substr_shell(*line, 0, start - 1);
 			printf("new_line = %s\n", new_line);
-			tmp = ft_substr_shell(line, start, (end - start) + 1);
-			printf("start = %zu\n", start);
-			printf("end = %zu\n", end);
-			printf("tmp = %s\n", tmp);
+			tmp = ft_substr_shell((*line), start, (end - start) + 1);
 			new_line = ft_strjoin_shell(new_line, tmp);
 			printf("new_line = %s\n", new_line);
-			tmp = ft_substr_shell(line, end + 2, ft_strlen(line) - end);
-			printf("tmp = %s\n", tmp);
+			tmp = ft_substr_shell((*line), end + 2, ft_strlen((*line)) - end);
+			/*while ((*line)[i])
+			{
+				printf("1");
+				if ((*line)[i] == 34 || (*line)[i] == 39)
+				{
+					printf("2");
+					quote = (*line)[i];
+					start = ++i;
+					while ((*line)[i] && (*line)[i] != quote)
+					{
+						printf("3");
+						if (!(*line)[i])
+							return (syntax_error(QUOTE_FAIL),1);
+						i++;
+					}
+					end = i - 1;
+				}
+				new_line = ft_strjoin_shell(new_line, ft_substr_shell((*line), start, (end - start) + 1));
+				printf("4");
+				i++;
+			}*/
 			new_line = ft_strjoin_shell(new_line, tmp);
-			printf("new_line = %s\n", new_line);
-			i = start + ft_strlen(new_line);
+			i = ft_strlen(new_line) + 2;
 			start = i;
 			end = 0;
 		}
 		i++;
 	}
-	line = ft_strdup_shell(new_line);
+	if (new_line)
+		(*line) = ft_strdup_shell(new_line);
 	return (0);
 }
