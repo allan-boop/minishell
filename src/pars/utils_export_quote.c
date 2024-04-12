@@ -29,6 +29,7 @@ int	ft_del_quotes(char *arg)
 {
 	if (ft_check_name_quotes(arg) == 1)
 		return (1);
-	ft_replace_quote_export(arg);
+	if (ft_replace_quote_export(arg) == 1)
+		return (1);
 	return (0);
 }

@@ -37,23 +37,56 @@ void	ft_replace_space_in_str(char *line, bool only_quote)
 	}
 }
 
-void	ft_replace_quote_export(char *line)
+int	ft_replace_quote_export(char *line)
 {
+	char	*new_line;
+	char	*tmp;
+	char	quote;
 	int		i;
+	size_t	start;
+	size_t	end;
 
+	if (!line)
+		return (1);
+	quote = 0;
+	start = 0;
+	end = 0;
 	i = 0;
+	printf("line = %s\n", line);
 	while (line[i])
 	{
 		if (line[i] == 34 || line[i] == 39)
 		{
-			while (line[i])
+			quote = line[i];
+			start = ++i;
+			while (line[i] && line[i] != quote)
 			{
-				line[i] = line[i + 1];
+				if (!line[i])
+					return (syntax_error(QUOTE_FAIL),1);
 				i++;
 			}
-			line[i] = '\0';
-			i = 0;
+			end = i - 1;
+		}
+		if (start != 0 && end != 0)
+		{
+			new_line = ft_substr_shell(line, 0, start - 1);
+			printf("new_line = %s\n", new_line);
+			tmp = ft_substr_shell(line, start, (end - start) + 1);
+			printf("start = %zu\n", start);
+			printf("end = %zu\n", end);
+			printf("tmp = %s\n", tmp);
+			new_line = ft_strjoin_shell(new_line, tmp);
+			printf("new_line = %s\n", new_line);
+			tmp = ft_substr_shell(line, end + 2, ft_strlen(line) - end);
+			printf("tmp = %s\n", tmp);
+			new_line = ft_strjoin_shell(new_line, tmp);
+			printf("new_line = %s\n", new_line);
+			i = start + ft_strlen(new_line);
+			start = i;
+			end = 0;
 		}
 		i++;
 	}
+	line = ft_strdup_shell(new_line);
+	return (0);
 }

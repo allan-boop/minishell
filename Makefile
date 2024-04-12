@@ -33,6 +33,7 @@ SRC_FILES =	minishell.c \
 			builtins/ft_echo.c \
 			pars/create_list.c \
 			pars/utils_export.c \
+			pars/ft_del_quote.c \
 			pars/ft_copy_envp.c \
 			m_factory_manager.c \
 			pars/utils_parsing.c \
