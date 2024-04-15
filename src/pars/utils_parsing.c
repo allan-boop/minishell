@@ -11,8 +11,6 @@ char	*ft_strjoin_shell(char const *s1, char const *s2)
 	s1_length = ft_strlen(s1);
 	s2_length = ft_strlen(s2);
 	result = (char *)ft_alloc(s1_length + s2_length + 1);
-	if (!result)
-		return (0);
 	ft_strlcpy(result, s1, s1_length + 1);
 	ft_strlcat(result + s1_length, s2, s2_length + 1);
 	return (result);
@@ -40,8 +38,6 @@ char	*ft_strdup_shell(const char *s)
 		return (NULL);
 	len = ft_strlen(s) + 1;
 	str = ft_alloc(len);
-	if (!str)
-		return (NULL);
 	ft_memcpy(str, s, len);
 	return (str);
 }
@@ -61,8 +57,6 @@ char	*ft_substr_shell(char const *s, unsigned int start, size_t len)
 	i = 0;
 	j = start;
 	ptr = ft_alloc(len + 1);
-	if (!ptr)
-		return (0);
 	while (s[j] != '\0' && i < len)
 	{
 		ptr[i] = s[j];

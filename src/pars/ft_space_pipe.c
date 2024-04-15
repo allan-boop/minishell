@@ -97,8 +97,6 @@ char	*ft_space_pipe(char *line)
 	if (ft_len_space_pipe(line) == -1)
 		return (NULL);
 	tmp = ft_alloc(ft_strlen(line) + ft_len_space_pipe(line) + 1);
-	if (!tmp)
-		return (NULL);
 	ft_bzero(tmp, ft_strlen(line) + ft_len_space_pipe(line) + 1);
 	while (line[i])
 	{

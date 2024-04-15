@@ -37,23 +37,61 @@ void	ft_replace_space_in_str(char *line, bool only_quote)
 	}
 }
 
-void	ft_replace_quote_export(char *line)
+int	ft_replace_quote_export(char **line)
 {
+	char	*new_line;
+	char	*tmp;
+	char	quote;
 	int		i;
+	size_t	start;
+	size_t	end;
 
+	if (!line)
+		return (1);
+	quote = 0;
+	start = 0;
+	end = 0;
 	i = 0;
-	while (line[i])
+	new_line = NULL;
+	tmp = NULL;
+
+	while ((*line)[i])
 	{
-		if (line[i] == 34 || line[i] == 39)
+		if ((*line)[i] == 34 || (*line)[i] == 39)
 		{
-			while (line[i])
+			start = i;
+			new_line = ft_substr_shell(*line, 0, start);
+			while ((*line)[i])
 			{
-				line[i] = line[i + 1];
+				if ((*line)[i] == 34 || (*line)[i] == 39)
+				{
+					quote = (*line)[i];
+					start = ++i;
+					while ((*line)[i] && (*line)[i] != quote)
+					{
+						if (!(*line)[i])
+							return (syntax_error(QUOTE_FAIL),1);
+						i++;
+					}
+					end = i - 1;
+					if (!tmp)
+						tmp = ft_substr_shell((*line), start, (end - start) + 1);
+					else
+						tmp = ft_strjoin_shell(tmp, ft_substr_shell((*line), start, (end - start) + 1));
+				}
+				else
+				{
+					tmp = ft_strjoin_shell(tmp, ft_substr_shell((*line), i, 1));
+				}
 				i++;
 			}
-			line[i] = '\0';
-			i = 0;
+			new_line = ft_strjoin_shell(new_line, tmp);
+			new_line = ft_strjoin_shell(new_line, ft_substr_shell((*line), end + 2, i - end));
 		}
-		i++;
+		else
+			i++;
 	}
+	if (new_line)
+		(*line) = ft_strdup_shell(new_line);
+	return (0);
 }
