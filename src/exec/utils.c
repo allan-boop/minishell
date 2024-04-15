@@ -86,8 +86,6 @@ static int	replace_quote(char **line, int *i, char **new_line)
 				return (ret);
 		}
 		*new_line = ft_strjoin_shell(*new_line, tmp);
-		*new_line = ft_strjoin_shell(*new_line,
-				ft_substr_shell((*line), utils.end + 2, *i - utils.end));
 	}
 	else
 		(*i)++;
