@@ -24,6 +24,12 @@ void	*create_node(void *new_ptr)
 	t_malloc_ptr	*new_node;
 
 	new_node = malloc(sizeof(t_malloc_ptr));
+	if (!new_node)
+	{
+		syntax_error(MALLOC_FAIL);
+		ft_del_all();
+		exit(1);
+	}
 	new_node->ptr = new_ptr;
 	new_node->next = NULL;
 	return (new_node);
@@ -80,6 +86,7 @@ void	*malloc_factory(size_t size, int type, void *ptr)
 		if (!new_ptr)
 		{
 			ft_printf(MALLOC_FAIL);
+			ft_del_all();
 			exit(1);
 		}
 		new_node = create_node(new_ptr);

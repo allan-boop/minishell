@@ -5,8 +5,6 @@ static char	**allocate_memory(size_t count)
 	char	**tab_shell;
 
 	tab_shell = (char **)ft_alloc(sizeof(char *) * (count + 1));
-	if (!tab_shell)
-		return (NULL);
 	tab_shell[0] = NULL;
 	return ((char **) tab_shell);
 }

@@ -19,8 +19,6 @@ t_envp	*ft_lstnew_envp(void *content)
 	char	*value_var;
 
 	new = ft_alloc(sizeof(t_envp));
-	if (!new)
-		return (NULL);
 	name_var = ft_find_name_var(content);
 	value_var = ft_find_value_var(content);
 	new->whole_var = content;

@@ -62,8 +62,6 @@ t_list_struct	*create_node_list(t_mini *shell, size_t i)
 	t_list_struct	*node;
 
 	node = ft_alloc(sizeof(t_list_struct));
-	if (!node)
-		return (NULL);
 	node->content = shell->tab_pars[i];
 	give_token(node);
 	node->next = NULL;
@@ -79,8 +77,6 @@ t_list_struct	*create_list(t_mini *shell)
 
 	i = 0;
 	list = ft_alloc(sizeof(t_list_struct));
-	if (!list)
-		return (NULL);
 	list = NULL;
 	while (shell->tab_pars[i])
 	{
