@@ -69,6 +69,12 @@ typedef struct s_mini
 	t_envp			*team_envp;
 }	t_mini;
 
+typedef struct s_str_utils
+{
+	size_t	start;
+	size_t	end;
+}	t_str_utils;
+
 bool			ft_pwd(void);
 bool			ft_exit(void);
 void			ft_signal(void);
