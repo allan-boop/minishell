@@ -54,6 +54,7 @@ int	ft_replace_quote_export(char **line)
 	i = 0;
 	new_line = NULL;
 	tmp = NULL;
+
 	while ((*line)[i])
 	{
 		if ((*line)[i] == 34 || (*line)[i] == 39)
@@ -78,15 +79,17 @@ int	ft_replace_quote_export(char **line)
 					else
 						tmp = ft_strjoin_shell(tmp, ft_substr_shell((*line), start, (end - start) + 1));
 				}
+				else
+				{
+					tmp = ft_strjoin_shell(tmp, ft_substr_shell((*line), i, 1));
+				}
 				i++;
 			}
 			new_line = ft_strjoin_shell(new_line, tmp);
 			new_line = ft_strjoin_shell(new_line, ft_substr_shell((*line), end + 2, i - end));
-			i = ft_strlen(*line);
-			start = i;
-			end = 0;
 		}
-		i++;
+		else
+			i++;
 	}
 	if (new_line)
 		(*line) = ft_strdup_shell(new_line);
