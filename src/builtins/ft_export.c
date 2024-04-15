@@ -85,9 +85,7 @@ bool	ft_export(t_mini *shell, char **envp)
 		if (ft_del_quotes(&shell->tab_pars[shell->tab_index]) == 1)
 			return (true);
 		if (ft_current_arg(shell->tab_pars[shell->tab_index], envp) == 1)
-		{
 			syntax_error(INVALID_IDENTIFIER);
-		}
 		else if (ft_already_exist(shell->tab_pars[shell->tab_index], envp) == 0)
 			ft_add_new_var(&shell, envp, shell->tab_pars[shell->tab_index]);
 		else if (ft_already_exist(shell->tab_pars[shell->tab_index], envp) == 1)
