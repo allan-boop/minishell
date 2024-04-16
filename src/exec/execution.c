@@ -10,9 +10,9 @@ bool	custom_builtin(t_mini *shell, char **envp)
 		return (ft_pwd());
 	else if (ft_strcmp(shell->tab_pars[shell->tab_index], "export") == 0)
 		return (ft_export(shell, envp));
-/*	else if (ft_strcmp(shell->tab_pars[0], "unset") == 0)
+	else if (ft_strcmp(shell->tab_pars[0], "unset") == 0)
 		return (ft_unset(shell, envp));
-	else if (ft_strcmp(shell->tab_pars[0], "env") == 0)
+/*	else if (ft_strcmp(shell->tab_pars[0], "env") == 0)
 		return (ft_env(envp));
 */	else if (ft_strcmp(shell->tab_pars[0], "exit") == 0)
 		return (ft_exit());

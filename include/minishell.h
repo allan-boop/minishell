@@ -2,6 +2,7 @@
 # define MINISHELL_H
 
 # define MANY_ARGS "Too many arguments.\n"
+# define NOT_ENOUGH_ARG "Not enough argument.\n"
 # define MALLOC_FAIL "Error: malloc failed.\n"
 # define SIGNAL_FAIL "Error: signal failed.\n"
 # define REDIR_FAIL "Error syntax: redirection failed.\n"
@@ -101,6 +102,7 @@ bool			ft_cd(t_mini *shell, char **envp);
 char			*ft_find_value_var(char *content);
 bool			ft_echo(t_mini *shell, char **envp);
 char			*ft_getenv(char *name, char **envp);
+bool			ft_unset(t_mini *shell, char **envp);
 int				ft_replace_quote_export(char **line);
 bool			ft_print_export_alone(t_mini *shell);
 void			ft_dell_all_quote_export(char *line);
