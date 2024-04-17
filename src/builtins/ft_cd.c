@@ -68,7 +68,7 @@ static bool	ft_cd_logic( t_mini *shell, char **envp)
 {
 	char	*path;
 
-	if (shell->tab_pars[1] == NULL)
+	if (shell->tab_pars[1] == NULL || ft_strcmp(shell->tab_pars[1], "~") == 0)
 	{
 		path = ft_getenv("HOME", envp);
 		if (path == NULL)
@@ -79,7 +79,6 @@ static bool	ft_cd_logic( t_mini *shell, char **envp)
 		path = ft_getenv("OLDPWD", envp);
 		if (path == NULL)
 			return (ft_error("cd", "OLDPWD not set", 1));
-		ft_printf("%s\n", path);
 	}
 	else
 		path = shell->tab_pars[1];
@@ -90,16 +89,17 @@ static bool	ft_cd_logic( t_mini *shell, char **envp)
 
 bool	ft_cd(t_mini *shell, char **envp)
 {
-	char	*oldpwd;
-	char	*oldcwd;
+	char		*oldpwd;
+	char		*oldcwd;
+	int			i;
 
-	oldpwd = getcwd(NULL, 0);
+	i = 0;
+	oldpwd = ft_getenv("PWD", envp);
+	oldcwd = ft_getenv("PWD", envp);
 	if (ft_cd_logic(shell, envp) == 1)
 		return (true);
+	ft_change_path(shell, envp, &oldcwd, i);
 	ft_setenv("OLDPWD", oldpwd, &envp);
-	oldcwd = getcwd(NULL, 0);
 	ft_setenv("PWD", oldcwd, &envp);
-	free(oldcwd);
-	free(oldpwd);
 	return (true);
 }

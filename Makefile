@@ -28,6 +28,7 @@ SRC_FILES =	minishell.c \
 			pars/give_token.c \
 			builtins/ft_pwd.c \
 			pars/utils_envp.c \
+			builtins/ft_cd_utils.c \
 			pars/ft_find_var.c \
 			builtins/ft_exit.c \
 			builtins/ft_echo.c \

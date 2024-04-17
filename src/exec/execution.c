@@ -7,7 +7,7 @@ bool	custom_builtin(t_mini *shell, char **envp)
 	else if (ft_strcmp(shell->tab_pars[0], "echo") == 0)
 		return (ft_echo(shell, envp));
 	else if (ft_strcmp(shell->tab_pars[0], "pwd") == 0)
-		return (ft_pwd());
+		return (ft_pwd(envp));
 	else if (ft_strcmp(shell->tab_pars[shell->tab_index], "export") == 0)
 		return (ft_export(shell, envp));
 /*	else if (ft_strcmp(shell->tab_pars[0], "unset") == 0)
