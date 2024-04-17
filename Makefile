@@ -25,6 +25,7 @@ SRC_FILES =	minishell.c \
 			malloc_factory.c \
 			builtins/ft_cd.c \
 			exec/execution.c \
+			builtins/ft_env.c \
 			pars/give_token.c \
 			builtins/ft_pwd.c \
 			pars/utils_envp.c \
