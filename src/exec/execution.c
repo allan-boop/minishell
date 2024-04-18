@@ -23,23 +23,21 @@ void	ft_execution(t_mini *shell, char **envp, char **copy_envp)
 {
 	pid_t	pid;
 
+	shell->tab_index = 0;
 	pid = fork();
 	if (pid == -1)
 	{
 		syntax_error(ERROR_FORK);
 		return ;
 	}
-	shell->tab_index = 0;
-	if (pid == 0)
+	else if (pid == 0)
 	{
-		while (shell->tab_pars[shell->tab_index])
-		{
-			if (custom_builtin(shell, envp, copy_envp) == true)
-				return ;
-			else if (other_builtin(shell, envp) == false)
-				return ;
-		}
+		if (custom_builtin(shell, envp, copy_envp) == true)
+			exit(1);
+		printf("!!!!!!test!!!!!!\n");
+		other_builtin(shell, envp);
+		exit(1);
 	}
 	else
-		waitpid(pid, &shell->team_envp->last_return, 0);
+		waitpid(pid, NULL, 0);
 }
