@@ -20,6 +20,7 @@ SRC_FILES =	minishell.c \
 			ft_signal.c \
 			exec/utils.c \
 			exec/utils.c \
+			ft_error_two.c \
 			pars/ft_path.c \
 			pars/parsing.c \
 			malloc_factory.c \
@@ -42,6 +43,7 @@ SRC_FILES =	minishell.c \
 			builtins/ft_export.c \
 			pars/ft_space_pipe.c \
 			pars/ft_split_shell.c \
+			exec/other_builtins.c \
 			pars/ft_space_chevron.c \
 			builtins/ft_echo_utils.c \
 			builtins/ft_export_utils.c \

@@ -71,7 +71,7 @@ bool	ft_unset(t_mini *shell, char **envp)
 	size_t		nb_args;
 
 	if (ft_check_unset(shell) == false)
-		return (false);
+		return (true);
 	nb_args = ft_count_args(shell);
 	while (nb_args > 0 && shell->tab_pars[shell->tab_index + 1]
 		&& shell->tab_pars[shell->tab_index + 1][0] != '|'
@@ -84,5 +84,5 @@ bool	ft_unset(t_mini *shell, char **envp)
 		if (ft_in_unset(envp, shell, &i, &nb_args) == true)
 			return (true);
 	}
-	return (false);
+	return (true);
 }

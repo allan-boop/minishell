@@ -10,6 +10,8 @@
 # define QUOTE_FAIL "Error syntax: quote failed.\n"
 # define PIPE_FAIL "Error syntax: pipe failed.\n"
 # define INVALID_IDENTIFIER "Is not a valid identifier.\n"
+# define ERROR_EXECVE "Error execve.\n"
+# define ERROR_PATH "Error path.\n"
 # define NEW 2
 # define DELETE 3
 # define CLEAR 4
@@ -100,7 +102,9 @@ char			*ft_strdup_shell(const char *s);
 int				ft_check_last(char *current_arg);
 char			*ft_find_name_var(char *content);
 bool			ft_cd(t_mini *shell, char **envp);
+void			ft_error_malloc(char **tab_shell);
 char			*ft_find_value_var(char *content);
+int				ft_execve(char *str, char **envp);
 char			**ft_copy_envp_no_sort(char **envp);
 bool			ft_echo(t_mini *shell, char **envp);
 char			*ft_getenv(char *name, char **envp);
@@ -118,10 +122,12 @@ void			ft_dell_simple_quote_export(char *line);
 void			ft_dell_double_quote_export(char *line);
 char			**ft_put_space_between(char **tab_line);
 char			**ft_split_shell(char const *s, char c);
-char			*find_path(char *tab_line, char **envp);
+char			*find_path_execve(char *tab_line, char **envp);
 bool			ft_error(char *cmd, char *msg, int ret);
+char			*find_path(char *tab_shell, char **envp);
 size_t			count_words_split(char const *s, char c);
 void			ft_copy_envp(char **envp, t_mini *shell);
+bool			other_builtin(t_mini *shell, char **envp);
 t_list_struct	*create_node_list(t_mini *shell, size_t i);
 void			ft_create_list(char **envp, t_mini **shell);
 int				ft_current_arg(char *current_arg, char **envp);
