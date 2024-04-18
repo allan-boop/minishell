@@ -12,6 +12,7 @@
 # define INVALID_IDENTIFIER "Is not a valid identifier.\n"
 # define ERROR_EXECVE "Error execve.\n"
 # define ERROR_PATH "Error path.\n"
+# define ERROR_FORK "Error fork.\n"
 # define NEW 2
 # define DELETE 3
 # define CLEAR 4
