@@ -23,7 +23,6 @@ void	ft_execution(t_mini *shell, char **envp, char **copy_envp)
 {
 	pid_t	pid;
 
-	shell->tab_index = 0;
 	pid = fork();
 	if (pid == -1)
 	{
