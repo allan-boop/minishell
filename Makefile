@@ -30,6 +30,7 @@ SRC_FILES =	minishell.c \
 			pars/give_token.c \
 			builtins/ft_pwd.c \
 			pars/utils_envp.c \
+			exec/utils_fork.c \
 			pars/ft_find_var.c \
 			builtins/ft_exit.c \
 			builtins/ft_echo.c \
@@ -45,6 +46,7 @@ SRC_FILES =	minishell.c \
 			pars/ft_split_shell.c \
 			exec/other_builtins.c \
 			pars/ft_space_chevron.c \
+			pars/utils_parsing_cmd.c \
 			builtins/ft_echo_utils.c \
 			builtins/ft_export_utils.c \
 			pars/utils_export_quote.c

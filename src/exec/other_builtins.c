@@ -10,12 +10,12 @@ char	*find_path_execve(char *tab_shell, char **envp)
 	i = 0;
 	while (ft_strnstr(envp[i], "PATH", 4) == 0)
 		i++;
-	paths = ft_split(envp[i] + 5, ':');
+	paths = ft_split_shell(envp[i] + 5, ':');
 	i = 0;
 	while (paths[i])
 	{
-		part_path = ft_strjoin(paths[i], "/");
-		path = ft_strjoin(part_path, tab_shell);
+		part_path = ft_strjoin_shell(paths[i], "/");
+		path = ft_strjoin_shell(part_path, tab_shell);
 		free(part_path);
 		if (access(path, F_OK) == 0)
 			return (path);

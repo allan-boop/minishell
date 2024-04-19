@@ -69,8 +69,8 @@ typedef struct s_envp
 typedef struct s_mini
 {
 	char			**tab_pars;
+	char			**tab_cmd;
 	int				tab_index;
-	char			**arg_envp_create;
 	t_list_struct	*list;
 	t_envp			*team_envp;
 }	t_mini;
@@ -92,6 +92,7 @@ int				ft_tab_len(char **envp);
 int				syntax_error(char *msg);
 void			*ft_del_alloc(void *var);
 int				ft_del_quotes(char **arg);
+void			ft_list_cmd(t_mini *shell);
 char			*ft_space_pipe(char *line);
 int				ft_check_quote(char *line);
 char			**ft_sort_envp(char **envp);
@@ -101,6 +102,7 @@ void			ft_replace_space(char **line);
 t_envp			*ft_lstnew_envp(void *content);
 void			give_token(t_list_struct *node);
 char			*ft_strdup_shell(const char *s);
+int				ft_count_arg_fork(t_mini *shell);
 int				ft_check_last(char *current_arg);
 char			*ft_find_name_var(char *content);
 bool			ft_cd(t_mini *shell, char **envp);

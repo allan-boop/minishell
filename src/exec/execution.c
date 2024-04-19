@@ -22,21 +22,28 @@ bool	custom_builtin(t_mini *shell, char **envp, char **copy_envp)
 void	ft_execution(t_mini *shell, char **envp, char **copy_envp)
 {
 	pid_t	pid;
+	int		nb_pipe;
+	int		i;
 
-	pid = fork();
-	if (pid == -1)
+	shell->tab_index = 0;
+	nb_pipe = ft_count_arg_fork(shell);
+	i = 0;
+	while (i++ < nb_pipe)
 	{
-		syntax_error(ERROR_FORK);
-		return ;
-	}
-	else if (pid == 0)
-	{
-		if (custom_builtin(shell, envp, copy_envp) == true)
+		pid = fork();
+		if (pid == -1)
+		{
+			syntax_error(ERROR_FORK);
+			return ;
+		}
+		else if (pid == 0)
+		{
+			if (custom_builtin(shell, envp, copy_envp) == true)
+				exit(1);
+			other_builtin(shell, envp);
 			exit(1);
-		printf("!!!!!!test!!!!!!\n");
-		other_builtin(shell, envp);
-		exit(1);
+		}
+		else
+			waitpid(pid, NULL, 0);
 	}
-	else
-		waitpid(pid, NULL, 0);
 }
