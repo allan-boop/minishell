@@ -72,6 +72,6 @@ int	ft_parsing(t_mini *shell, char *line)
 	ft_replace_space(&line);
 	shell->tab_pars = ft_split_shell(line, ' ');
 	shell->tab_pars = ft_put_space_between(shell->tab_pars);
-	ft_list_cmd(shell);
+	ft_list_cmd(&shell);
 	return (0);
 }

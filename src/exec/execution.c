@@ -22,13 +22,11 @@ bool	custom_builtin(t_mini *shell, char **envp, char **copy_envp)
 void	ft_execution(t_mini *shell, char **envp, char **copy_envp)
 {
 	pid_t	pid;
-	int		nb_pipe;
 	int		i;
 
 	shell->tab_index = 0;
-	nb_pipe = ft_count_arg_fork(shell);
 	i = 0;
-	while (i++ < nb_pipe)
+	while (shell && shell->tab_cmd[i])
 	{
 		pid = fork();
 		if (pid == -1)
@@ -40,10 +38,11 @@ void	ft_execution(t_mini *shell, char **envp, char **copy_envp)
 		{
 			if (custom_builtin(shell, envp, copy_envp) == true)
 				exit(1);
-			other_builtin(shell, envp);
+			other_builtin(shell->tab_cmd[i], envp);
 			exit(1);
 		}
 		else
 			waitpid(pid, NULL, 0);
+		i++;
 	}
 }

@@ -61,23 +61,9 @@ int	ft_execve(char *str, char **envp)
 	return (0);
 }
 
-bool	other_builtin(t_mini *shell, char **envp)
+bool	other_builtin(char *cmd, char **envp)
 {
-	char	*whole_command;
-	int		index;
-
-	index = shell->tab_index + 1;
-	whole_command = ft_strdup_shell(shell->tab_pars[shell->tab_index]);
-	while (shell->tab_pars[index] && shell->tab_pars[index][0] != '|'
-		&& shell->tab_pars[index][0] != '\0')
-	{
-		whole_command = ft_strjoin_shell(whole_command, " ");
-		whole_command = ft_strjoin_shell(whole_command, shell->tab_pars[index]);
-		index++;
-	}
-	if (!whole_command)
-		return (false);
-	if (ft_execve(whole_command, envp) == -1)
+	if (ft_execve(cmd, envp) == -1)
 		return (false);
 	return (true);
 }
