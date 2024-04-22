@@ -120,7 +120,7 @@ void			ft_execution(t_mini *shell, char **envp);
 void			ft_copy_envp(char **envp, t_mini *shell);
 t_list_struct	*create_node_list(t_mini *shell, size_t i);
 void			ft_create_list(char **envp, t_mini **shell);
-void			ft_change_path( t_mini *shell, char **envp, char **oldcwd, int i);
+void			ft_change_path( t_mini *shell, char **envp, char **oldcwd);
 int				ft_current_arg(char *current_arg, char **envp);
 void			ft_lstadd_back_envp(t_mini **shell, t_envp *new);
 char			*ft_strjoin_shell(char const *s1, char const *s2);

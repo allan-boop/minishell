@@ -68,9 +68,11 @@ static bool	ft_cd_logic( t_mini *shell, char **envp)
 {
 	char	*path;
 
-	if (shell->tab_pars[1] == NULL || ft_strcmp(shell->tab_pars[1], "~") == 0)
+	if (shell->tab_pars[1] == NULL || shell->tab_pars[1][0] == '~')
 	{
 		path = ft_getenv("HOME", envp);
+		if (shell->tab_pars[1] && shell->tab_pars[1][1] != '\0')
+			path = ft_strjoin_shell(path, shell->tab_pars[1] + 1);
 		if (path == NULL)
 			return (ft_error("cd", "HOME not set", 1));
 	}
@@ -98,7 +100,16 @@ bool	ft_cd(t_mini *shell, char **envp)
 	oldcwd = ft_getenv("PWD", envp);
 	if (ft_cd_logic(shell, envp) == 1)
 		return (true);
-	ft_change_path(shell, envp, &oldcwd, i);
+	ft_change_path(shell, envp, &oldcwd);
+	if (!oldcwd)
+	{
+		ft_setenv("OLDPWD", oldpwd, &envp);
+		ft_setenv("PWD", oldpwd, &envp);
+		return (true);
+	}
+	i = ft_strlen(oldcwd) - 1;
+	while (oldcwd[i] == '/' && i > 2)
+		oldcwd[i--] = '\0';
 	ft_setenv("OLDPWD", oldpwd, &envp);
 	ft_setenv("PWD", oldcwd, &envp);
 	return (true);
