@@ -26,8 +26,19 @@ void	ft_execution(t_mini *shell, char **envp, char **copy_envp)
 
 	shell->tab_index = 0;
 	i = 0;
-	while (shell && shell->tab_cmd[i])
+	while (shell && shell->tab_pars[shell->tab_index] && shell->tab_cmd[i])
 	{
+		if (shell->tab_pars[shell->tab_index]
+			&& (shell->tab_pars[shell->tab_index][0] == '>'
+			|| shell->tab_pars[shell->tab_index][0] == '<'))
+		{
+			shell->tab_index += 2;
+			i++;
+			continue ;
+		}
+		else if (shell->tab_pars[shell->tab_index]
+			&& shell->tab_pars[shell->tab_index][0] == '|')
+			shell->tab_index++;
 		pid = fork();
 		if (pid == -1)
 		{
@@ -43,6 +54,7 @@ void	ft_execution(t_mini *shell, char **envp, char **copy_envp)
 		}
 		else
 			waitpid(pid, NULL, 0);
+		shell->tab_index++;
 		i++;
 	}
 }
