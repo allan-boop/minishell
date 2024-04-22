@@ -108,7 +108,7 @@ bool	ft_cd(t_mini *shell, char **envp)
 		return (true);
 	}
 	i = ft_strlen(oldcwd) - 1;
-	while (oldcwd[i] == '/' && i > 2)
+	while (i > 2 && oldcwd[i] == '/')
 		oldcwd[i--] = '\0';
 	ft_setenv("OLDPWD", oldpwd, &envp);
 	ft_setenv("PWD", oldcwd, &envp);
