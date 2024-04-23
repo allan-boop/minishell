@@ -20,11 +20,13 @@ SRC_FILES =	minishell.c \
 			ft_signal.c \
 			exec/utils.c \
 			exec/utils.c \
+			ft_error_two.c \
 			pars/ft_path.c \
 			pars/parsing.c \
 			malloc_factory.c \
 			builtins/ft_cd.c \
 			exec/execution.c \
+			builtins/ft_env.c \
 			pars/give_token.c \
 			builtins/ft_pwd.c \
 			pars/utils_envp.c \
@@ -37,10 +39,12 @@ SRC_FILES =	minishell.c \
 			pars/ft_del_quote.c \
 			pars/ft_copy_envp.c \
 			m_factory_manager.c \
+			builtins/ft_unset.c \
 			pars/utils_parsing.c \
 			builtins/ft_export.c \
 			pars/ft_space_pipe.c \
 			pars/ft_split_shell.c \
+			exec/other_builtins.c \
 			pars/ft_space_chevron.c \
 			builtins/ft_echo_utils.c \
 			builtins/ft_export_utils.c \
