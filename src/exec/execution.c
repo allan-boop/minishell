@@ -21,12 +21,40 @@ bool	custom_builtin(t_mini *shell, char **envp, char **copy_envp)
 
 void	ft_execution(t_mini *shell, char **envp, char **copy_envp)
 {
+	pid_t	pid;
+	int		i;
+
 	shell->tab_index = 0;
-	while (shell->tab_pars[shell->tab_index])
+	i = 0;
+	while (shell && shell->tab_pars[shell->tab_index] && shell->tab_cmd[i])
 	{
-		if (custom_builtin(shell, envp, copy_envp) == true)
+		if (shell->tab_pars[shell->tab_index]
+			&& (shell->tab_pars[shell->tab_index][0] == '>'
+			|| shell->tab_pars[shell->tab_index][0] == '<'))
+		{
+			shell->tab_index += 2;
+			i++;
+			continue ;
+		}
+		else if (shell->tab_pars[shell->tab_index]
+			&& shell->tab_pars[shell->tab_index][0] == '|')
+			shell->tab_index++;
+		pid = fork();
+		if (pid == -1)
+		{
+			syntax_error(ERROR_FORK);
 			return ;
-		else if (other_builtin(shell, envp)== false)
-			return ;
+		}
+		else if (pid == 0)
+		{
+			if (custom_builtin(shell, envp, copy_envp) == true)
+				exit(1);
+			other_builtin(shell->tab_cmd[i], envp);
+			exit(1);
+		}
+		else
+			waitpid(pid, NULL, 0);
+		shell->tab_index++;
+		i++;
 	}
 }

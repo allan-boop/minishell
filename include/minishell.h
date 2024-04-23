@@ -12,6 +12,8 @@
 # define INVALID_IDENTIFIER "Is not a valid identifier.\n"
 # define ERROR_EXECVE "Error execve.\n"
 # define ERROR_PATH "Error path.\n"
+# define ERROR_FORK "Error fork.\n"
+# define ERROR_PIPE "Error pipe.\n"
 # define NEW 2
 # define DELETE 3
 # define CLEAR 4
@@ -67,8 +69,8 @@ typedef struct s_envp
 typedef struct s_mini
 {
 	char			**tab_pars;
+	char			**tab_cmd;
 	int				tab_index;
-	char			**arg_envp_create;
 	t_list_struct	*list;
 	t_envp			*team_envp;
 }	t_mini;
@@ -90,6 +92,7 @@ int				ft_tab_len(char **envp);
 int				syntax_error(char *msg);
 void			*ft_del_alloc(void *var);
 int				ft_del_quotes(char **arg);
+void			ft_list_cmd(t_mini **shell);
 char			*ft_space_pipe(char *line);
 int				ft_check_quote(char *line);
 char			**ft_sort_envp(char **envp);
@@ -99,6 +102,7 @@ void			ft_replace_space(char **line);
 t_envp			*ft_lstnew_envp(void *content);
 void			give_token(t_list_struct *node);
 char			*ft_strdup_shell(const char *s);
+int				ft_count_arg_fork(t_mini *shell);
 int				ft_check_last(char *current_arg);
 char			*ft_find_name_var(char *content);
 bool			ft_cd(t_mini *shell, char **envp);
@@ -122,16 +126,16 @@ void			ft_dell_simple_quote_export(char *line);
 void			ft_dell_double_quote_export(char *line);
 char			**ft_put_space_between(char **tab_line);
 char			**ft_split_shell(char const *s, char c);
-char			*find_path_execve(char *tab_line, char **envp);
 bool			ft_error(char *cmd, char *msg, int ret);
 char			*find_path(char *tab_shell, char **envp);
 size_t			count_words_split(char const *s, char c);
 void			ft_copy_envp(char **envp, t_mini *shell);
-bool			other_builtin(t_mini *shell, char **envp);
+bool			other_builtin(char *cmd, char **envp);
 t_list_struct	*create_node_list(t_mini *shell, size_t i);
 void			ft_create_list(char **envp, t_mini **shell);
 void			ft_change_path( t_mini *shell, char **envp, char **oldcwd);
 int				ft_current_arg(char *current_arg, char **envp);
+char			*find_path_execve(char *tab_line, char **envp);
 void			ft_lstadd_back_envp(t_mini **shell, t_envp *new);
 char			*ft_strjoin_shell(char const *s1, char const *s2);
 void			*malloc_factory(size_t size, int type, void *ptr);

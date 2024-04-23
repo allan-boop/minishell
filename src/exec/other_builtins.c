@@ -10,12 +10,12 @@ char	*find_path_execve(char *tab_shell, char **envp)
 	i = 0;
 	while (ft_strnstr(envp[i], "PATH", 4) == 0)
 		i++;
-	paths = ft_split(envp[i] + 5, ':');
+	paths = ft_split_shell(envp[i] + 5, ':');
 	i = 0;
 	while (paths[i])
 	{
-		part_path = ft_strjoin(paths[i], "/");
-		path = ft_strjoin(part_path, tab_shell);
+		part_path = ft_strjoin_shell(paths[i], "/");
+		path = ft_strjoin_shell(part_path, tab_shell);
 		free(part_path);
 		if (access(path, F_OK) == 0)
 			return (path);
@@ -61,23 +61,9 @@ int	ft_execve(char *str, char **envp)
 	return (0);
 }
 
-bool	other_builtin(t_mini *shell, char **envp)
+bool	other_builtin(char *cmd, char **envp)
 {
-	char	*whole_command;
-	int		index;
-
-	index = shell->tab_index + 1;
-	whole_command = ft_strdup_shell(shell->tab_pars[shell->tab_index]);
-	while (shell->tab_pars[index] && shell->tab_pars[index][0] != '|'
-		&& shell->tab_pars[index][0] != '\0')
-	{
-		whole_command = ft_strjoin_shell(whole_command, " ");
-		whole_command = ft_strjoin_shell(whole_command, shell->tab_pars[index]);
-		index++;
-	}
-	if (!whole_command)
-		return (false);
-	if (ft_execve(whole_command, envp) == -1)
+	if (ft_execve(cmd, envp) == -1)
 		return (false);
 	return (true);
 }
