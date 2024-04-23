@@ -19,7 +19,6 @@ char	*ft_clean_dpoint(char **str, int i)
 	char	*tmp;
 
 	start = 0;
-	printf("str: %s\n", *str);
 	new = (char *)ft_calloc(ft_strlen(*str) + 1, sizeof(char));
 	tmp = new;
 	while ((*str)[i])
@@ -29,7 +28,6 @@ char	*ft_clean_dpoint(char **str, int i)
 		new[0] = (*str)[start++];
 		new++;
 	}
-	printf("tmp: %s\n", tmp);
 	return (tmp);
 }
 

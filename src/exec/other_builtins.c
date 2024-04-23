@@ -63,7 +63,21 @@ int	ft_execve(char *str, char **envp)
 
 bool	other_builtin(char *cmd, char **envp)
 {
-	if (ft_execve(cmd, envp) == -1)
+	pid_t	pid;
+
+	pid = fork();
+	if (pid == -1)
+	{
+		syntax_error(ERROR_FORK);
 		return (false);
+	}
+	if (pid == 0 && ft_execve(cmd, envp) == -1)
+	{
+		exit(0);
+		return (false);
+	}
+	if (pid == 0)
+		exit(0);
+	waitpid(pid, NULL, 0);
 	return (true);
 }

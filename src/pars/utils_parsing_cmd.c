@@ -64,4 +64,5 @@ void	ft_list_cmd(t_mini **shell)
 		}
 		i++;
 	}
+	(*shell)->tab_cmd[j] = NULL;
 }
