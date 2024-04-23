@@ -108,7 +108,7 @@ void	ft_change_path( t_mini *shell, char **envp, char **oldcwd)
 		*oldcwd = ft_getenv("HOME", envp);
 		if (shell->tab_pars[1] && shell->tab_pars[1][0] == '~')
 			shell->tab_pars[1]++;
-		if (shell->tab_pars[1] && shell->tab_pars[1][0] == '/')
+		while (shell->tab_pars[1] && shell->tab_pars[1][0] == '/')
 			shell->tab_pars[1]++;
 	}
 	else if (shell->tab_pars[1][0] == '.' && shell->tab_pars[1][1] == '/')
