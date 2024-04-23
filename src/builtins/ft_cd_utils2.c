@@ -1,6 +1,6 @@
 #include "../../include/minishell.h"
 
-void	f_find_dpointb(int *i, int *start, char **str, char **new)
+void	ft_find_dpointb(int *i, int *start, char **str, char **new)
 {
 	int	j;
 

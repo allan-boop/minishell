@@ -102,7 +102,7 @@ void			ft_replace_space(char **line);
 t_envp			*ft_lstnew_envp(void *content);
 void			give_token(t_list_struct *node);
 char			*ft_strdup_shell(const char *s);
-void			f_find_dpointb(int *i, int *start, char **str, char **new);
+void			ft_find_dpointb(int *i, int *start, char **str, char **new);
 int				ft_count_arg_fork(t_mini *shell);
 int				ft_check_last(char *current_arg);
 char			*ft_find_name_var(char *content);
