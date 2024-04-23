@@ -1,11 +1,10 @@
 #include "../../include/minishell.h"
 
-bool	ft_pwd(void)
+bool	ft_pwd(char **envp)
 {
 	char	*path;
 
-	path = getcwd(NULL, 0);
+	path = ft_getenv("PWD", envp);
 	ft_printf("%s\n", path);
-	free(path);
 	return (true);
 }

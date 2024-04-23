@@ -81,11 +81,11 @@ typedef struct s_str_utils
 	size_t	end;
 }	t_str_utils;
 
-bool			ft_pwd(void);
 bool			ft_exit(void);
 void			ft_signal(void);
 void			*ft_del_all(void);
 void			*ft_alloc(int size);
+bool			ft_pwd(char **envp);
 void			ft_nb_args(int argc);
 void			ft_loop(char **envp);
 int				ft_tab_len(char **envp);
@@ -133,6 +133,7 @@ void			ft_copy_envp(char **envp, t_mini *shell);
 bool			other_builtin(char *cmd, char **envp);
 t_list_struct	*create_node_list(t_mini *shell, size_t i);
 void			ft_create_list(char **envp, t_mini **shell);
+void			ft_change_path( t_mini *shell, char **envp, char **oldcwd);
 int				ft_current_arg(char *current_arg, char **envp);
 char			*find_path_execve(char *tab_line, char **envp);
 void			ft_lstadd_back_envp(t_mini **shell, t_envp *new);
@@ -149,5 +150,4 @@ void			ft_modify_var(t_mini *shell, char *existing_var, char **envp);
 char			*ft_substr_shell(char const *s, unsigned int start, size_t len);
 void			ft_add_new_var(t_mini **shell, char **envp, char *existing_var);
 void			ft_check_plus(char **envp, char *just_name_var, char *existing_var);
-
 #endif
