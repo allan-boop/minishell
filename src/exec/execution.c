@@ -45,13 +45,13 @@ void	ft_execution(t_mini *shell, char **envp, char **copy_envp)
 			syntax_error(ERROR_FORK);
 			return ;
 		}
-		if (custom_builtin(shell, envp, copy_envp) == false && pid == 0)
+		if (pid == 0 && custom_builtin(shell, envp, copy_envp) == false)
 			other_builtin(shell->tab_cmd[i], envp);
 		if (pid != 0)
 			waitpid(pid, NULL, 0);
+		if (pid == 0)
+			exit(0);
 		shell->tab_index++;
 		i++;
 	}
-	if (pid == 0)
-		exit(0);
 }
