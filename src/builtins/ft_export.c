@@ -77,10 +77,11 @@ bool	ft_export(t_mini *shell, char **envp)
 		return (true);
 	shell->tab_index++;
 	while (shell->tab_pars[shell->tab_index]
-		&& (shell->tab_pars[shell->tab_index][0] != '|'
-		|| shell->tab_pars[shell->tab_index][0] != '>'
-		|| shell->tab_pars[shell->tab_index][0] != '<'))
+		&& shell->tab_pars[shell->tab_index][0] != '|'
+		&& shell->tab_pars[shell->tab_index][0] != '>'
+		&& shell->tab_pars[shell->tab_index][0] != '<')
 	{
+		printf("tab_pars : %s\n", shell->tab_pars[shell->tab_index]);
 		ft_sort_envp(envp);
 		if (ft_del_quotes(&shell->tab_pars[shell->tab_index]) == 1)
 			return (true);
