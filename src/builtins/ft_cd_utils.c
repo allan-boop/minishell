@@ -2,30 +2,11 @@
 
 void	ft_find_dpoint(char **str, int *i, int *start, char **new)
 {
-	int	j;
-
-	if ((*str)[*i] == '.' && (*str)[*i + 1] && (*str)[*i + 1] == '.' && (((*str)[*i + 2] && (*str)[*i + 2] == '/')
+	if ((*str)[*i] == '.' && (*str)[*i + 1] && (*str)[*i + 1] == '.'
+			&& (((*str)[*i + 2] && (*str)[*i + 2] == '/')
 			|| (*str)[*i + 2] == '\0') && *start == 0)
 	{
-		j = (*i) - 2;
-		while ((*str)[j] != '/')
-			j--;
-		while (*start < j)
-		{
-			(*new)[0] = (*str)[*start];
-			(*start)++;
-			(*new)++;
-		}
-		if ((*str)[*i + 2])
-			*i += 3;
-		else
-			*i += 2;
-		*start = *i;
-		if ((*str)[*i])
-		{
-			(*new)[0] = '/';
-			(*new)++;
-		}
+		ft_find_dpointb(i, start, str, new);
 	}
 	else
 		(*i)++;
