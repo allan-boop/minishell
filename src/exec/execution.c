@@ -16,7 +16,6 @@ bool	custom_builtin(t_mini *shell, char **envp, char **copy_envp)
 		return (ft_env(envp, copy_envp));
 	else if (ft_strcmp(shell->tab_pars[shell->tab_index], "exit") == 0)
 		return (ft_exit());
-	printf("%s\n", shell->tab_pars[shell->tab_index]);
 	return (false);
 }
 

@@ -70,6 +70,7 @@ typedef struct s_mini
 {
 	char			**tab_pars;
 	char			**tab_cmd;
+	bool			pipe;
 	int				tab_index;
 	t_list_struct	*list;
 	t_envp			*team_envp;
