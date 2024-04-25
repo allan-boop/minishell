@@ -61,23 +61,37 @@ int	ft_execve(char *str, char **envp)
 	return (0);
 }
 
-bool	other_builtin(char *cmd, char **envp)
+bool	other_builtin(char *cmd, char **envp, char *cmd_next)
 {
 	pid_t	pid;
+	int		pipefd[2];
 
+	pipe(pipefd);
 	pid = fork();
 	if (pid == -1)
 	{
 		syntax_error(ERROR_FORK);
 		return (false);
 	}
-	if (pid == 0 && ft_execve(cmd, envp) == -1)
-	{
-		exit(0);
-		return (false);
-	}
 	if (pid == 0)
-		exit(0);
-	waitpid(pid, NULL, 0);
+	{
+		if (cmd_next != NULL)
+			dup2(pipefd[1], STDOUT_FILENO);
+		close(pipefd[0]);
+		close(pipefd[1]);
+		ft_execve(cmd, envp);
+	}
+	if (cmd_next != NULL)
+	{
+		dup2(pipefd[0], STDIN_FILENO);
+		close(pipefd[1]);
+		close(pipefd[0]);
+	}
+	else
+	{
+		dup2(pipefd[0], STDIN_FILENO);
+		close(pipefd[0]);
+		waitpid(pid, NULL, 0);
+	}
 	return (true);
 }

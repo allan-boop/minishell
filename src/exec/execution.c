@@ -21,7 +21,7 @@ bool	custom_builtin(t_mini *shell, char **envp, char **copy_envp)
 
 void	ft_execution(t_mini *shell, char **envp, char **copy_envp)
 {
-	int		i;
+	int	i;
 
 	shell->tab_index = 0;
 	i = 0;
@@ -39,8 +39,9 @@ void	ft_execution(t_mini *shell, char **envp, char **copy_envp)
 			&& shell->tab_pars[shell->tab_index][0] == '|')
 			shell->tab_index++;
 		if (custom_builtin(shell, envp, copy_envp) == false)
-			other_builtin(shell->tab_cmd[i], envp);
+			other_builtin(shell->tab_cmd[i], envp, shell->tab_cmd[i + 1]);
 		shell->tab_index++;
 		i++;
 	}
+
 }
