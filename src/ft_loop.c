@@ -5,7 +5,6 @@ void	prompt_treatment(char *line, t_mini *shell,
 {
 	int				error;
 
-	printf("line %s\n", line);
 	if (line[0] != '\0')
 	{
 		error = ft_parsing(shell, line);
