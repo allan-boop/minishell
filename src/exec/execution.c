@@ -19,6 +19,42 @@ bool	custom_builtin(t_mini *shell, char **envp, char **copy_envp)
 	return (false);
 }
 
+bool	ft_execution_core(t_mini *shell, char **envp, char **copy_envp, char *cmd_next)
+{
+	pid_t	pid;
+	int		pipefd[2];
+
+	pipe(pipefd);
+	pid = fork();
+	if (pid == -1)
+	{
+		syntax_error(ERROR_FORK);
+		return (false);
+	}
+	if (pid == 0)
+	{
+		if (cmd_next != NULL)
+			dup2(pipefd[1], STDOUT_FILENO);
+		close(pipefd[0]);
+		close(pipefd[1]);
+		if (custom_builtin(shell, envp, copy_envp) == false)
+			other_builtin(shell->tab_cmd[shell->i], envp);
+		exit(1);
+	}
+	if (cmd_next != NULL)
+	{
+		dup2(pipefd[0], STDIN_FILENO);
+		close(pipefd[1]);
+		close(pipefd[0]);
+	}
+	else
+	{
+		dup2(shell->og_stdin, STDIN_FILENO);
+		waitpid(pid, NULL, 0);
+	}
+	return (true);
+}
+
 void	ft_execution(t_mini *shell, char **envp, char **copy_envp)
 {
 	shell->tab_index = 0;
@@ -36,8 +72,7 @@ void	ft_execution(t_mini *shell, char **envp, char **copy_envp)
 		else if (shell->tab_pars[shell->tab_index]
 			&& shell->tab_pars[shell->tab_index][0] == '|')
 			shell->tab_index++;
-		if (custom_builtin(shell, envp, copy_envp) == false)
-			other_builtin(shell->tab_cmd[shell->i], envp, shell->tab_cmd[shell->i + 1], shell);
+		ft_execution_core(shell, envp, copy_envp, shell->tab_cmd[shell->i + 1]);
 		shell->tab_index++;
 		shell->i++;
 	}
