@@ -135,6 +135,7 @@ size_t			count_words_split(char const *s, char c);
 void			ft_copy_envp(char **envp, t_mini *shell);
 t_list_struct	*create_node_list(t_mini *shell, size_t i);
 void			ft_create_list(char **envp, t_mini **shell);
+bool			other_builtin_p(char *cmd, char **envp, char *cmd_next, t_mini *shell);
 int				ft_current_arg(char *current_arg, char **envp);
 char			*find_path_execve(char *tab_line, char **envp);
 void			ft_lstadd_back_envp(t_mini **shell, t_envp *new);
