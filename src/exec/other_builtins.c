@@ -92,8 +92,7 @@ bool	other_builtin(char *cmd, char **envp, char *cmd_next)
 	}
 	else
 	{
-		close(pipefd[0]);
-		close(pipefd[1]);
+		dup2(og_stdin, STDIN_FILENO);
 		waitpid(pid, NULL, 0);
 	}
 	return (true);
