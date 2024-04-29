@@ -61,9 +61,7 @@ int	ft_execve(char *str, char **envp)
 	return (0);
 }
 
-extern int og_stdin;
-
-bool	other_builtin(char *cmd, char **envp, char *cmd_next)
+bool	other_builtin(char *cmd, char **envp, char *cmd_next, t_mini *shell)
 {
 	pid_t	pid;
 	int		pipefd[2];
@@ -92,7 +90,7 @@ bool	other_builtin(char *cmd, char **envp, char *cmd_next)
 	}
 	else
 	{
-		dup2(og_stdin, STDIN_FILENO);
+		dup2(shell->og_stdin, STDIN_FILENO);
 		waitpid(pid, NULL, 0);
 	}
 	return (true);

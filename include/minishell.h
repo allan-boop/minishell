@@ -68,6 +68,7 @@ typedef struct s_envp
 
 typedef struct s_mini
 {
+	int				og_stdin;
 	char			**tab_pars;
 	char			**tab_cmd;
 	bool			pipe;
@@ -132,7 +133,7 @@ bool			ft_error(char *cmd, char *msg, int ret);
 char			*find_path(char *tab_shell, char **envp);
 size_t			count_words_split(char const *s, char c);
 void			ft_copy_envp(char **envp, t_mini *shell);
-bool			other_builtin(char *cmd, char **envp, char *cmd_next);
+bool			other_builtin(char *cmd, char **envp, char *cmd_next, t_mini *shell);
 t_list_struct	*create_node_list(t_mini *shell, size_t i);
 void			ft_create_list(char **envp, t_mini **shell);
 void			ft_change_path( t_mini *shell, char **envp, char **oldcwd);

@@ -30,6 +30,7 @@ void	ft_loop(char **envp)
 	while (1)
 	{
 		shell = ft_alloc(sizeof(t_mini));
+		shell->og_stdin = dup(STDIN_FILENO);
 		line = readline(PROMPT);
 		if (line == NULL)
 		{
