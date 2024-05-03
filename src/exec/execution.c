@@ -62,7 +62,10 @@ void	ft_execution(t_mini *shell, char **envp, char ***copy_envp)
 	shell->tab_index = 0;
 	shell->i = 0;
 	is_p = ft_tab_len(shell->tab_cmd);
-	while (shell && shell->tab_pars[shell->tab_index] && shell->tab_cmd[shell->i])
+	while (shell && shell->tab_index < ft_tab_len(shell->tab_pars)
+		&& shell->i < ft_tab_len(shell->tab_cmd)
+		&& shell->tab_pars[shell->tab_index]
+		&& shell->tab_cmd[shell->i])
 	{
 		if (shell->tab_pars[shell->tab_index]
 			&& (shell->tab_pars[shell->tab_index][0] == '>'
@@ -76,9 +79,11 @@ void	ft_execution(t_mini *shell, char **envp, char ***copy_envp)
 			&& shell->tab_pars[shell->tab_index][0] == '|')
 			shell->tab_index++;
 		if (is_p > 1)
-			ft_execution_core(shell, envp, copy_envp, shell->tab_cmd[shell->i + 1]);
+			ft_execution_core(shell, envp, copy_envp,
+				shell->tab_cmd[shell->i + 1]);
 		else if (custom_builtin(shell, envp, copy_envp) == false)
-				other_builtin_p(shell->tab_cmd[shell->i], envp, shell->tab_cmd[shell->i + 1], shell);
+			other_builtin_p(shell->tab_cmd[shell->i],
+				envp, shell->tab_cmd[shell->i + 1], shell);
 		shell->tab_index++;
 		shell->i++;
 	}
