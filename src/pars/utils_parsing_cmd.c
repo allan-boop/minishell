@@ -58,10 +58,7 @@ void	ft_list_cmd(t_mini **shell)
 			i++;
 		tmp = ft_list_cmd_two(shell, tmp, &i);
 		if (tmp)
-		{
-			(*shell)->tab_cmd[j] = ft_strdup_shell(tmp);
-			j++;
-		}
+			(*shell)->tab_cmd[j++] = ft_strdup_shell(tmp);
 		i++;
 	}
 	(*shell)->tab_cmd[j] = NULL;
