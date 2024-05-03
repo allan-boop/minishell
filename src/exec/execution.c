@@ -11,7 +11,7 @@ bool	custom_builtin(t_mini *shell, char **envp, char ***copy_envp)
 	else if (ft_strcmp(shell->tab_pars[shell->tab_index], "export") == 0)
 		return (ft_export(shell, copy_envp));
 	else if (ft_strcmp(shell->tab_pars[shell->tab_index], "unset") == 0)
-		return (ft_unset(shell, envp));
+		return (ft_unset(shell, copy_envp));
 	else if (ft_strcmp(shell->tab_pars[shell->tab_index], "env") == 0)
 		return (ft_env(envp, *copy_envp));
 	else if (ft_strcmp(shell->tab_pars[shell->tab_index], "exit") == 0)

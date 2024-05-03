@@ -30,12 +30,12 @@ static bool	ft_check_unset(t_mini *shell)
 	return (true);
 }
 
-bool	ft_in_in_unset(char **envp, size_t *i, size_t *nb_args)
+bool	ft_in_in_unset(char ***envp, size_t *i, size_t *nb_args)
 {
-	free(envp[*i]);
-	while (envp[*i])
+	free((*envp)[*i]);
+	while ((*envp)[*i])
 	{
-		envp[*i] = envp[*i + 1];
+		(*envp)[*i] = (*envp)[*i + 1];
 		(*i)++;
 	}
 	if (*nb_args == 0)
@@ -43,21 +43,21 @@ bool	ft_in_in_unset(char **envp, size_t *i, size_t *nb_args)
 	return (false);
 }
 
-static bool	ft_in_unset(char **envp, t_mini *shell, size_t *i, size_t *nb_args)
+static bool	ft_in_unset(char ***envp, t_mini *shell, size_t *i, size_t *nb_args)
 {
 	char		*name;
 	size_t		len;
 
 	name = ft_find_name_var(shell->tab_pars[shell->tab_index]);
 	len = ft_strlen(name);
-	while (envp[*i] && shell->tab_pars[shell->tab_index]
+	while ((*envp)[*i] && shell->tab_pars[shell->tab_index]
 		&& (shell->tab_pars[shell->tab_index][0] != '|'
 		&& shell->tab_pars[shell->tab_index][0] != '<'
 			&& shell->tab_pars[shell->tab_index][0] != '>'))
 	{
-		if (ft_strncmp(envp[*i], name, len) == 0
+		if (ft_strncmp((*envp)[*i], name, len) == 0
 			&& shell->tab_pars[shell->tab_index][len] != '='
-			&& (envp[*i][len] == '=' || envp[*i][len] == '\0'))
+			&& ((*envp)[*i][len] == '=' || (*envp)[*i][len] == '\0'))
 			ft_in_in_unset(envp, i, nb_args);
 		else
 			(*i)++;
@@ -65,7 +65,7 @@ static bool	ft_in_unset(char **envp, t_mini *shell, size_t *i, size_t *nb_args)
 	return (false);
 }
 
-bool	ft_unset(t_mini *shell, char **envp)
+bool	ft_unset(t_mini *shell, char ***envp)
 {
 	size_t		i;
 	size_t		nb_args;
