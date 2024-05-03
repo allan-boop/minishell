@@ -1,16 +1,16 @@
 #include "../../include/minishell.h"
 
-void	ft_create_list(char **envp, t_mini **shell)
+void	ft_create_list(char ***copy_envp, t_mini **shell)
 {
 	int		len;
 	int		i;
 	t_envp	*new;
 
-	len = ft_tab_len(envp);
+	len = ft_tab_len((*copy_envp));
 	i = 0;
-	while (i < len - 1)
+	while (i < len)
 	{
-		new = ft_lstnew_envp(envp[i]);
+		new = ft_lstnew_envp((*copy_envp)[i]);
 		ft_lstadd_back_envp(shell, new);
 		i++;
 	}

@@ -60,12 +60,12 @@ char	**ft_copy_envp_no_sort(char **envp)
 	copy_envp = malloc(sizeof(char *) * (len + 1));
 	if (!copy_envp)
 		return (NULL);
-	copy_envp[len] = NULL;
 	while (i < len)
 	{
 		copy_envp[i] = ft_strdup(envp[i]);
 		i++;
 	}
+	copy_envp[i] = NULL;
 	return (copy_envp);
 }
 

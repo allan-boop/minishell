@@ -1,6 +1,6 @@
 #include "../../include/minishell.h"
 
-bool	custom_builtin(t_mini *shell, char **envp, char **copy_envp)
+bool	custom_builtin(t_mini *shell, char **envp, char ***copy_envp)
 {
 	if (ft_strcmp(shell->tab_pars[shell->tab_index], "cd") == 0)
 		return (ft_cd(shell, envp));
@@ -9,17 +9,17 @@ bool	custom_builtin(t_mini *shell, char **envp, char **copy_envp)
 	else if (ft_strcmp(shell->tab_pars[shell->tab_index], "pwd") == 0)
 		return (ft_pwd(envp));
 	else if (ft_strcmp(shell->tab_pars[shell->tab_index], "export") == 0)
-		return (ft_export(shell, envp));
+		return (ft_export(shell, copy_envp));
 	else if (ft_strcmp(shell->tab_pars[shell->tab_index], "unset") == 0)
 		return (ft_unset(shell, envp));
 	else if (ft_strcmp(shell->tab_pars[shell->tab_index], "env") == 0)
-		return (ft_env(envp, copy_envp));
+		return (ft_env(envp, *copy_envp));
 	else if (ft_strcmp(shell->tab_pars[shell->tab_index], "exit") == 0)
 		return (ft_exit());
 	return (false);
 }
 
-bool	ft_execution_core(t_mini *shell, char **envp, char **copy_envp, char *cmd_next)
+bool	ft_execution_core(t_mini *shell, char **envp, char ***copy_envp, char *cmd_next)
 {
 	pid_t	pid;
 	int		pipefd[2];
@@ -55,7 +55,7 @@ bool	ft_execution_core(t_mini *shell, char **envp, char **copy_envp, char *cmd_n
 	return (true);
 }
 
-void	ft_execution(t_mini *shell, char **envp, char **copy_envp)
+void	ft_execution(t_mini *shell, char **envp, char ***copy_envp)
 {
 	int	is_p;
 
