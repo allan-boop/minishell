@@ -114,7 +114,7 @@ char			*ft_find_value_var(char *content);
 int				ft_execve(char *str, char **envp);
 char			**ft_copy_envp_no_sort(char **envp);
 char			*if_exp_var(t_mini *shell, char **envp, int *i);
-bool			ft_echo(t_mini *shell);
+bool			ft_echo(t_mini *shell, char **envp);
 char			*ft_getenv(char *name, char **envp);
 bool			ft_unset(t_mini *shell, char ***envp);
 int				ft_replace_quote_export(char **line);
