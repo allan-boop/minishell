@@ -62,8 +62,10 @@ char	**ft_put_space_between(char **tab_line)
 	return (tab_line);
 }
 
-int	ft_parsing(t_mini *shell, char *line)
+int	ft_parsing(t_mini *shell, char *line, char **copy_envp)
 {
+	int		i;
+
 	if (ft_check_quote(line) == 1)
 		return (1);
 	line = ft_space_pipe(line);
@@ -72,6 +74,12 @@ int	ft_parsing(t_mini *shell, char *line)
 	ft_replace_space(&line);
 	shell->tab_pars = ft_split_shell(line, ' ');
 	shell->tab_pars = ft_put_space_between(shell->tab_pars);
+	i = 0;
+	while (shell->tab_pars[i])
+	{
+		shell->tab_pars[i] = if_exp_var(shell, copy_envp, &i);
+		i++;
+	}
 	ft_list_cmd(&shell);
 	return (0);
 }
