@@ -47,6 +47,7 @@ SRC_FILES =	minishell.c \
 			pars/ft_space_pipe.c \
 			pars/ft_split_shell.c \
 			exec/other_builtins.c \
+			pars/utils_parsing_exp.c \
 			pars/ft_space_chevron.c \
 			pars/utils_parsing_cmd.c \
 			builtins/ft_echo_utils.c \
