@@ -98,7 +98,12 @@ bool	other_builtin_p(char *cmd, char **envp, char *cmd_next, t_mini *shell)
 	else
 	{
 		dup2(shell->og_stdin, STDIN_FILENO);
-		waitpid(pid, NULL, 0);
+		waitpid(pid, &(shell->status), 0);
+		if (WIFSIGNALED(shell->status))
+		{
+			if (WTERMSIG(shell->status) == SIGQUIT)
+				shell->status = 131;
+		}
 	}
 	return (true);
 }

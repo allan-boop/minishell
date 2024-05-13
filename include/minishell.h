@@ -71,6 +71,7 @@ typedef struct s_mini
 	int				og_stdin;
 	char			**tab_pars;
 	char			**tab_cmd;
+	int				status;
 	bool			pipe;
 	int				tab_index;
 	int				i;

@@ -21,16 +21,19 @@ void	prompt_treatment(char *line, t_mini *shell,
 
 void	ft_loop(char **envp)
 {
+	int				status;
 	char			*line;
 	t_mini			*shell;
 	char			**copy_envp;
 
 	ft_signal();
 	copy_envp = ft_copy_envp_no_sort(envp);
+	status = 0;
 	while (1)
 	{
 		shell = ft_alloc(sizeof(t_mini));
 		shell->og_stdin = dup(STDIN_FILENO);
+		shell->status = status;
 		line = readline(PROMPT);
 		if (line == NULL)
 		{
@@ -39,6 +42,7 @@ void	ft_loop(char **envp)
 		}
 		prompt_treatment(line, shell, envp, &copy_envp);
 		free(line);
+		status = shell->status;
 		ft_del_all();
 	}
 	free(copy_envp);

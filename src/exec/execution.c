@@ -50,7 +50,12 @@ bool	ft_execution_core(t_mini *shell, char **envp, char ***copy_envp, char *cmd_
 	else
 	{
 		dup2(shell->og_stdin, STDIN_FILENO);
-		waitpid(pid, NULL, 0);
+		waitpid(pid, &(shell->status), 0);
+		if (WIFSIGNALED(shell->status))
+		{
+			if (WTERMSIG(shell->status) == SIGQUIT)
+				shell->status = 131;
+		}
 	}
 	return (true);
 }
@@ -87,4 +92,6 @@ void	ft_execution(t_mini *shell, char **envp, char ***copy_envp)
 		shell->tab_index++;
 		shell->i++;
 	}
+	printf("test\n");
+	printf("status = %d\n", shell->status);
 }
