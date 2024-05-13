@@ -74,8 +74,6 @@ char	*if_exp_var(t_mini *shell, char **envp, int *i)
 			n_str = print_exp_var(shell->tab_pars[*i], envp, &j, str, n_str, &k);
 		while (shell->tab_pars[*i][j])
 			n_str[k++] = shell->tab_pars[*i][j++];
-		if (shell->tab_pars[*i + 1] != NULL)
-			n_str[k++] = ' ';
 		n_str[k] = '\0';
 		return (n_str);
 	}
