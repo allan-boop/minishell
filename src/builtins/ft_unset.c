@@ -70,6 +70,7 @@ bool	ft_unset(t_mini *shell, char ***envp)
 	size_t		i;
 	size_t		nb_args;
 
+	shell->status = 0;
 	if (ft_check_unset(shell) == false)
 		return (true);
 	nb_args = ft_count_args(shell);

@@ -89,7 +89,7 @@ bool			ft_exit(void);
 void			ft_signal(void);
 void			*ft_del_all(void);
 void			*ft_alloc(int size);
-bool			ft_pwd(char **envp);
+bool			ft_pwd(t_mini *shell, char **envp);
 void			ft_nb_args(int argc);
 void			ft_loop(char **envp);
 int				ft_tab_len(char **envp);

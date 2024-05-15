@@ -7,7 +7,7 @@ bool	custom_builtin(t_mini *shell, char **envp, char ***copy_envp)
 	else if (ft_strcmp(shell->tab_pars[shell->tab_index], "echo") == 0)
 		return (ft_echo(shell, envp));
 	else if (ft_strcmp(shell->tab_pars[shell->tab_index], "pwd") == 0)
-		return (ft_pwd(envp));
+		return (ft_pwd(shell, envp));
 	else if (ft_strcmp(shell->tab_pars[shell->tab_index], "export") == 0)
 		return (ft_export(shell, copy_envp));
 	else if (ft_strcmp(shell->tab_pars[shell->tab_index], "unset") == 0)
@@ -92,6 +92,4 @@ void	ft_execution(t_mini *shell, char **envp, char ***copy_envp)
 		shell->tab_index++;
 		shell->i++;
 	}
-	printf("test\n");
-	printf("status = %d\n", shell->status);
 }

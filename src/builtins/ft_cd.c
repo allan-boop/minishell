@@ -68,24 +68,29 @@ static bool	ft_cd_logic( t_mini *shell, char **envp)
 {
 	char	*path;
 
-	if (shell->tab_pars[1] == NULL || shell->tab_pars[1][0] == '~')
+	if (shell->tab_pars[shell->tab_index] == NULL || shell->tab_pars[shell->tab_index][0] == '~')
 	{
 		path = ft_getenv("HOME", envp);
-		if (shell->tab_pars[1] && shell->tab_pars[1][1] != '\0')
-			path = ft_strjoin_shell(path, shell->tab_pars[1] + 1);
+		if (shell->tab_pars[shell->tab_index] && shell->tab_pars[shell->tab_index][1] != '\0')
+			path = ft_strjoin_shell(path, shell->tab_pars[shell->tab_index] + 1);
 		if (path == NULL)
 			return (ft_error("cd", "HOME not set", 1));
 	}
-	else if (ft_strcmp(shell->tab_pars[1], "-") == 0)
+	else if (ft_strcmp(shell->tab_pars[shell->tab_index], "-") == 0)
 	{
 		path = ft_getenv("OLDPWD", envp);
 		if (path == NULL)
 			return (ft_error("cd", "OLDPWD not set", 1));
 	}
 	else
-		path = shell->tab_pars[1];
-	if (chdir(path) == -1)
+		path = shell->tab_pars[shell->tab_index];
+	shell->tab_index++;
+	if (chdir(path) == -1 || (shell->tab_pars[shell->tab_index] != NULL && shell->tab_pars[shell->tab_index][0] != '|'))
+	{
+		shell->status = 1;
 		return (ft_error("cd", strerror(errno), 1));
+	}
+	shell->status = 0;
 	return (false);
 }
 
@@ -96,6 +101,7 @@ bool	ft_cd(t_mini *shell, char **envp)
 	int			i;
 
 	i = 0;
+	shell->tab_index++;
 	oldpwd = ft_getenv("PWD", envp);
 	oldcwd = ft_getenv("PWD", envp);
 	if (ft_cd_logic(shell, envp) == 1)
