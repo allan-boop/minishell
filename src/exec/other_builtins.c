@@ -29,14 +29,53 @@ char	*find_path_execve(char *tab_shell, char **envp)
 	return (0);
 }
 
+char	*ft_clean_quotes(char *str)
+{
+	char	*new_str;
+	int		i;
+	int		j;
+
+	i = 0;
+	j = 0;
+	while (str[i])
+	{
+		if (str[i] == 2 || str[i] == 3)
+			j++;
+		i++;
+	}
+	i = 0;
+	new_str = malloc(sizeof(char) * (ft_strlen(str) - j + 1));
+	j = 0;
+	if (!new_str)
+		return (NULL);
+	while (str[i])
+	{
+		if (str[i] != 2 && str[i] != 3)
+			new_str[j++] = str[i];
+		i++;
+	}
+	new_str[j] = '\0';
+	free(str);
+	return (new_str);
+}
+
 int	ft_execve(char *str, char **envp)
 {
 	char	*path;
 	char	**tab_shell;
 	int		i;
+	int		j;
 
 	i = -1;
+	ft_replace_space(&str);
 	tab_shell = ft_split(str, ' ');
+	j = 0;
+	while (tab_shell[j])
+	{
+		tab_shell[j] = ft_clean_quotes(tab_shell[j]);
+		j++;
+	}
+	ft_put_space_between(tab_shell);
 	if (!tab_shell)
 		return (-1);
 	path = find_path_execve(tab_shell[0], envp);

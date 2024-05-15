@@ -89,7 +89,9 @@ void	ft_execution(t_mini *shell, char **envp, char ***copy_envp)
 		else if (custom_builtin(shell, envp, copy_envp) == false)
 			other_builtin_p(shell->tab_cmd[shell->i],
 				envp, shell->tab_cmd[shell->i + 1], shell);
-		shell->tab_index++;
+		while (shell->tab_pars[shell->tab_index] != NULL
+			&& shell->tab_pars[shell->tab_index][0] != '|')
+			shell->tab_index++;
 		shell->i++;
 	}
 }
