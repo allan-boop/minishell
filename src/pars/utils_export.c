@@ -4,7 +4,6 @@ int	ft_check_last(char *current_arg, t_mini **shell)
 {
 	if (ft_strlen(current_arg) == 0)
 	{
-		printf("1\n");
 		(*shell)->status = 1;
 		syntax_error(INVALID_IDENTIFIER);
 		return (2);
@@ -44,6 +43,8 @@ static int	ft_check_special_char_two(char *just_name_var)
 	if (ft_strchr(just_name_var, ',') != NULL
 		|| ft_strchr(just_name_var, '/') != NULL
 		|| ft_strchr(just_name_var, '~') != NULL)
+		return (1);
+	if (ft_strchr(just_name_var, '+') != NULL)
 		return (1);
 	return (0);
 }

@@ -10,6 +10,7 @@
 # define QUOTE_FAIL "Error syntax: quote failed.\n"
 # define PIPE_FAIL "Error syntax: pipe failed.\n"
 # define INVALID_IDENTIFIER "Is not a valid identifier.\n"
+# define INVALID_OPTION "Invalid option.\n"
 # define ERROR_EXECVE "Error execve.\n"
 # define ERROR_PATH "Error path.\n"
 # define ERROR_FORK "Error fork.\n"

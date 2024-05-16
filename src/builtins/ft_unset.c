@@ -27,6 +27,12 @@ static bool	ft_check_unset(t_mini *shell)
 		syntax_error(NOT_ENOUGH_ARG);
 		return (false);
 	}
+	if (shell->tab_pars[shell->tab_index + 1][0] == '-'
+		&& shell->tab_pars[shell->tab_index + 1][1] != '\0')
+	{
+		syntax_error(INVALID_OPTION);
+		return (false);
+	}
 	return (true);
 }
 
