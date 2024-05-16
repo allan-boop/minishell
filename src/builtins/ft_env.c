@@ -33,7 +33,7 @@ bool	ft_env(char **envp, char **copy_envp, t_mini *shell)
 	i = 0;
 	own_arg = ft_alloc(sizeof(char *) * (ft_tab_len(envp) + 1));
 	own_arg = ft_own_args(&own_arg, envp, copy_envp);
-	if ((shell->tab_pars[shell->tab_index] != NULL && shell->tab_pars[shell->tab_index][0] != '|'))
+	if ((shell->tab_pars[shell->tab_index + 1] != NULL && shell->tab_pars[shell->tab_index + 1][0] != '|'))
 	{
 		shell->status = 1;
 		return (ft_error("env", strerror(errno), 1));
