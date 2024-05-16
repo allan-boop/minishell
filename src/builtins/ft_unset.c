@@ -30,6 +30,7 @@ static bool	ft_check_unset(t_mini *shell)
 	if (shell->tab_pars[shell->tab_index + 1][0] == '-'
 		&& shell->tab_pars[shell->tab_index + 1][1] != '\0')
 	{
+		shell->status = 1;
 		syntax_error(INVALID_OPTION);
 		return (false);
 	}
