@@ -36,7 +36,7 @@ bool	ft_env(char **envp, char **copy_envp, t_mini *shell)
 	if ((shell->tab_pars[shell->tab_index + 1] != NULL && shell->tab_pars[shell->tab_index + 1][0] != '|'))
 	{
 		shell->status = 1;
-		return (ft_error("env", strerror(errno), 1));
+		return (syntax_error(MANY_ARGS));
 	}
 	while (copy_envp[i])
 	{
