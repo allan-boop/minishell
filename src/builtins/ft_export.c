@@ -20,7 +20,7 @@ void	ft_add_new_var(t_mini **shell, char ***copy_envp, char *existing_var)
 	while ((*copy_envp)[++i])
 		new_tab[i] = ft_strdup((*copy_envp)[i]);
 	just_name_var = ft_find_name_var(existing_var);
-	if (ft_check_last(just_name_var) == 1)
+	if (ft_check_last(just_name_var, shell) == 1)
 	{
 		just_name_var[ft_strlen(just_name_var) - 1] = '\0';
 		tmp = ft_strjoin_shell(just_name_var, "=");
@@ -47,13 +47,16 @@ void	ft_modify_var(t_mini *shell, char *existing_var, char ***copy_envp)
 
 	just_name_var = ft_find_name_var(existing_var);
 	just_name_var_plus = ft_strdup(just_name_var);
-	if (ft_check_last(just_name_var) == 1)
+	if (ft_check_last(just_name_var, &shell) == 2)
+		return ;
+	if (ft_check_last(just_name_var, &shell) == 1)
 		just_name_var_plus[ft_strlen(just_name_var) - 1] = '\0';
+
 	i = 0;
 	while (ft_strcmp_shell(ft_find_name_var((*copy_envp)[i]),
 		just_name_var_plus) != 0)
 		i++;
-	if (ft_check_last(just_name_var) == 1)
+	if (ft_check_last(just_name_var, &shell) == 1)
 		ft_check_plus((*copy_envp), just_name_var_plus, existing_var);
 	else
 	{
@@ -66,14 +69,16 @@ void	ft_modify_var(t_mini *shell, char *existing_var, char ***copy_envp)
 	return ;
 }
 
-static int	ft_already_exist(char *existing_var, char ***copy_envp)
+static int	ft_already_exist(char *existing_var, char ***copy_envp, t_mini *shell)
 {
 	char	*just_name_var;
 	int		i;
 
 	just_name_var = ft_find_name_var(existing_var);
 	i = 0;
-	if (ft_check_last(just_name_var) == 1)
+	if (ft_check_last(just_name_var, &shell) == 2)
+		return (2);
+	if (ft_check_last(just_name_var, &shell) == 1)
 		just_name_var[ft_strlen(just_name_var) - 1] = '\0';
 	while ((*copy_envp)[i])
 	{
@@ -104,11 +109,17 @@ bool	ft_export(t_mini *shell, char ***copy_envp)
 			syntax_error(INVALID_IDENTIFIER);
 		}
 		else if (ft_already_exist(shell->tab_pars[shell->tab_index],
-				copy_envp) == 0)
+				copy_envp, shell) == 2)
+		{
+			shell->tab_index++;
+			continue ;
+		}
+		else if (ft_already_exist(shell->tab_pars[shell->tab_index],
+				copy_envp, shell) == 0)
 			ft_add_new_var(&shell,
 				copy_envp, shell->tab_pars[shell->tab_index]);
 		else if (ft_already_exist(shell->tab_pars[shell->tab_index],
-				copy_envp) == 1)
+				copy_envp, shell) == 1)
 			ft_modify_var(shell, shell->tab_pars[shell->tab_index], copy_envp);
 		shell->tab_index++;
 	}

@@ -108,7 +108,7 @@ void			give_token(t_list_struct *node);
 char			*ft_itoa_shell(int n);
 char			*ft_strdup_shell(const char *s);
 int				ft_count_arg_fork(t_mini *shell);
-int				ft_check_last(char *current_arg);
+int				ft_check_last(char *current_arg, t_mini **shell);
 char			*ft_find_name_var(char *content);
 bool			ft_cd(t_mini *shell, char **envp);
 void			ft_error_malloc(char **tab_shell);

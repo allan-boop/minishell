@@ -1,7 +1,14 @@
 #include "../../include/minishell.h"
 
-int	ft_check_last(char *current_arg)
+int	ft_check_last(char *current_arg, t_mini **shell)
 {
+	if (ft_strlen(current_arg) == 0)
+	{
+		printf("1\n");
+		(*shell)->status = 1;
+		syntax_error(INVALID_IDENTIFIER);
+		return (2);
+	}
 	if (current_arg[ft_strlen(current_arg) - 1] == '+')
 		return (1);
 	return (0);
