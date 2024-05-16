@@ -1,5 +1,53 @@
 #include "../../include/minishell.h"
 
+static int	nblen(int n)
+{
+	int	len;
+
+	len = 0;
+	if (n == 0)
+		return (1);
+	if (n < 0)
+	{
+		n = -n;
+		len++;
+	}
+	while (n)
+	{
+		n = n / 10;
+		len++;
+	}
+	return (len);
+}
+
+char	*ft_itoa_shell(int n)
+{
+	char	*result;
+	int		len;
+
+	len = 0;
+	if (n == -2147483648)
+		return (ft_strdup_shell("-2147483648"));
+	len = nblen(n);
+	result = (char *)ft_alloc(len + 1);
+	if (!result)
+		return (NULL);
+	result[len] = '\0';
+	if (n == 0)
+		result[0] = '0';
+	if (n < 0)
+	{
+		result[0] = '-';
+		n = -n;
+	}
+	while (n)
+	{
+		result[--len] = (n % 10) + '0';
+		n = n / 10;
+	}
+	return (result);
+}
+
 static int	ft_check_name_quotes(char *arg)
 {
 	int		i;

@@ -89,6 +89,7 @@ bool	ft_export(t_mini *shell, char ***copy_envp)
 	if (ft_print_export_alone(shell) == true)
 		return (true);
 	shell->tab_index++;
+	shell->status = 0;
 	while (shell->tab_pars[shell->tab_index]
 		&& shell->tab_pars[shell->tab_index][0] != '|'
 		&& shell->tab_pars[shell->tab_index][0] != '>'
@@ -98,7 +99,10 @@ bool	ft_export(t_mini *shell, char ***copy_envp)
 		if (ft_del_quotes(&shell->tab_pars[shell->tab_index]) == 1)
 			return (true);
 		if (ft_current_arg(shell->tab_pars[shell->tab_index], *copy_envp) == 1)
+		{
+			shell->status = 1;
 			syntax_error(INVALID_IDENTIFIER);
+		}
 		else if (ft_already_exist(shell->tab_pars[shell->tab_index],
 				copy_envp) == 0)
 			ft_add_new_var(&shell,

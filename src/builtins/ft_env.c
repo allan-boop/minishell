@@ -25,7 +25,7 @@ static char	**ft_own_args(char ***own_arg, char **envp, char **copy_envp)
 	return (*own_arg);
 }
 
-bool	ft_env(char **envp, char **copy_envp)
+bool	ft_env(char **envp, char **copy_envp, t_mini *shell)
 {
 	int		i;
 	char	**own_arg;
@@ -33,6 +33,11 @@ bool	ft_env(char **envp, char **copy_envp)
 	i = 0;
 	own_arg = ft_alloc(sizeof(char *) * (ft_tab_len(envp) + 1));
 	own_arg = ft_own_args(&own_arg, envp, copy_envp);
+	if ((shell->tab_pars[shell->tab_index] != NULL && shell->tab_pars[shell->tab_index][0] != '|'))
+	{
+		shell->status = 1;
+		return (ft_error("env", strerror(errno), 1));
+	}
 	while (copy_envp[i])
 	{
 		printf("%s\n", copy_envp[i]);

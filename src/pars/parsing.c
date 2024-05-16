@@ -61,6 +61,34 @@ char	**ft_put_space_between(char **tab_line)
 	}
 	return (tab_line);
 }
+char	*ft_replace_doll(char *line, char *value)
+{
+	char	*new_line;
+	int		i;
+	int		j;
+	int		k;
+
+	i = 0;
+	j = 0;
+	k = 0;
+	new_line = ft_alloc(sizeof(char) * (ft_strlen(line) + ft_strlen(value) - 1));
+	if (!new_line)
+		return (NULL);
+	while (line[i])
+	{
+		if (line[i] == '$' && line[i + 1] && line[i + 1] == '?')
+		{
+			while (value[k])
+				new_line[j++] = value[k++];
+			i++;
+		}
+		else
+			new_line[j++] = line[i];
+		i++;
+	}
+	new_line[j] = '\0';
+	return (new_line);
+}
 
 int	ft_parsing(t_mini *shell, char *line, char **copy_envp)
 {
@@ -77,6 +105,8 @@ int	ft_parsing(t_mini *shell, char *line, char **copy_envp)
 	i = 0;
 	while (shell->tab_pars[i])
 	{
+		if (ft_strcmp_shell(shell->tab_pars[i], "$?") == 0)
+			shell->tab_pars[i] = ft_replace_doll(shell->tab_pars[i], ft_itoa_shell(shell->status));
 		shell->tab_pars[i] = if_exp_var(shell, copy_envp, &i);
 		i++;
 	}
