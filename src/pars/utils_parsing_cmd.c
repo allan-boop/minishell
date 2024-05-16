@@ -51,7 +51,12 @@ void	ft_list_cmd(t_mini **shell)
 	while (j < nb_pipe)
 	{
 		tmp = NULL;
-		if ((*shell)->tab_pars[i] && (*shell)->tab_pars[i + 1]
+		if ((*shell)->tab_pars[i] == NULL)
+		{
+			(*shell)->tab_cmd[j] = NULL;
+			break ;
+		}
+		if ((*shell)->tab_pars[i] != NULL && (*shell)->tab_pars[i + 1]
 			&& (*shell)->tab_pars[i][0] == '|'
 			&& (*shell)->tab_pars[i][0] == '<'
 			&& (*shell)->tab_pars[i][0] == '>')
