@@ -30,9 +30,7 @@ SRC_FILES =	minishell.c \
 			pars/give_token.c \
 			builtins/ft_pwd.c \
 			pars/utils_envp.c \
-			builtins/ft_cd_utils2.c \
 			exec/utils_fork.c \
-			builtins/ft_cd_utils.c \
 			pars/ft_find_var.c \
 			builtins/ft_exit.c \
 			builtins/ft_echo.c \
@@ -47,6 +45,9 @@ SRC_FILES =	minishell.c \
 			pars/ft_space_pipe.c \
 			pars/ft_split_shell.c \
 			exec/other_builtins.c \
+			pars/ft_calloc_shell.c \
+			builtins/ft_cd_utils.c \
+			builtins/ft_cd_utils2.c \
 			pars/utils_parsing_exp.c \
 			pars/ft_space_chevron.c \
 			pars/utils_parsing_cmd.c \
