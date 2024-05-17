@@ -1,4 +1,3 @@
-ft_export.c
 execution.c
 other_builtins.c
 parsing.c
