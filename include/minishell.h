@@ -25,6 +25,7 @@
 # include <stdio.h>
 # include <errno.h>
 # include <stdlib.h>
+# include <fcntl.h>
 # include <unistd.h>
 # include <signal.h>
 # include <dirent.h>
@@ -76,6 +77,8 @@ typedef struct s_mini
 	bool			pipe;
 	int				tab_index;
 	int				i;
+	int				filein;
+	int				fileout;
 	t_list_struct	*list;
 	t_envp			*team_envp;
 }	t_mini;
@@ -110,6 +113,7 @@ char			*ft_strdup_shell(const char *s);
 int				ft_count_arg_fork(t_mini *shell);
 char			*ft_find_name_var(char *content);
 bool			ft_cd(t_mini *shell, char **envp);
+void			ft_redirection(t_mini *shell);
 void			ft_error_malloc(char **tab_shell);
 char			*ft_find_value_var(char *content);
 int				ft_execve(char *str, char **envp);

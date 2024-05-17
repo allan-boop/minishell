@@ -72,15 +72,16 @@ void	ft_execution(t_mini *shell, char **envp, char ***copy_envp)
 		&& shell->tab_pars[shell->tab_index]
 		&& shell->tab_cmd[shell->i])
 	{
+		ft_redirection(shell);
+		// if (shell->tab_pars[shell->tab_index]
+		// 	&& (shell->tab_pars[shell->tab_index][0] == '>'
+		// 	|| shell->tab_pars[shell->tab_index][0] == '<'))
+		// {
+		// 	shell->tab_index += 2;
+		// 	shell->i++;
+		// 	continue ;
+		// }
 		if (shell->tab_pars[shell->tab_index]
-			&& (shell->tab_pars[shell->tab_index][0] == '>'
-			|| shell->tab_pars[shell->tab_index][0] == '<'))
-		{
-			shell->tab_index += 2;
-			shell->i++;
-			continue ;
-		}
-		else if (shell->tab_pars[shell->tab_index]
 			&& shell->tab_pars[shell->tab_index][0] == '|')
 			shell->tab_index++;
 		if (is_p > 1)

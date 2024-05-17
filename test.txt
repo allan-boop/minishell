@@ -1,0 +1,5 @@
+/home/gdoumer/Documents/minishell
+[?2004hpikapika$ dsadsad
+[?2004lError path.
+[?2004hpikapika$ [?2004l
+
