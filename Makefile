@@ -54,6 +54,7 @@ SRC_FILES =	minishell.c \
 			pars/utils_parsing_cmd.c \
 			builtins/ft_echo_utils.c \
 			builtins/ft_export_utils.c \
+			builtins/ft_export_modify.c \
 			pars/utils_export_quote.c
 
 SRC_FILES := $(addprefix src/, $(SRC_FILES))

@@ -1,21 +1,5 @@
 #include "../../include/minishell.h"
 
-char	*ft_getenv(char *name, char **envp)
-{
-	int		i;
-	int		len;
-
-	i = 0;
-	len = ft_strlen(name);
-	while (envp[i] != NULL)
-	{
-		if (ft_strncmp(name, envp[i], len) == 0)
-			return (envp[i] + len + 1);
-		i++;
-	}
-	return (NULL);
-}
-
 static char	*ft_setenv_index(char *name, char ***envp, char *value, int *i)
 {
 	int		len;
@@ -64,15 +48,30 @@ void	ft_setenv(char *name, char *value, char ***envp)
 	*envp = new_envp;
 }
 
+static int	ft_cd_logic_error(t_mini *shell, char *path)
+{
+	if (chdir(path) == -1 || (shell->tab_pars[shell->tab_index] != NULL
+			&& shell->tab_pars[shell->tab_index][0] != '|'))
+	{
+		shell->status = 1;
+		return (ft_error("cd", strerror(errno), 1));
+	}
+	shell->status = 0;
+	return (0);
+}
+
 static bool	ft_cd_logic( t_mini *shell, char **envp)
 {
 	char	*path;
 
-	if (shell->tab_pars[shell->tab_index] == NULL || shell->tab_pars[shell->tab_index][0] == '~')
+	if (shell->tab_pars[shell->tab_index] == NULL
+		|| shell->tab_pars[shell->tab_index][0] == '~')
 	{
 		path = ft_getenv("HOME", envp);
-		if (shell->tab_pars[shell->tab_index] && shell->tab_pars[shell->tab_index][1] != '\0')
-			path = ft_strjoin_shell(path, shell->tab_pars[shell->tab_index] + 1);
+		if (shell->tab_pars[shell->tab_index]
+			&& shell->tab_pars[shell->tab_index][1] != '\0')
+			path = ft_strjoin_shell(path, shell->tab_pars[shell->tab_index]
+					+ 1);
 		if (path == NULL)
 			return (ft_error("cd", "HOME not set", 1));
 	}
@@ -85,12 +84,8 @@ static bool	ft_cd_logic( t_mini *shell, char **envp)
 	else
 		path = shell->tab_pars[shell->tab_index];
 	shell->tab_index++;
-	if (chdir(path) == -1 || (shell->tab_pars[shell->tab_index] != NULL && shell->tab_pars[shell->tab_index][0] != '|'))
-	{
-		shell->status = 1;
-		return (ft_error("cd", strerror(errno), 1));
-	}
-	shell->status = 0;
+	if (ft_cd_logic_error(shell, path) == 1)
+		return (true);
 	return (false);
 }
 

@@ -24,3 +24,19 @@ void	ft_find_dpointb(int *i, int *start, char **str, char **new)
 		(*new)++;
 	}
 }
+
+char	*ft_getenv(char *name, char **envp)
+{
+	int		i;
+	int		len;
+
+	i = 0;
+	len = ft_strlen(name);
+	while (envp[i] != NULL)
+	{
+		if (ft_strncmp(name, envp[i], len) == 0)
+			return (envp[i] + len + 1);
+		i++;
+	}
+	return (NULL);
+}

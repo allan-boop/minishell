@@ -71,7 +71,8 @@ char	*ft_replace_doll(char *line, char *value)
 	i = 0;
 	j = 0;
 	k = 0;
-	new_line = ft_alloc(sizeof(char) * (ft_strlen(line) + ft_strlen(value) - 1));
+	new_line = ft_alloc(sizeof(char) * (ft_strlen(line)
+				+ ft_strlen(value) - 1));
 	if (!new_line)
 		return (NULL);
 	while (line[i])
@@ -106,7 +107,8 @@ int	ft_parsing(t_mini *shell, char *line, char **copy_envp)
 	while (shell->tab_pars[i])
 	{
 		if (ft_strcmp_shell(shell->tab_pars[i], "$?") == 0)
-			shell->tab_pars[i] = ft_replace_doll(shell->tab_pars[i], ft_itoa_shell(shell->status));
+			shell->tab_pars[i] = ft_replace_doll(shell->tab_pars[i],
+					ft_itoa_shell(shell->status));
 		shell->tab_pars[i] = if_exp_var(shell, copy_envp, &i);
 		i++;
 	}
