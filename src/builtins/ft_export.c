@@ -58,8 +58,39 @@ static int	ft_already_exist(char *existing_var,
 	return (0);
 }
 
+static int	ft_export_core(char ***copy_envp, t_mini *shell,
+	char *just_name_var)
+{
+	if (ft_del_quotes(&shell->tab_pars[shell->tab_index]) == 1)
+		return (true);
+	if (ft_current_arg(shell->tab_pars[shell->tab_index], *copy_envp) == 1)
+	{
+		shell->status = 1;
+		syntax_error(INVALID_IDENTIFIER);
+	}
+	else if (ft_already_exist(shell->tab_pars[shell->tab_index],
+			copy_envp, shell) == 2)
+		return (shell->tab_index++, 1);
+	else if (ft_already_exist(shell->tab_pars[shell->tab_index],
+			copy_envp, shell) == 0)
+		ft_add_new_var(&shell,
+			copy_envp, shell->tab_pars[shell->tab_index]);
+	else if (ft_already_exist(shell->tab_pars[shell->tab_index],
+			copy_envp, shell) == 1)
+	{
+		just_name_var = ft_find_name_var(shell->tab_pars[shell->tab_index]);
+		ft_modify_var(shell, shell->tab_pars[shell->tab_index],
+			copy_envp, just_name_var);
+	}
+	shell->tab_index++;
+	return (0);
+}
+
 bool	ft_export(t_mini *shell, char ***copy_envp)
 {
+	char	*just_name_var;
+
+	just_name_var = NULL;
 	if (ft_print_export_alone(shell) == true)
 		return (true);
 	shell->tab_index++;
@@ -70,27 +101,8 @@ bool	ft_export(t_mini *shell, char ***copy_envp)
 		&& shell->tab_pars[shell->tab_index][0] != '<')
 	{
 		ft_sort_envp(*copy_envp);
-		if (ft_del_quotes(&shell->tab_pars[shell->tab_index]) == 1)
-			return (true);
-		if (ft_current_arg(shell->tab_pars[shell->tab_index], *copy_envp) == 1)
-		{
-			shell->status = 1;
-			syntax_error(INVALID_IDENTIFIER);
-		}
-		else if (ft_already_exist(shell->tab_pars[shell->tab_index],
-				copy_envp, shell) == 2)
-		{
-			shell->tab_index++;
+		if (ft_export_core(copy_envp, shell, just_name_var) == 1)
 			continue ;
-		}
-		else if (ft_already_exist(shell->tab_pars[shell->tab_index],
-				copy_envp, shell) == 0)
-			ft_add_new_var(&shell,
-				copy_envp, shell->tab_pars[shell->tab_index]);
-		else if (ft_already_exist(shell->tab_pars[shell->tab_index],
-				copy_envp, shell) == 1)
-			ft_modify_var(shell, shell->tab_pars[shell->tab_index], copy_envp);
-		shell->tab_index++;
 	}
 	return (true);
 }

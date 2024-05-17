@@ -1,14 +1,13 @@
 #include "../../include/minishell.h"
 
-void	ft_modify_var(t_mini *shell, char *existing_var, char ***copy_envp)
+void	ft_modify_var(t_mini *shell, char *existing_var,
+	char ***copy_envp, char *just_name_var)
 {
-	char	*just_name_var;
 	char	*just_name_var_plus;
 	char	*new_var;
 	char	*new_value;
 	int		i;
 
-	just_name_var = ft_find_name_var(existing_var);
 	just_name_var_plus = ft_strdup(just_name_var);
 	if (ft_check_last(just_name_var, &shell) == 2)
 		return ;
