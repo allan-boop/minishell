@@ -32,6 +32,7 @@ void	ft_loop(char **envp)
 	while (1)
 	{
 		shell = ft_alloc(sizeof(t_mini));
+		shell->og_stdout = dup(STDOUT_FILENO);
 		shell->og_stdin = dup(STDIN_FILENO);
 		shell->status = status;
 		line = readline(PROMPT);

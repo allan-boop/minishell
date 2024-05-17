@@ -21,13 +21,18 @@ static char	*ft_list_cmd_two(t_mini **shell, char *tmp, int *i)
 	while ((*shell)->tab_pars[*i]
 		&& (*shell)->tab_pars[*i][0] != '|')
 	{
-		if (tmp == NULL)
-			tmp = ft_strdup_shell((*shell)->tab_pars[*i]);
-		else
+		if ((*shell)->tab_pars[*i][0] != '>')
 		{
-			tmp = ft_strjoin_shell(tmp, " ");
-			tmp = ft_strjoin_shell(tmp, (*shell)->tab_pars[*i]);
+			if (tmp == NULL)
+				tmp = ft_strdup_shell((*shell)->tab_pars[*i]);
+			else
+			{
+				tmp = ft_strjoin_shell(tmp, " ");
+				tmp = ft_strjoin_shell(tmp, (*shell)->tab_pars[*i]);
+			}
 		}
+		else
+			(*i)++;
 		(*i)++;
 	}
 	return (tmp);

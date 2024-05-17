@@ -71,6 +71,7 @@ typedef struct s_envp
 typedef struct s_mini
 {
 	int				og_stdin;
+	int				og_stdout;
 	char			**tab_pars;
 	char			**tab_cmd;
 	int				status;

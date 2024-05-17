@@ -2,6 +2,10 @@
 
 bool	custom_builtin(t_mini *shell, char **envp, char ***copy_envp)
 {
+	if (shell->fileout != -1)
+		dup2(shell->fileout, STDOUT_FILENO);
+	if (shell->filein != -1)
+		dup2(shell->filein, STDIN_FILENO);
 	if (ft_strcmp(shell->tab_pars[shell->tab_index], "cd") == 0)
 		return (ft_cd(shell, envp));
 	else if (ft_strcmp(shell->tab_pars[shell->tab_index], "echo") == 0)
@@ -73,14 +77,6 @@ void	ft_execution(t_mini *shell, char **envp, char ***copy_envp)
 		&& shell->tab_cmd[shell->i])
 	{
 		ft_redirection(shell);
-		// if (shell->tab_pars[shell->tab_index]
-		// 	&& (shell->tab_pars[shell->tab_index][0] == '>'
-		// 	|| shell->tab_pars[shell->tab_index][0] == '<'))
-		// {
-		// 	shell->tab_index += 2;
-		// 	shell->i++;
-		// 	continue ;
-		// }
 		if (shell->tab_pars[shell->tab_index]
 			&& shell->tab_pars[shell->tab_index][0] == '|')
 			shell->tab_index++;
@@ -95,4 +91,8 @@ void	ft_execution(t_mini *shell, char **envp, char ***copy_envp)
 			shell->tab_index++;
 		shell->i++;
 	}
+	dup2(shell->og_stdin, STDIN_FILENO);
+	dup2(shell->og_stdout, STDOUT_FILENO);
+	shell->filein = -1;
+	shell->fileout = -1;
 }
