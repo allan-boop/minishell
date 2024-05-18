@@ -61,6 +61,7 @@ char	**ft_put_space_between(char **tab_line)
 	}
 	return (tab_line);
 }
+
 char	*ft_replace_doll(char *line, char *value)
 {
 	char	*new_line;

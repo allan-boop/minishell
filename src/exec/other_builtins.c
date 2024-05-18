@@ -122,7 +122,8 @@ bool	other_builtin_p(char *cmd, char **envp, char *cmd_next, t_mini *shell)
 	if (pid == 0)
 	{
 		if (cmd_next != NULL)
-			dup2(pipefd[1], STDOUT_FILENO);
+			if (shell->fileout == -1)
+				dup2(pipefd[1], STDOUT_FILENO);
 		close(pipefd[0]);
 		close(pipefd[1]);
 		ft_execve(cmd, envp);
@@ -130,13 +131,15 @@ bool	other_builtin_p(char *cmd, char **envp, char *cmd_next, t_mini *shell)
 	}
 	if (cmd_next != NULL)
 	{
-		dup2(pipefd[0], STDIN_FILENO);
+		if (shell->filein == -1)
+			dup2(pipefd[0], STDIN_FILENO);
 		close(pipefd[1]);
 		close(pipefd[0]);
 	}
 	else
 	{
-		dup2(shell->og_stdin, STDIN_FILENO);
+		if (shell->filein == -1)
+			dup2(shell->og_stdin, STDIN_FILENO);
 		waitpid(pid, &(shell->status), 0);
 		if (WIFSIGNALED(shell->status))
 		{

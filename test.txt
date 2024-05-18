@@ -1,5 +1,0 @@
-execution.c
-other_builtins.c
-parsing.c
-utils_parsing_exp.c
-ft_loop.c

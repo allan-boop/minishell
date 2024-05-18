@@ -37,7 +37,7 @@ bool	ft_execution_core(t_mini *shell, char **envp, char ***copy_envp, char *cmd_
 	}
 	if (pid == 0)
 	{
-		if (cmd_next != NULL)
+		if (cmd_next != NULL && shell->fileout == -1)
 			dup2(pipefd[1], STDOUT_FILENO);
 		close(pipefd[0]);
 		close(pipefd[1]);
@@ -47,13 +47,15 @@ bool	ft_execution_core(t_mini *shell, char **envp, char ***copy_envp, char *cmd_
 	}
 	if (cmd_next != NULL)
 	{
-		dup2(pipefd[0], STDIN_FILENO);
+		if (shell->filein == -1)
+			dup2(pipefd[0], STDIN_FILENO);
 		close(pipefd[1]);
 		close(pipefd[0]);
 	}
 	else
 	{
-		dup2(shell->og_stdin, STDIN_FILENO);
+		if (shell->filein == -1)
+			dup2(shell->og_stdin, STDIN_FILENO);
 		waitpid(pid, &(shell->status), 0);
 		if (WIFSIGNALED(shell->status))
 		{
@@ -76,10 +78,11 @@ void	ft_execution(t_mini *shell, char **envp, char ***copy_envp)
 		&& shell->tab_pars[shell->tab_index]
 		&& shell->tab_cmd[shell->i])
 	{
-		ft_redirection(shell);
+
 		if (shell->tab_pars[shell->tab_index]
 			&& shell->tab_pars[shell->tab_index][0] == '|')
 			shell->tab_index++;
+		ft_redirection(shell);
 		if (is_p > 1)
 			ft_execution_core(shell, envp, copy_envp,
 				shell->tab_cmd[shell->i + 1]);
