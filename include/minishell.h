@@ -138,6 +138,7 @@ bool			ft_error(char *cmd, char *msg, int ret);
 char			*find_path(char *tab_shell, char **envp);
 size_t			count_words_split(char const *s, char c);
 void			ft_copy_envp(char **envp, t_mini *shell);
+char			*ft_replace_doll(char *line, char *value);
 t_list_struct	*create_node_list(t_mini *shell, size_t i);
 void			*ft_calloc_shell(size_t nmemb, size_t size);
 bool			ft_export(t_mini *shell, char ***copy_envp);
@@ -161,8 +162,12 @@ void			ft_execution(t_mini *shell, char **envp, char ***copy_envp);
 void			ft_find_dpointb(int *i, int *start, char **str, char **new);
 void			del_if_same(t_malloc_ptr *l_m, t_malloc_ptr *tmp, void *var);
 char			*ft_substr_shell(char const *s, unsigned int start, size_t len);
-void			ft_add_new_var(t_mini **shell, char ***envp, char *existing_var);
-void			ft_check_plus(char **envp, char *just_name_var, char *existing_var);
-bool			other_builtin_p(char *cmd, char **envp, char *cmd_next, t_mini *shell);
-void			ft_modify_var(t_mini *shell, char *existing_var, char ***envp, char *just_name_var);
+void			ft_add_new_var(t_mini **shell, char ***envp,
+					char *existing_var);
+void			ft_check_plus(char **envp, char *just_name_var,
+					char *existing_var);
+bool			other_builtin_p(char *cmd, char **envp,
+					char *cmd_next, t_mini *shell);
+void			ft_modify_var(t_mini *shell, char *existing_var,
+					char ***envp, char *just_name_var);
 #endif

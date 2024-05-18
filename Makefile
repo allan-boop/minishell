@@ -46,6 +46,7 @@ SRC_FILES =	minishell.c \
 			pars/ft_split_shell.c \
 			exec/ft_redirection.c \
 			exec/other_builtins.c \
+			pars/ft_replace_doll.c \
 			pars/ft_calloc_shell.c \
 			builtins/ft_cd_utils.c \
 			builtins/ft_cd_utils2.c \
