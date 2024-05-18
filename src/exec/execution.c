@@ -23,7 +23,8 @@ bool	custom_builtin(t_mini *shell, char **envp, char ***copy_envp)
 	return (false);
 }
 
-bool	ft_execution_core(t_mini *shell, char **envp, char ***copy_envp, char *cmd_next)
+bool	ft_execution_core(t_mini *shell, char **envp,
+	char ***copy_envp, char *cmd_next)
 {
 	pid_t	pid;
 	int		pipefd[2];

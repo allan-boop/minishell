@@ -138,6 +138,7 @@ bool			ft_error(char *cmd, char *msg, int ret);
 char			*find_path(char *tab_shell, char **envp);
 size_t			count_words_split(char const *s, char c);
 void			ft_copy_envp(char **envp, t_mini *shell);
+char			*ft_replace_doll(char *line, char *value);
 t_list_struct	*create_node_list(t_mini *shell, size_t i);
 void			*ft_calloc_shell(size_t nmemb, size_t size);
 bool			ft_export(t_mini *shell, char ***copy_envp);
