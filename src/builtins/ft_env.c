@@ -33,20 +33,22 @@ bool	ft_env(char **envp, char **copy_envp, t_mini *shell)
 	i = 0;
 	own_arg = ft_alloc(sizeof(char *) * (ft_tab_len(envp) + 1));
 	own_arg = ft_own_args(&own_arg, envp, copy_envp);
-	if ((shell->tab_pars[shell->tab_index + 1] != NULL
-			&& shell->tab_pars[shell->tab_index + 1][0] != '|'))
+	if (shell->tab_pars[shell->tab_index + 1] != NULL
+		&& shell->tab_pars[shell->tab_index + 1][0] != '|'
+		&& shell->tab_pars[shell->tab_index + 1][0] != '>'
+		&& shell->tab_pars[shell->tab_index + 1][0] != '<')
 	{
 		shell->status = 1;
 		return (syntax_error(MANY_ARGS));
 	}
 	while (copy_envp[i])
 	{
-		printf("%s\n", copy_envp[i]);
+		ft_printf("%s\n", copy_envp[i]);
 		i++;
 	}
 	while (own_arg[i])
 	{
-		printf("%s\n", own_arg[i]);
+		ft_printf("%s\n", own_arg[i]);
 		i++;
 	}
 	return (true);

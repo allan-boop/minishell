@@ -72,6 +72,8 @@ bool	ft_print_export_alone(t_mini *shell)
 		&& shell->tab_pars[shell->tab_index + 1] != NULL
 		&& (shell->tab_pars[shell->tab_index + 1][0] == '|'
 		|| shell->tab_pars[shell->tab_index + 1] == NULL
+		|| shell->tab_pars[shell->tab_index + 1][0] == '>'
+		|| shell->tab_pars[shell->tab_index + 1][0] == '<'
 		|| shell->tab_pars[shell->tab_index + 1][0] == '#'
 		|| shell->tab_pars[shell->tab_index + 1][0] == ';'))
 	{
