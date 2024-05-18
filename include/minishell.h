@@ -162,8 +162,12 @@ void			ft_execution(t_mini *shell, char **envp, char ***copy_envp);
 void			ft_find_dpointb(int *i, int *start, char **str, char **new);
 void			del_if_same(t_malloc_ptr *l_m, t_malloc_ptr *tmp, void *var);
 char			*ft_substr_shell(char const *s, unsigned int start, size_t len);
-void			ft_add_new_var(t_mini **shell, char ***envp, char *existing_var);
-void			ft_check_plus(char **envp, char *just_name_var, char *existing_var);
-bool			other_builtin_p(char *cmd, char **envp, char *cmd_next, t_mini *shell);
-void			ft_modify_var(t_mini *shell, char *existing_var, char ***envp, char *just_name_var);
+void			ft_add_new_var(t_mini **shell, char ***envp,
+					char *existing_var);
+void			ft_check_plus(char **envp, char *just_name_var,
+					char *existing_var);
+bool			other_builtin_p(char *cmd, char **envp,
+					char *cmd_next, t_mini *shell);
+void			ft_modify_var(t_mini *shell, char *existing_var,
+					char ***envp, char *just_name_var);
 #endif

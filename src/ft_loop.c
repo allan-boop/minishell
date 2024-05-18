@@ -19,6 +19,13 @@ void	prompt_treatment(char *line, t_mini *shell,
 	}
 }
 
+static void	ft_init_shell(t_mini *shell, int status)
+{
+	shell->og_stdout = dup(STDOUT_FILENO);
+	shell->og_stdin = dup(STDIN_FILENO);
+	shell->status = status;
+}
+
 void	ft_loop(char **envp)
 {
 	int				status;
@@ -32,9 +39,7 @@ void	ft_loop(char **envp)
 	while (1)
 	{
 		shell = ft_alloc(sizeof(t_mini));
-		shell->og_stdout = dup(STDOUT_FILENO);
-		shell->og_stdin = dup(STDIN_FILENO);
-		shell->status = status;
+		ft_init_shell(shell, status);
 		line = readline(PROMPT);
 		if (line == NULL)
 		{

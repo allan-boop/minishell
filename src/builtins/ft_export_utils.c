@@ -60,7 +60,6 @@ static void	ft_print_export(t_mini *shell)
 
 bool	ft_print_export_alone(t_mini *shell)
 {
-
 	if (ft_strcmp_shell(shell->tab_pars[shell->tab_index], "export") == 0
 		&& shell->tab_pars[shell->tab_index + 1] == NULL)
 	{

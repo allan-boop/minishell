@@ -68,10 +68,12 @@ char	*if_exp_var(t_mini *shell, char **envp, int *i)
 	str = ft_strchr(shell->tab_pars[*i], '$');
 	if (str)
 	{
-		n_str = ft_calloc_shell(ft_strlen(shell->tab_pars[*i]) + 1, sizeof(char));
+		n_str = ft_calloc_shell(ft_strlen(shell->tab_pars[*i])
+				+ 1, sizeof(char));
 		j = 0;
 		if (ft_is_in_quote(shell->tab_pars[*i], str) == 0)
-			n_str = print_exp_var(shell->tab_pars[*i], envp, &j, str, n_str, &k);
+			n_str = print_exp_var(shell->tab_pars[*i],
+					envp, &j, str, n_str, &k);
 		while (shell->tab_pars[*i][j])
 			n_str[k++] = shell->tab_pars[*i][j++];
 		n_str[k] = '\0';
