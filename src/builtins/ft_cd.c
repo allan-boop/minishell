@@ -48,18 +48,6 @@ void	ft_setenv(char *name, char *value, char ***envp)
 	*envp = new_envp;
 }
 
-static int	ft_cd_logic_error(t_mini *shell, char *path)
-{
-	if (chdir(path) == -1 || (shell->tab_pars[shell->tab_index] != NULL
-			&& shell->tab_pars[shell->tab_index][0] != '|'))
-	{
-		shell->status = 1;
-		return (ft_error("cd", strerror(errno), 1));
-	}
-	shell->status = 0;
-	return (0);
-}
-
 static bool	ft_cd_logic( t_mini *shell, char **envp)
 {
 	char	*path;
@@ -83,10 +71,7 @@ static bool	ft_cd_logic( t_mini *shell, char **envp)
 	}
 	else
 		path = shell->tab_pars[shell->tab_index];
-	shell->tab_index++;
-	if (ft_cd_logic_error(shell, path) == 1)
-		return (true);
-	return (false);
+	return (check_cd_err(shell, path));
 }
 
 bool	ft_cd(t_mini *shell, char **envp)
