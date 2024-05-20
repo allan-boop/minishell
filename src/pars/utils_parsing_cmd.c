@@ -54,7 +54,6 @@ void	ft_list_cmd(t_mini **shell)
 	i = 0;
 	j = 0;
 	nb_pipe = ft_nb_pipe_cmd(*shell);
-	printf("nb_pipe = %d\n", nb_pipe);
 	if ((*shell)->tab_pars[i][0] != '<' && (*shell)->tab_pars[i][0] != '>')
 		nb_pipe++;
 	if (nb_pipe == 0)

@@ -5,7 +5,7 @@ void	ft_find_dpointb(int *i, int *start, char **str, char **new)
 	int	j;
 
 	j = (*i) - 2;
-	while ((*str)[j] != '/')
+	while (j > 0 && (*str)[j] != '/')
 		j--;
 	while (*start < j)
 	{

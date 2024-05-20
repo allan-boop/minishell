@@ -82,6 +82,12 @@ bool	ft_cd(t_mini *shell, char **envp)
 
 	i = 0;
 	shell->tab_index++;
+	if (shell->tab_pars[shell->tab_index])
+		ft_dell_all_quote_export(shell->tab_pars[shell->tab_index]);
+	if (shell->tab_pars[shell->tab_index]
+		&& shell->tab_pars[shell->tab_index + 1]
+		&& shell->tab_pars[shell->tab_index + 1][0] != '|')
+		return (ft_error("cd", "too many arguments", 1));
 	oldpwd = ft_getenv("PWD", envp);
 	oldcwd = ft_getenv("PWD", envp);
 	if (ft_cd_logic(shell, envp) == 1)
@@ -97,6 +103,8 @@ bool	ft_cd(t_mini *shell, char **envp)
 	while (i > 2 && oldcwd[i] == '/')
 		oldcwd[i--] = '\0';
 	ft_setenv("OLDPWD", oldpwd, &envp);
+	if (oldcwd[0] == '\0')
+		oldcwd = ft_strdup("/");
 	ft_setenv("PWD", oldcwd, &envp);
 	return (true);
 }
