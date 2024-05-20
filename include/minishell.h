@@ -129,6 +129,7 @@ int				ft_is_in_quote(char *line, char *str);
 bool			ft_unset(t_mini *shell, char ***envp);
 bool			other_builtin(char *cmd, char **envp);
 int				ft_error_parsing(t_list_struct	*list);
+bool			check_cd_err(t_mini *shell, char *path);
 bool			ft_error(char *cmd, char *msg, int ret);
 void			ft_dell_simple_quote_export(char *line);
 void			ft_dell_double_quote_export(char *line);
