@@ -83,6 +83,8 @@ int	ft_parsing(t_mini *shell, char *line, char **envp)
 		shell->tab_pars[i] = if_exp_var(shell, envp, &i);
 		i++;
 	}
+	if (shell->tab_pars[0][0] == '|')
+		return (1);
 	ft_list_cmd(&shell);
 	return (0);
 }
