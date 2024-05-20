@@ -19,7 +19,9 @@ static int	ft_nb_pipe_cmd(t_mini *shell)
 static char	*ft_list_cmd_two(t_mini **shell, char *tmp, int *i)
 {
 	while ((*shell) && (*shell)->tab_pars[*i]
-		&& (*shell)->tab_pars[*i][0] != '|')
+		&& (*shell)->tab_pars[*i][0] != '|'
+		&& (*shell)->tab_pars[*i][0] != '>'
+		&& (*shell)->tab_pars[*i][0] != '<')
 	{
 		if ((*shell)->tab_pars[*i][0] != '>'
 				&& (*shell)->tab_pars[*i][0] != '<')
@@ -67,6 +69,7 @@ void	ft_list_cmd(t_mini **shell)
 		if (tmp)
 			(*shell)->tab_cmd[j++] = ft_strdup_shell(tmp);
 		i++;
+		printf("tab_cmd[%d] = %s\n", j - 1, (*shell)->tab_cmd[j - 1]);
 	}
 	(*shell)->tab_cmd[j] = NULL;
 }
