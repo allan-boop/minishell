@@ -31,7 +31,9 @@ bool	ft_n_option(bool *n_option, bool is_n_option, t_mini *shell, int *i)
 	while (is_n_option == true)
 	{
 		j = 0;
-		if (shell->tab_pars[*i][j] == '-'
+		if (shell->tab_pars[*i]
+			&& shell->tab_pars[*i][j] == '-'
+			&& shell->tab_pars[*i][j + 1]
 			&& shell->tab_pars[*i][j + 1] == 'n')
 		{
 			j++;
@@ -117,9 +119,12 @@ bool	ft_echo(t_mini *shell, char **envp)
 	while (shell->tab_pars[i] != NULL)
 	{
 		is_n_option = ft_n_option(&n_option, is_n_option, shell, &i);
-		ft_replace_space_in_str(shell->tab_pars[i], true);
-		if_exp_vard(shell, envp, &i);
-		i++;
+		if (shell->tab_pars[i] != NULL)
+		{
+			ft_replace_space_in_str(shell->tab_pars[i], true);
+			if_exp_vard(shell, envp, &i);
+			i++;
+		}
 	}
 	if (n_option == false)
 		ft_putstr_fd("\n", 1);
