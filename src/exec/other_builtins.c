@@ -63,10 +63,8 @@ int	ft_execve(char *str, char **envp)
 {
 	char	*path;
 	char	**tab_shell;
-	int		i;
 	int		j;
 
-	i = -1;
 	ft_replace_space(&str);
 	tab_shell = ft_split(str, ' ');
 	j = 0;
@@ -80,14 +78,8 @@ int	ft_execve(char *str, char **envp)
 		return (-1);
 	path = find_path_execve(tab_shell[0], envp);
 	if (!path)
-	{
-		while (tab_shell[++i])
-			free(tab_shell[i]);
-		free(tab_shell);
-		syntax_error(ERROR_PATH);
-		return (-1);
-	}
-	if (access(path, F_OK) == -1)
+		path = ft_strdup(tab_shell[0]);
+	if (access(path, F_OK) == -1 && access(path, X_OK) == -1)
 	{
 		ft_error_malloc(tab_shell);
 		return (-1);
