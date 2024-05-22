@@ -69,6 +69,17 @@ char	*ft_clean_quotes(char *str)
 
 int	ft_access_exec(char *path, char **tab_shell, char **envp)
 {
+	int		i;
+
+	i = -1;
+	if (!path)
+	{
+		while (tab_shell[++i])
+			free(tab_shell[i]);
+		free(tab_shell);
+		syntax_error(ERROR_PATH);
+		return (-1);
+	}
 	if (access(path, F_OK) == -1 && access(path, X_OK) == -1)
 	{
 		ft_error_malloc(tab_shell);
@@ -100,7 +111,8 @@ int	ft_execve(char *str, char **envp)
 	if (!tab_shell)
 		return (-1);
 	path = find_path_execve(tab_shell[0], envp);
-	if (!path)
+	if (!path && access(tab_shell[0], F_OK) == 0
+		&& access(tab_shell[0], X_OK) == 0)
 		path = ft_strdup(tab_shell[0]);
 	if (ft_access_exec(path, tab_shell, envp) == -1)
 		return (-1);

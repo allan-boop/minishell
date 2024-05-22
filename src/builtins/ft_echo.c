@@ -116,7 +116,11 @@ bool	ft_echo(t_mini *shell, char **envp)
 	n_option = false;
 	is_n_option = true;
 	shell->status = 0;
-	while (shell->tab_pars[i] != NULL)
+	while (shell->tab_pars[i] != NULL && shell->tab_pars[i][0] != '|'
+			&& ft_strcmp(shell->tab_pars[i], ">") != 0
+			&& ft_strcmp(shell->tab_pars[i], ">>") != 0
+			&& ft_strcmp(shell->tab_pars[i], "<") != 0
+			&& ft_strcmp(shell->tab_pars[i], "<<") != 0)
 	{
 		is_n_option = ft_n_option(&n_option, is_n_option, shell, &i);
 		if (shell->tab_pars[i] != NULL)

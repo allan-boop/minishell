@@ -94,6 +94,7 @@ bool	ft_cd(t_mini *shell, char **envp)
 	char		*oldcwd;
 
 	shell->tab_index++;
+	dup2(shell->og_stdout, STDOUT_FILENO);
 	if (shell->tab_pars[shell->tab_index])
 		ft_dell_all_quote_export(shell->tab_pars[shell->tab_index]);
 	if (shell->tab_pars[shell->tab_index]
