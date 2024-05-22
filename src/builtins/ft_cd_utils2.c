@@ -41,7 +41,6 @@ char	*ft_getenv(char *name, char **envp)
 	return (NULL);
 }
 
-
 static int	ft_cd_logic_error(t_mini *shell, char *path)
 {
 	if (chdir(path) == -1 || (shell->tab_pars[shell->tab_index] != NULL

@@ -23,6 +23,26 @@ bool	custom_builtin(t_mini *shell, char **envp, char ***copy_envp)
 	return (false);
 }
 
+static void	ft_parent(char *cmd_next, t_mini *shell, pid_t pid, int *pipefd)
+{
+	if (cmd_next != NULL)
+	{
+		if (shell->filein == -1)
+			dup2(pipefd[0], STDIN_FILENO);
+		close(pipefd[1]);
+		close(pipefd[0]);
+	}
+	else
+	{
+		if (shell->filein == -1)
+			dup2(shell->og_stdin, STDIN_FILENO);
+		waitpid(pid, &(shell->status), 0);
+		if (WIFSIGNALED(shell->status))
+			if (WTERMSIG(shell->status) == SIGQUIT)
+				shell->status = 131;
+	}
+}
+
 bool	ft_execution_core(t_mini *shell, char **envp,
 	char ***copy_envp, char *cmd_next)
 {
@@ -46,34 +66,13 @@ bool	ft_execution_core(t_mini *shell, char **envp,
 			other_builtin(shell->tab_cmd[shell->i], envp);
 		exit(1);
 	}
-	if (cmd_next != NULL)
-	{
-		if (shell->filein == -1)
-			dup2(pipefd[0], STDIN_FILENO);
-		close(pipefd[1]);
-		close(pipefd[0]);
-	}
-	else
-	{
-		if (shell->filein == -1)
-			dup2(shell->og_stdin, STDIN_FILENO);
-		waitpid(pid, &(shell->status), 0);
-		if (WIFSIGNALED(shell->status))
-		{
-			if (WTERMSIG(shell->status) == SIGQUIT)
-				shell->status = 131;
-		}
-	}
+	ft_parent(cmd_next, shell, pid, pipefd);
 	return (true);
 }
 
-void	ft_execution(t_mini *shell, char **envp, char ***copy_envp)
+static void	ft_exec_logic( t_mini *shell, char **envp
+			, char ***copy_envp, int is_p)
 {
-	int	is_p;
-
-	shell->tab_index = 0;
-	shell->i = 0;
-	is_p = ft_tab_len(shell->tab_cmd);
 	while (shell && shell->tab_index < ft_tab_len(shell->tab_pars)
 		&& shell->i < ft_tab_len(shell->tab_cmd)
 		&& shell->tab_pars[shell->tab_index]
@@ -94,6 +93,16 @@ void	ft_execution(t_mini *shell, char **envp, char ***copy_envp)
 			shell->tab_index++;
 		shell->i++;
 	}
+}
+
+void	ft_execution(t_mini *shell, char **envp, char ***copy_envp)
+{
+	int	is_p;
+
+	shell->tab_index = 0;
+	shell->i = 0;
+	is_p = ft_tab_len(shell->tab_cmd);
+	ft_exec_logic(shell, envp, copy_envp, is_p);
 	dup2(shell->og_stdin, STDIN_FILENO);
 	dup2(shell->og_stdout, STDOUT_FILENO);
 	shell->filein = -1;

@@ -74,13 +74,25 @@ static bool	ft_cd_logic( t_mini *shell, char **envp)
 	return (check_cd_err(shell, path));
 }
 
+static void	ft_change_env(char **envp, char *oldpwd, char *oldcwd)
+{
+	int	i;
+
+	i = 0;
+	i = ft_strlen(oldcwd) - 1;
+	while (i > 2 && oldcwd[i] == '/')
+		oldcwd[i--] = '\0';
+	ft_setenv("OLDPWD", oldpwd, &envp);
+	if (oldcwd[0] == '\0')
+		oldcwd = ft_strdup("/");
+	ft_setenv("PWD", oldcwd, &envp);
+}
+
 bool	ft_cd(t_mini *shell, char **envp)
 {
 	char		*oldpwd;
 	char		*oldcwd;
-	int			i;
 
-	i = 0;
 	shell->tab_index++;
 	if (shell->tab_pars[shell->tab_index])
 		ft_dell_all_quote_export(shell->tab_pars[shell->tab_index]);
@@ -99,12 +111,6 @@ bool	ft_cd(t_mini *shell, char **envp)
 		ft_setenv("PWD", oldpwd, &envp);
 		return (true);
 	}
-	i = ft_strlen(oldcwd) - 1;
-	while (i > 2 && oldcwd[i] == '/')
-		oldcwd[i--] = '\0';
-	ft_setenv("OLDPWD", oldpwd, &envp);
-	if (oldcwd[0] == '\0')
-		oldcwd = ft_strdup("/");
-	ft_setenv("PWD", oldcwd, &envp);
+	ft_change_env(envp, oldpwd, oldcwd);
 	return (true);
 }

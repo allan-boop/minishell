@@ -24,6 +24,18 @@ char	*clean_var(char *str)
 	return (var);
 }
 
+static void	ft_find_exp( char *tab_pars, int *j)
+{
+	while (tab_pars[*j] != '\0'
+		&& tab_pars[*j] != '$'
+		&& tab_pars[*j] != ' '
+		&& tab_pars[*j] != 2
+		&& tab_pars[*j] != 3
+		&& tab_pars[*j] != 34
+		&& tab_pars[*j] != 39)
+		(*j)++;
+}
+
 char	*print_exp_var(char *tab_pars, char **envp, int *j, char *str, char *n_str, int *l)
 {
 	int		k;
@@ -34,14 +46,7 @@ char	*print_exp_var(char *tab_pars, char **envp, int *j, char *str, char *n_str,
 			n_str[(*l)++] = tab_pars[(*j)++];
 		tab_pars[(*j)++] = 'q';
 		str = clean_var(str);
-		while (tab_pars[*j] != '\0'
-			&& tab_pars[*j] != '$'
-			&& tab_pars[*j] != ' '
-			&& tab_pars[*j] != 2
-			&& tab_pars[*j] != 3
-			&& tab_pars[*j] != 34
-			&& tab_pars[*j] != 39)
-			(*j)++;
+		ft_find_exp(tab_pars, j);
 		k = 0;
 		while (envp[k])
 		{

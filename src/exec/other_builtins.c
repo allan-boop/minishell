@@ -29,9 +29,8 @@ char	*find_path_execve(char *tab_shell, char **envp)
 	return (0);
 }
 
-char	*ft_clean_quotes(char *str)
+int	ft_count_quote(char *str)
 {
-	char	*new_str;
 	int		i;
 	int		j;
 
@@ -43,9 +42,18 @@ char	*ft_clean_quotes(char *str)
 			j++;
 		i++;
 	}
+	return (j);
+}
+
+char	*ft_clean_quotes(char *str)
+{
+	char	*new_str;
+	int		i;
+	int		j;
+
 	i = 0;
-	new_str = malloc(sizeof(char) * (ft_strlen(str) - j + 1));
 	j = 0;
+	new_str = malloc(sizeof(char) * (ft_strlen(str) - ft_count_quote(str) + 1));
 	if (!new_str)
 		return (NULL);
 	while (str[i])
@@ -57,6 +65,21 @@ char	*ft_clean_quotes(char *str)
 	new_str[j] = '\0';
 	free(str);
 	return (new_str);
+}
+
+int	ft_access_exec(char *path, char **tab_shell, char **envp)
+{
+	if (access(path, F_OK) == -1 && access(path, X_OK) == -1)
+	{
+		ft_error_malloc(tab_shell);
+		return (-1);
+	}
+	if (execve(path, tab_shell, envp) == -1)
+	{
+		syntax_error(ERROR_EXECVE);
+		return (-1);
+	}
+	return (0);
 }
 
 int	ft_execve(char *str, char **envp)
@@ -79,16 +102,8 @@ int	ft_execve(char *str, char **envp)
 	path = find_path_execve(tab_shell[0], envp);
 	if (!path)
 		path = ft_strdup(tab_shell[0]);
-	if (access(path, F_OK) == -1 && access(path, X_OK) == -1)
-	{
-		ft_error_malloc(tab_shell);
+	if (ft_access_exec(path, tab_shell, envp) == -1)
 		return (-1);
-	}
-	if (execve(path, tab_shell, envp) == -1)
-	{
-		syntax_error(ERROR_EXECVE);
-		return (-1);
-	}
 	return (0);
 }
 
@@ -97,6 +112,28 @@ bool	other_builtin(char *cmd, char **envp)
 	if (ft_execve(cmd, envp) == 0)
 		return (true);
 	return (false);
+}
+
+void	ft_parent(pid_t pid, int *pipefd, char *cmd_next, t_mini *shell)
+{
+	if (cmd_next != NULL)
+	{
+		if (shell->filein == -1)
+			dup2(pipefd[0], STDIN_FILENO);
+		close(pipefd[1]);
+		close(pipefd[0]);
+	}
+	else
+	{
+		if (shell->filein == -1)
+			dup2(shell->og_stdin, STDIN_FILENO);
+		waitpid(pid, &(shell->status), 0);
+		if (WIFSIGNALED(shell->status))
+		{
+			if (WTERMSIG(shell->status) == SIGQUIT)
+				shell->status = 131;
+		}
+	}
 }
 
 bool	other_builtin_p(char *cmd, char **envp, char *cmd_next, t_mini *shell)
@@ -121,23 +158,6 @@ bool	other_builtin_p(char *cmd, char **envp, char *cmd_next, t_mini *shell)
 		ft_execve(cmd, envp);
 		exit(1);
 	}
-	if (cmd_next != NULL)
-	{
-		if (shell->filein == -1)
-			dup2(pipefd[0], STDIN_FILENO);
-		close(pipefd[1]);
-		close(pipefd[0]);
-	}
-	else
-	{
-		if (shell->filein == -1)
-			dup2(shell->og_stdin, STDIN_FILENO);
-		waitpid(pid, &(shell->status), 0);
-		if (WIFSIGNALED(shell->status))
-		{
-			if (WTERMSIG(shell->status) == SIGQUIT)
-				shell->status = 131;
-		}
-	}
+	ft_parent(pid, pipefd, cmd_next, shell);
 	return (true);
 }
