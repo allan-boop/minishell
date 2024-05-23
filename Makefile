@@ -20,11 +20,13 @@ SRC_FILES =	minishell.c \
 			ft_signal.c \
 			exec/utils.c \
 			exec/utils.c \
+			exec/shlvl.c \
 			ft_error_two.c \
 			pars/ft_path.c \
 			pars/parsing.c \
 			malloc_factory.c \
 			builtins/ft_cd.c \
+			exec/exe_utils.c \
 			exec/execution.c \
 			builtins/ft_env.c \
 			pars/give_token.c \
