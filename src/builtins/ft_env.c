@@ -1,20 +1,17 @@
 #include "../../include/minishell.h"
 
-static char	**ft_own_args(char ***own_arg, char **copy_envp)
+static char	**ft_own_args(char ***own_arg, char **copy_envp, int i)
 {
-	int		i;
 	int		k;
 	char	**new_envp;
 
-	i = 0;
 	k = 0;
 	new_envp = ft_alloc(sizeof(char *) * (ft_tab_len(copy_envp) + 1));
 	while ((*own_arg)[i])
 	{
 		if (ft_getenv(ft_find_name_var((*own_arg)[i]), copy_envp) != NULL)
 		{
-			new_envp[k] = ft_strdup((*own_arg)[i]);
-			k++;
+			new_envp[k++] = ft_strdup((*own_arg)[i]);
 		}
 		i++;
 	}
@@ -39,7 +36,7 @@ bool	ft_env(char **envp, char **copy_envp, t_mini *shell)
 
 	i = 0;
 	own_arg = ft_copy_envp_no_sort(envp);
-	own_arg = ft_own_args(&own_arg, copy_envp);
+	own_arg = ft_own_args(&own_arg, copy_envp, 0);
 	if (shell->tab_pars[shell->tab_index + 1] != NULL
 		&& shell->tab_pars[shell->tab_index + 1][0] != '|'
 		&& shell->tab_pars[shell->tab_index + 1][0] != '>'

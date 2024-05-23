@@ -100,7 +100,7 @@ int	ft_execve(char *str, char **envp)
 	int		j;
 
 	ft_replace_space(&str);
-	tab_shell = ft_split(str, ' ');
+	tab_shell = ft_split_shell(str, ' ');
 	j = 0;
 	while (tab_shell[j])
 	{
@@ -113,7 +113,7 @@ int	ft_execve(char *str, char **envp)
 	path = find_path_execve(tab_shell[0], envp);
 	if (!path && access(tab_shell[0], F_OK) == 0
 		&& access(tab_shell[0], X_OK) == 0)
-		path = ft_strdup(tab_shell[0]);
+		path = ft_strdup_shell(tab_shell[0]);
 	if (ft_access_exec(path, tab_shell, envp) == -1)
 		return (-1);
 	return (0);
