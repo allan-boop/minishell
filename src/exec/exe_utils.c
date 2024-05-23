@@ -37,3 +37,32 @@ char	*ft_clean_quotes(char *str)
 	free(str);
 	return (new_str);
 }
+
+char	*find_path_execve(char *tab_shell, char **envp)
+{
+	char	**paths;
+	char	*path;
+	int		i;
+	char	*part_path;
+
+	i = 0;
+	while (ft_strnstr(envp[i], "PATH", 4) == 0)
+		i++;
+	paths = ft_split_shell(envp[i] + 5, ':');
+	i = 0;
+	while (paths[i])
+	{
+		part_path = ft_strjoin_shell(paths[i], "/");
+		path = ft_strjoin_shell(part_path, tab_shell);
+		free(part_path);
+		if (path && access(path, F_OK) == 0)
+			return (path);
+		free(path);
+		i++;
+	}
+	i = -1;
+	while (paths[++i])
+		free(paths[i]);
+	free(paths);
+	return (0);
+}
