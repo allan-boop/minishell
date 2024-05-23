@@ -18,8 +18,7 @@
 # define NEW 2
 # define DELETE 3
 # define CLEAR 4
-# define PROMPT "\033[34;01mpikapika$ \033[00m"
-
+# define PROMPT "\033[48;2;118;38;113mpika\033[00m\033[48;2;252;127;0mpika\033[00m$ "
 # include "libft.h"
 # include <term.h>
 # include <stdio.h>
