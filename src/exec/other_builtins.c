@@ -45,7 +45,8 @@ int	ft_execve(char *str, char **envp)
 		return (-1);
 	path = find_path_execve(tab_shell[0], envp);
 	if (!path && access(tab_shell[0], F_OK) == 0
-		&& access(tab_shell[0], X_OK) == 0)
+		&& access(tab_shell[0], X_OK) == 0
+		&& tab_shell[0][0] == '.' && tab_shell[0][1] == '/')
 		path = ft_strdup_shell(tab_shell[0]);
 	if (ft_access_exec(path, tab_shell, envp) == -1)
 		return (-1);
