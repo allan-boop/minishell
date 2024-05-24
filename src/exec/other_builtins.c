@@ -96,6 +96,7 @@ bool	other_builtin_p(char *cmd, char **envp, char *cmd_next, t_mini *shell)
 	}
 	if (pid == 0)
 	{
+		inc_shlvl(shell, envp);
 		if (cmd_next != NULL)
 			if (shell->fileout == -1)
 				dup2(pipefd[1], STDOUT_FILENO);

@@ -19,7 +19,7 @@ bool	custom_builtin(t_mini *shell, char **envp, char ***copy_envp)
 	else if (ft_strcmp(shell->tab_pars[shell->tab_index], "env") == 0)
 		return (ft_env(envp, *copy_envp, shell));
 	else if (ft_strcmp(shell->tab_pars[shell->tab_index], "exit") == 0)
-		return (ft_exit());
+		return (ft_exit(envp));
 	return (false);
 }
 
@@ -58,6 +58,7 @@ bool	ft_execution_core(t_mini *shell, char **envp,
 	}
 	if (pid == 0)
 	{
+		inc_shlvl(shell, envp);
 		if (cmd_next != NULL && shell->fileout == -1)
 			dup2(pipefd[1], STDOUT_FILENO);
 		close(pipefd[0]);
@@ -82,7 +83,6 @@ static void	ft_exec_logic( t_mini *shell, char **envp
 			&& shell->tab_pars[shell->tab_index][0] == '|')
 			shell->tab_index++;
 		ft_redirection(shell);
-		inc_shlvl(shell, envp);
 		if (is_p > 1)
 			ft_execution_core(shell, envp, copy_envp,
 				shell->tab_cmd[shell->i + 1]);
