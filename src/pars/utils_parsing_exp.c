@@ -24,36 +24,39 @@ char	*clean_var(char *str)
 	return (var);
 }
 
-static void	ft_find_exp( char *tab_pars, int *j)
+static int	ft_find_exp( char *tab_pars, int j)
 {
-	while (tab_pars[*j] != '\0'
-		&& tab_pars[*j] != '$'
-		&& tab_pars[*j] != ' '
-		&& tab_pars[*j] != 2
-		&& tab_pars[*j] != 3
-		&& tab_pars[*j] != 34
-		&& tab_pars[*j] != 39)
-		(*j)++;
+	while (tab_pars[j] != '\0'
+		&& tab_pars[j] != '$'
+		&& tab_pars[j] != ' '
+		&& tab_pars[j] != 2
+		&& tab_pars[j] != 3
+		&& tab_pars[j] != 34
+		&& tab_pars[j] != 39)
+		j++;
+	return (j);
 }
 
-char	*print_exp_var(char *tab_pars, char **envp, int *j, char *str, char *n_str, int *l)
+char	*print_exp_var(char *tab_pars, char *str, char *n_str,
+			t_int_utils *utils)
 {
 	int		k;
 
 	while (str)
 	{
-		while (tab_pars[*j] != '$')
-			n_str[(*l)++] = tab_pars[(*j)++];
-		tab_pars[(*j)++] = 'q';
+		while (tab_pars[(*utils).j] != '$')
+			n_str[((*utils).i)++] = tab_pars[((*utils).j)++];
+		tab_pars[((*utils).j)++] = 'q';
 		str = clean_var(str);
-		ft_find_exp(tab_pars, j);
+		(*utils).j = ft_find_exp(tab_pars, (*utils).j);
 		k = 0;
-		while (envp[k])
+		while ((*utils).envp[k])
 		{
-			if (ft_strcmp(str + 1, ft_find_name_var(envp[k])) == 0)
+			if (ft_strcmp(str + 1, ft_find_name_var((*utils).envp[k])) == 0)
 			{
-				n_str = ft_strjoin_shell(n_str, ft_getenv(str + 1, envp));
-				*l = ft_strlen(n_str);
+				n_str = ft_strjoin_shell(n_str,
+						ft_getenv(str + 1, (*utils).envp));
+				(*utils).i = ft_strlen(n_str);
 			}
 			k++;
 		}
@@ -62,26 +65,27 @@ char	*print_exp_var(char *tab_pars, char **envp, int *j, char *str, char *n_str,
 	return (n_str);
 }
 
-char	*if_exp_var(t_mini *shell, char **envp, int *i)
+char	*if_exp_var(t_mini *shell, char **copy_envp, int *i)
 {
-	int		j;
-	char	*str;
-	char	*n_str;
-	int		k;
+	char		*str;
+	char		*n_str;
+	t_int_utils	utils;
 
-	k = 0;
+	utils.i = 0;
 	str = ft_strchr(shell->tab_pars[*i], '$');
 	if (str)
 	{
 		n_str = ft_calloc_shell(ft_strlen(shell->tab_pars[*i])
 				+ 1, sizeof(char));
-		j = 0;
+		utils.j = 0;
 		if (ft_is_in_quote(shell->tab_pars[*i], str) == 0)
-			n_str = print_exp_var(shell->tab_pars[*i],
-					envp, &j, str, n_str, &k);
-		while (shell->tab_pars[*i][j])
-			n_str[k++] = shell->tab_pars[*i][j++];
-		n_str[k] = '\0';
+		{
+			utils.envp = copy_envp;
+			n_str = print_exp_var(shell->tab_pars[*i], str, n_str, &utils);
+		}
+		while (shell->tab_pars[*i][utils.j])
+			n_str[(utils.i)++] = shell->tab_pars[*i][(utils.j)++];
+		n_str[utils.i] = '\0';
 		return (n_str);
 	}
 	return (shell->tab_pars[*i]);

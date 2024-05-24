@@ -62,7 +62,7 @@ char	**ft_put_space_between(char **tab_line)
 	return (tab_line);
 }
 
-int	ft_parsing(t_mini *shell, char *line, char **envp)
+int	ft_parsing(t_mini *shell, char *line, char **copy_envp)
 {
 	int		i;
 
@@ -80,7 +80,7 @@ int	ft_parsing(t_mini *shell, char *line, char **envp)
 		if (ft_strcmp_shell(shell->tab_pars[i], "$?") == 0)
 			shell->tab_pars[i] = ft_replace_doll(shell->tab_pars[i],
 					ft_itoa_shell(shell->status));
-		shell->tab_pars[i] = if_exp_var(shell, envp, &i);
+		shell->tab_pars[i] = if_exp_var(shell, copy_envp, &i);
 		i++;
 	}
 	if (shell->tab_pars[0][0] == '|')

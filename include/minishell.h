@@ -89,6 +89,13 @@ typedef struct s_str_utils
 	size_t	end;
 }	t_str_utils;
 
+typedef struct s_int_utils
+{
+	int		i;
+	int		j;
+	char	**envp;
+}	t_int_utils;
+
 bool			ft_exit(void);
 void			ft_signal(void);
 void			*ft_del_all(void);
@@ -147,7 +154,7 @@ void			*ft_calloc_shell(size_t nmemb, size_t size);
 bool			ft_export(t_mini *shell, char ***copy_envp);
 int				ft_current_arg(char *current_arg, char **envp);
 char			*find_path_execve(char *tab_line, char **envp);
-char			*if_exp_var(t_mini *shell, char **envp, int *i);
+char			*if_exp_var(t_mini *shell, char **copy_envp, int *i);
 void			ft_setenv(char *name, char *value, char ***envp);
 int				ft_check_last(char *current_arg, t_mini **shell);
 void			ft_lstadd_back_envp(t_mini **shell, t_envp *new);

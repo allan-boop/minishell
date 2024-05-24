@@ -7,7 +7,7 @@ void	prompt_treatment(char *line, t_mini *shell,
 
 	if (line[0] != '\0')
 	{
-		error = ft_parsing(shell, line, envp);
+		error = ft_parsing(shell, line, *copy_envp);
 		if (error == 0)
 		{
 			shell->list = create_list(shell);
