@@ -9,7 +9,7 @@ int	gnl(char **line)
 
 	i = 0;
 	r = 0;
-	buffer = (char *)malloc(10000);
+	buffer = (char *)ft_alloc(10000);
 	if (!buffer)
 		return (-1);
 	r = read(0, &c, 1);
@@ -23,7 +23,6 @@ int	gnl(char **line)
 	buffer[i] = '\n';
 	buffer[++i] = '\0';
 	*line = buffer;
-	free(buffer);
 	return (r);
 }
 
