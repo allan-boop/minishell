@@ -48,8 +48,6 @@ void	ft_here_doc(t_mini *shell, int *i, int *fd)
 		while (gnl(&line))
 		{
 			write(1, "> ", 2);
-			printf("line = %s\n", line);
-			printf("tab_pars = %s\n", shell->tab_pars[*i + 1]);
 			if (ft_strncmp(line, shell->tab_pars[*i + 1],
 					ft_strlen(shell->tab_pars[*i + 1])) == 0)
 				exit(EXIT_SUCCESS);
