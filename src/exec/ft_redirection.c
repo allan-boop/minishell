@@ -9,7 +9,7 @@ int	gnl(char **line)
 
 	i = 0;
 	r = 0;
-	buffer = (char *)malloc(10000);
+	buffer = (char *)ft_alloc(10000);
 	if (!buffer)
 		return (-1);
 	r = read(0, &c, 1);
@@ -23,7 +23,6 @@ int	gnl(char **line)
 	buffer[i] = '\n';
 	buffer[++i] = '\0';
 	*line = buffer;
-	free(buffer);
 	return (r);
 }
 
@@ -49,6 +48,8 @@ void	ft_here_doc(t_mini *shell, int *i, int *fd)
 		while (gnl(&line))
 		{
 			write(1, "> ", 2);
+			printf("line = %s\n", line);
+			printf("tab_pars = %s\n", shell->tab_pars[*i + 1]);
 			if (ft_strncmp(line, shell->tab_pars[*i + 1],
 					ft_strlen(shell->tab_pars[*i + 1])) == 0)
 				exit(EXIT_SUCCESS);
