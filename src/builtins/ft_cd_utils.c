@@ -54,7 +54,6 @@ char	*ft_clean_point(char **str, int i, int j)
 		else if ((*str)[i])
 			new[j++] = (*str)[i++];
 	}
-	free(*str);
 	return (new);
 }
 
