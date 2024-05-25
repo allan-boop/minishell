@@ -1,7 +1,9 @@
 #include "../../include/minishell.h"
 
-bool	custom_builtin(t_mini *shell, char **envp, char ***copy_envp)
+bool	custom_builtin(t_mini *shell, char **envp, char ***copy_envp, char *cmd_next)
 {
+	if (!cmd_next)
+		dup2(shell->og_stdout, STDOUT_FILENO);
 	if (shell->fileout != -1)
 		dup2(shell->fileout, STDOUT_FILENO);
 	if (shell->filein != -1)
@@ -63,7 +65,7 @@ bool	ft_execution_core(t_mini *shell, char **envp,
 			dup2(pipefd[1], STDOUT_FILENO);
 		close(pipefd[0]);
 		close(pipefd[1]);
-		if (custom_builtin(shell, envp, copy_envp) == false)
+		if (custom_builtin(shell, envp, copy_envp, shell->tab_cmd[shell->i + 1]) == false)
 			other_builtin(shell->tab_cmd[shell->i], envp);
 		exit(1);
 	}
@@ -86,7 +88,7 @@ static void	ft_exec_logic( t_mini *shell, char **envp
 		if (is_p > 1)
 			ft_execution_core(shell, envp, copy_envp,
 				shell->tab_cmd[shell->i + 1]);
-		else if (custom_builtin(shell, envp, copy_envp) == false)
+		else if (custom_builtin(shell, envp, copy_envp, shell->tab_cmd[shell->i + 1]) == false)
 			other_builtin_p(shell->tab_cmd[shell->i],
 				envp, shell->tab_cmd[shell->i + 1], shell);
 		while (shell->tab_pars[shell->tab_index] != NULL
