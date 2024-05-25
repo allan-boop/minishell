@@ -70,11 +70,10 @@ static int	ft_check_special_char_one(char *just_name_var)
 	return (0);
 }
 
-int	ft_current_arg(char *current_arg, char **envp)
+int	ft_current_arg(char *current_arg)
 {
 	char	*just_name_var;
 
-	(void)envp;
 	just_name_var = ft_find_name_var(current_arg);
 	if (ft_check_special_char_one(just_name_var) == 1)
 		return (1);

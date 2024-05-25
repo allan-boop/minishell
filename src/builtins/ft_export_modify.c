@@ -8,7 +8,7 @@ void	ft_modify_var(t_mini *shell, char *existing_var,
 	char	*new_value;
 	int		i;
 
-	just_name_var_plus = ft_strdup(just_name_var);
+	just_name_var_plus = ft_strdup_shell(just_name_var);
 	if (ft_check_last(just_name_var, &shell) == 2)
 		return ;
 	if (ft_check_last(just_name_var, &shell) == 1)

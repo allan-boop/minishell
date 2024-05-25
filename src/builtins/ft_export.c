@@ -63,10 +63,11 @@ static int	ft_export_core(char ***copy_envp, t_mini *shell,
 {
 	if (ft_del_quotes(&shell->tab_pars[shell->tab_index]) == 1)
 		return (true);
-	if (ft_current_arg(shell->tab_pars[shell->tab_index], *copy_envp) == 1)
+	if (ft_current_arg(shell->tab_pars[shell->tab_index]) == 1)
 	{
 		shell->status = 1;
 		syntax_error(INVALID_IDENTIFIER);
+		return (true);
 	}
 	else if (ft_already_exist(shell->tab_pars[shell->tab_index],
 			copy_envp, shell) == 2)
