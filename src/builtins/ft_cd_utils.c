@@ -19,7 +19,7 @@ char	*ft_clean_dpoint(char **str, int i)
 	char	*tmp;
 
 	start = 0;
-	new = (char *)ft_calloc(ft_strlen(*str) + 1, sizeof(char));
+	new = (char *)ft_calloc_shell(ft_strlen(*str) + 1, sizeof(char));
 	tmp = new;
 	while ((*str)[i])
 		ft_find_dpoint(str, &i, &start, &new);
