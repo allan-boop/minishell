@@ -62,7 +62,7 @@ char	**ft_copy_envp_no_sort(char **envp)
 		return (NULL);
 	while (i < len - 1)
 	{
-		copy_envp[i] = ft_strdup(envp[i]);
+		copy_envp[i] = envp[i];
 		i++;
 	}
 	copy_envp[i] = NULL;
