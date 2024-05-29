@@ -30,8 +30,6 @@ void	ft_add_new_var(t_mini **shell, char ***copy_envp, char *existing_var)
 		new_tab[i] = ft_strdup((*shell)->tab_pars[(*shell)->tab_index]);
 	ft_add_new_var_two(&new_tab, shell, i);
 	i = -1;
-	while ((*copy_envp)[++i])
-		free((*copy_envp)[i]);
 	free(*copy_envp);
 	*copy_envp = new_tab;
 	return ;
@@ -67,7 +65,6 @@ static int	ft_export_core(char ***copy_envp, t_mini *shell,
 	{
 		shell->status = 1;
 		syntax_error(INVALID_IDENTIFIER);
-		return (true);
 	}
 	else if (ft_already_exist(shell->tab_pars[shell->tab_index],
 			copy_envp, shell) == 2)
