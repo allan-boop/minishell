@@ -25,14 +25,14 @@ bool	custom_builtin(t_mini *shell, char **envp, char ***copy_envp, char *cmd_nex
 	return (false);
 }
 
-static void	ft_parent(char *cmd_next, t_mini *shell, pid_t pid, int *pipefd)
+static void	ft_parent(char *cmd_next, t_mini *shell, pid_t pid)
 {
 	if (cmd_next != NULL)
 	{
 		if (shell->filein == -1)
-			dup2(pipefd[0], STDIN_FILENO);
-		close(pipefd[1]);
-		close(pipefd[0]);
+			dup2(shell->pipe_fd[shell->i_p][0], STDIN_FILENO);
+		close(shell->pipe_fd[shell->i_p][1]);
+		close(shell->pipe_fd[shell->i_p][0]);
 	}
 	else
 	{
@@ -51,7 +51,8 @@ bool	ft_execution_core(t_mini *shell, char **envp,
 	pid_t	pid;
 	int		pipefd[2];
 
-	pipe(pipefd);
+	shell->pipe_fd[shell->i_p] = pipefd;
+	pipe(shell->pipe_fd[shell->i_p]);
 	pid = fork();
 	if (pid == -1)
 	{
@@ -62,14 +63,14 @@ bool	ft_execution_core(t_mini *shell, char **envp,
 	{
 		inc_shlvl(shell, envp);
 		if (cmd_next != NULL && shell->fileout == -1)
-			dup2(pipefd[1], STDOUT_FILENO);
-		close(pipefd[0]);
-		close(pipefd[1]);
+			dup2(shell->pipe_fd[shell->i_p][1], STDOUT_FILENO);
+		close(shell->pipe_fd[shell->i_p][0]);
+		close(shell->pipe_fd[shell->i_p][1]);
 		if (custom_builtin(shell, envp, copy_envp, shell->tab_cmd[shell->i + 1]) == false)
 			other_builtin(shell->tab_cmd[shell->i], envp);
 		exit(1);
 	}
-	ft_parent(cmd_next, shell, pid, pipefd);
+	ft_parent(cmd_next, shell, pid);
 	return (true);
 }
 
@@ -95,6 +96,7 @@ static void	ft_exec_logic( t_mini *shell, char **envp
 			&& shell->tab_pars[shell->tab_index][0] != '|')
 			shell->tab_index++;
 		shell->i++;
+		shell->i_p++;
 	}
 }
 
@@ -105,6 +107,16 @@ void	ft_execution(t_mini *shell, char **envp, char ***copy_envp)
 	shell->tab_index = 0;
 	shell->i = 0;
 	is_p = ft_tab_len(shell->tab_cmd);
+	shell->pipe_fd = ft_alloc(sizeof(int *) * is_p + 1);
+	while (shell->i < is_p)
+	{
+		shell->pipe_fd[shell->i] = ft_alloc(2 * sizeof(int));
+		shell->i++;
+	}
+	shell->i = 0;
+	shell->i_p = 0;
+	if (!shell->pipe_fd)
+		exit(1);
 	ft_exec_logic(shell, envp, copy_envp, is_p);
 	dup2(shell->og_stdin, STDIN_FILENO);
 	dup2(shell->og_stdout, STDOUT_FILENO);

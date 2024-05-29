@@ -24,6 +24,7 @@ void	ft_modify_var(t_mini *shell, char *existing_var,
 		new_value = ft_find_value_var(existing_var);
 		new_var = ft_strjoin_shell(just_name_var, "=");
 		new_var = ft_strjoin(new_var, new_value);
+		free((*copy_envp)[i]);
 		(*copy_envp)[i] = new_var;
 	}
 	ft_create_list(copy_envp, &shell);
