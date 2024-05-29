@@ -1,21 +1,5 @@
 #include "../../include/minishell.h"
 
-char	*ft_getenv(char *name, char **envp)
-{
-	int		i;
-	int		len;
-
-	i = 0;
-	len = ft_strlen(name);
-	while (envp[i] != NULL)
-	{
-		if (ft_strncmp(name, envp[i], len) == 0)
-			return (envp[i] + len + 1);
-		i++;
-	}
-	return (NULL);
-}
-
 static char	*ft_setenv_index(char *name, char ***envp, char *value, int *i)
 {
 	int		len;
@@ -68,34 +52,55 @@ static bool	ft_cd_logic( t_mini *shell, char **envp)
 {
 	char	*path;
 
-	if (shell->tab_pars[1] == NULL || shell->tab_pars[1][0] == '~')
+	if (shell->tab_pars[shell->tab_index] == NULL
+		|| shell->tab_pars[shell->tab_index][0] == '~')
 	{
 		path = ft_getenv("HOME", envp);
-		if (shell->tab_pars[1] && shell->tab_pars[1][1] != '\0')
-			path = ft_strjoin_shell(path, shell->tab_pars[1] + 1);
+		if (shell->tab_pars[shell->tab_index]
+			&& shell->tab_pars[shell->tab_index][1] != '\0')
+			path = ft_strjoin_shell(path, shell->tab_pars[shell->tab_index]
+					+ 1);
 		if (path == NULL)
 			return (ft_error("cd", "HOME not set", 1));
 	}
-	else if (ft_strcmp(shell->tab_pars[1], "-") == 0)
+	else if (ft_strcmp(shell->tab_pars[shell->tab_index], "-") == 0)
 	{
 		path = ft_getenv("OLDPWD", envp);
 		if (path == NULL)
 			return (ft_error("cd", "OLDPWD not set", 1));
 	}
 	else
-		path = shell->tab_pars[1];
-	if (chdir(path) == -1)
-		return (ft_error("cd", strerror(errno), 1));
-	return (false);
+		path = shell->tab_pars[shell->tab_index];
+	return (check_cd_err(shell, path));
+}
+
+static void	ft_change_env(char **envp, char *oldpwd, char *oldcwd)
+{
+	int	i;
+
+	i = 0;
+	i = ft_strlen(oldcwd) - 1;
+	while (i > 2 && oldcwd[i] == '/')
+		oldcwd[i--] = '\0';
+	ft_setenv("OLDPWD", oldpwd, &envp);
+	if (oldcwd[0] == '\0')
+		oldcwd = ft_strdup("/");
+	ft_setenv("PWD", oldcwd, &envp);
 }
 
 bool	ft_cd(t_mini *shell, char **envp)
 {
 	char		*oldpwd;
 	char		*oldcwd;
-	int			i;
 
-	i = 0;
+	shell->tab_index++;
+	dup2(shell->og_stdout, STDOUT_FILENO);
+	if (shell->tab_pars[shell->tab_index])
+		ft_dell_all_quote_export(shell->tab_pars[shell->tab_index]);
+	if (shell->tab_pars[shell->tab_index]
+		&& shell->tab_pars[shell->tab_index + 1]
+		&& shell->tab_pars[shell->tab_index + 1][0] != '|')
+		return (ft_error("cd", "too many arguments", 1));
 	oldpwd = ft_getenv("PWD", envp);
 	oldcwd = ft_getenv("PWD", envp);
 	if (ft_cd_logic(shell, envp) == 1)
@@ -107,10 +112,6 @@ bool	ft_cd(t_mini *shell, char **envp)
 		ft_setenv("PWD", oldpwd, &envp);
 		return (true);
 	}
-	i = ft_strlen(oldcwd) - 1;
-	while (i > 2 && oldcwd[i] == '/')
-		oldcwd[i--] = '\0';
-	ft_setenv("OLDPWD", oldpwd, &envp);
-	ft_setenv("PWD", oldcwd, &envp);
+	ft_change_env(envp, oldpwd, oldcwd);
 	return (true);
 }

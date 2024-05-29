@@ -7,7 +7,7 @@ void	prompt_treatment(char *line, t_mini *shell,
 
 	if (line[0] != '\0')
 	{
-		error = ft_parsing(shell, line);
+		error = ft_parsing(shell, line, *copy_envp);
 		if (error == 0)
 		{
 			shell->list = create_list(shell);
@@ -19,18 +19,27 @@ void	prompt_treatment(char *line, t_mini *shell,
 	}
 }
 
+static void	ft_init_shell(t_mini *shell, int status)
+{
+	shell->og_stdout = dup(STDOUT_FILENO);
+	shell->og_stdin = dup(STDIN_FILENO);
+	shell->status = status;
+}
+
 void	ft_loop(char **envp)
 {
+	int				status;
 	char			*line;
 	t_mini			*shell;
 	char			**copy_envp;
 
 	ft_signal();
 	copy_envp = ft_copy_envp_no_sort(envp);
+	status = 0;
 	while (1)
 	{
 		shell = ft_alloc(sizeof(t_mini));
-		shell->og_stdin = dup(STDIN_FILENO);
+		ft_init_shell(shell, status);
 		line = readline(PROMPT);
 		if (line == NULL)
 		{
@@ -39,6 +48,7 @@ void	ft_loop(char **envp)
 		}
 		prompt_treatment(line, shell, envp, &copy_envp);
 		free(line);
+		status = shell->status;
 		ft_del_all();
 	}
 	free(copy_envp);

@@ -17,7 +17,7 @@ static char	*ft_print_export_else_two(char *new_value, char *value, size_t j)
 	return (new_value);
 }
 
-static int	ft_print_export_else(char *value, t_envp *tmp)
+static void	ft_print_export_else(char *value, t_envp *tmp)
 {
 	char	*new_value;
 	size_t	i;
@@ -37,14 +37,13 @@ static int	ft_print_export_else(char *value, t_envp *tmp)
 		}
 		new_value = ft_alloc(sizeof(char) * (i + nb_double_quote + 1));
 		new_value = ft_print_export_else_two(new_value, value, j);
-		printf("declare -x %s=\"%s\"\n", tmp->var, new_value);
+		ft_printf("declare -x %s=\"%s\"\n", tmp->var, new_value);
 	}
 	else
-		printf("declare -x %s=\"%s\"\n", tmp->var, tmp->value);
-	return (0);
+		ft_printf("declare -x %s=\"%s\"\n", tmp->var, tmp->value);
 }
 
-static int	ft_print_export(t_mini *shell)
+static void	ft_print_export(t_mini *shell)
 {
 	t_envp	*tmp;
 
@@ -52,27 +51,32 @@ static int	ft_print_export(t_mini *shell)
 	while (tmp)
 	{
 		if (tmp->value[0] == 0)
-			printf("declare -x %s\n", tmp->var);
+			ft_printf("declare -x %s\n", tmp->var);
 		else
-			if (ft_print_export_else(tmp->value, tmp) == 1)
-				return (1);
+			ft_print_export_else(tmp->value, tmp);
 		tmp = tmp->next;
 	}
-	return (0);
 }
 
 bool	ft_print_export_alone(t_mini *shell)
 {
 	if (ft_strcmp_shell(shell->tab_pars[shell->tab_index], "export") == 0
-		&& (shell->tab_pars[1] == NULL
-			|| shell->tab_pars[1][0] == '#'
-		|| shell->tab_pars[1][0] == ';'))
+		&& shell->tab_pars[shell->tab_index + 1] == NULL)
 	{
-		if (ft_print_export(shell) == 1)
-		{
-			ft_del_all();
-			exit(1);
-		}
+		ft_print_export(shell);
+		return (true);
+	}
+	else if (ft_strcmp_shell(shell->tab_pars[shell->tab_index], "export") == 0
+		&& shell->tab_pars[shell->tab_index] != NULL
+		&& shell->tab_pars[shell->tab_index + 1] != NULL
+		&& (shell->tab_pars[shell->tab_index + 1][0] == '|'
+		|| shell->tab_pars[shell->tab_index + 1] == NULL
+		|| shell->tab_pars[shell->tab_index + 1][0] == '>'
+		|| shell->tab_pars[shell->tab_index + 1][0] == '<'
+		|| shell->tab_pars[shell->tab_index + 1][0] == '#'
+		|| shell->tab_pars[shell->tab_index + 1][0] == ';'))
+	{
+		ft_print_export(shell);
 		return (true);
 	}
 	return (false);

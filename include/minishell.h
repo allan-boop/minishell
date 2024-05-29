@@ -10,6 +10,7 @@
 # define QUOTE_FAIL "Error syntax: quote failed.\n"
 # define PIPE_FAIL "Error syntax: pipe failed.\n"
 # define INVALID_IDENTIFIER "Is not a valid identifier.\n"
+# define INVALID_OPTION "Invalid option.\n"
 # define ERROR_EXECVE "Error execve.\n"
 # define ERROR_PATH "Error path.\n"
 # define ERROR_FORK "Error fork.\n"
@@ -17,13 +18,13 @@
 # define NEW 2
 # define DELETE 3
 # define CLEAR 4
-# define PROMPT "pikapika$ "
-
+# define PROMPT "\033[48;2;118;38;113mpika\033[00m\033[48;2;252;127;0mpika\033[00m$ "
 # include "libft.h"
 # include <term.h>
 # include <stdio.h>
 # include <errno.h>
 # include <stdlib.h>
+# include <fcntl.h>
 # include <unistd.h>
 # include <signal.h>
 # include <dirent.h>
@@ -69,11 +70,15 @@ typedef struct s_envp
 typedef struct s_mini
 {
 	int				og_stdin;
+	int				og_stdout;
 	char			**tab_pars;
 	char			**tab_cmd;
+	int				status;
 	bool			pipe;
 	int				tab_index;
 	int				i;
+	int				filein;
+	int				fileout;
 	t_list_struct	*list;
 	t_envp			*team_envp;
 }	t_mini;
@@ -84,46 +89,57 @@ typedef struct s_str_utils
 	size_t	end;
 }	t_str_utils;
 
-bool			ft_exit(void);
+typedef struct s_int_utils
+{
+	int		i;
+	int		j;
+	char	**envp;
+}	t_int_utils;
+
 void			ft_signal(void);
 void			*ft_del_all(void);
 void			*ft_alloc(int size);
-bool			ft_pwd(char **envp);
+bool			ft_exit(char **envp);
 void			ft_nb_args(int argc);
 void			ft_loop(char **envp);
+char			*ft_itoa_shell(int n);
 int				ft_tab_len(char **envp);
 int				syntax_error(char *msg);
 void			*ft_del_alloc(void *var);
+int				ft_count_quote(char *str);
 int				ft_del_quotes(char **arg);
-void			ft_list_cmd(t_mini **shell);
 char			*ft_space_pipe(char *line);
 int				ft_check_quote(char *line);
+char			*ft_clean_quotes(char *str);
+void			ft_list_cmd(t_mini **shell);
 char			**ft_sort_envp(char **envp);
 t_list_struct	*create_list(t_mini *shell);
 int				ft_len_space_pipe(char *line);
+void			ft_redirection(t_mini *shell);
 void			ft_replace_space(char **line);
 t_envp			*ft_lstnew_envp(void *content);
 void			give_token(t_list_struct *node);
 char			*ft_strdup_shell(const char *s);
 int				ft_count_arg_fork(t_mini *shell);
-int				ft_check_last(char *current_arg);
 char			*ft_find_name_var(char *content);
 bool			ft_cd(t_mini *shell, char **envp);
 void			ft_error_malloc(char **tab_shell);
 char			*ft_find_value_var(char *content);
 int				ft_execve(char *str, char **envp);
+int				ft_current_arg(char *current_arg);
+bool			ft_pwd(t_mini *shell, char **envp);
 char			**ft_copy_envp_no_sort(char **envp);
 bool			ft_echo(t_mini *shell, char **envp);
 char			*ft_getenv(char *name, char **envp);
-bool			ft_unset(t_mini *shell, char ***envp);
 int				ft_replace_quote_export(char **line);
 bool			ft_print_export_alone(t_mini *shell);
 void			ft_dell_all_quote_export(char *line);
-bool			ft_env(char **envp, char **copy_envp);
 int				ft_is_in_quote(char *line, char *str);
+bool			ft_unset(t_mini *shell, char ***envp);
 bool			other_builtin(char *cmd, char **envp);
-int				ft_parsing(t_mini *shell, char *line);
+void			inc_shlvl(t_mini *shell, char **envp);
 int				ft_error_parsing(t_list_struct	*list);
+bool			check_cd_err(t_mini *shell, char *path);
 bool			ft_error(char *cmd, char *msg, int ret);
 void			ft_dell_simple_quote_export(char *line);
 void			ft_dell_double_quote_export(char *line);
@@ -133,16 +149,22 @@ bool			ft_error(char *cmd, char *msg, int ret);
 char			*find_path(char *tab_shell, char **envp);
 size_t			count_words_split(char const *s, char c);
 void			ft_copy_envp(char **envp, t_mini *shell);
+char			*ft_replace_doll(char *line, char *value);
 t_list_struct	*create_node_list(t_mini *shell, size_t i);
+void			*ft_calloc_shell(size_t nmemb, size_t size);
 bool			ft_export(t_mini *shell, char ***copy_envp);
-int				ft_current_arg(char *current_arg, char **envp);
 char			*find_path_execve(char *tab_line, char **envp);
+char			*if_exp_var(t_mini *shell, char **copy_envp, int *i);
+void			ft_setenv(char *name, char *value, char ***envp);
+int				ft_check_last(char *current_arg, t_mini **shell);
 void			ft_lstadd_back_envp(t_mini **shell, t_envp *new);
 void			ft_create_list(char ***copy_envp, t_mini **shell);
 char			*ft_strjoin_shell(char const *s1, char const *s2);
 void			*malloc_factory(size_t size, int type, void *ptr);
+bool			ft_env(char **envp, char **copy_envp, t_mini *shell);
 void			ft_replace_space_in_str(char *line, bool only_quote);
 int				ft_len_space_redirect(int *i, char *line, size_t *len);
+int				ft_parsing(t_mini *shell, char *line, char **copy_envp);
 void			ft_space_redirect(int *i, int *j, char *line, char *tmp);
 void			add_node_front(t_list_struct *list, t_list_struct *node);
 void			del_node_list(t_list_struct **list, t_list_struct *node);
@@ -150,9 +172,13 @@ void			ft_change_path( t_mini *shell, char **envp, char **oldcwd);
 void			ft_execution(t_mini *shell, char **envp, char ***copy_envp);
 void			ft_find_dpointb(int *i, int *start, char **str, char **new);
 void			del_if_same(t_malloc_ptr *l_m, t_malloc_ptr *tmp, void *var);
-void			ft_modify_var(t_mini *shell, char *existing_var, char ***envp);
 char			*ft_substr_shell(char const *s, unsigned int start, size_t len);
-void			ft_add_new_var(t_mini **shell, char ***envp, char *existing_var);
-void			ft_check_plus(char **envp, char *just_name_var, char *existing_var);
-bool			other_builtin_p(char *cmd, char **envp, char *cmd_next, t_mini *shell);
+void			ft_add_new_var(t_mini **shell, char ***envp,
+					char *existing_var);
+void			ft_check_plus(char **envp, char *just_name_var,
+					char *existing_var);
+bool			other_builtin_p(char *cmd, char **envp,
+					char *cmd_next, t_mini *shell);
+void			ft_modify_var(t_mini *shell, char *existing_var,
+					char ***envp, char *just_name_var);
 #endif

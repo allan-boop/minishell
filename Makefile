@@ -20,19 +20,19 @@ SRC_FILES =	minishell.c \
 			ft_signal.c \
 			exec/utils.c \
 			exec/utils.c \
+			exec/shlvl.c \
 			ft_error_two.c \
 			pars/ft_path.c \
 			pars/parsing.c \
 			malloc_factory.c \
 			builtins/ft_cd.c \
+			exec/exe_utils.c \
 			exec/execution.c \
 			builtins/ft_env.c \
 			pars/give_token.c \
 			builtins/ft_pwd.c \
 			pars/utils_envp.c \
-			builtins/ft_cd_utils2.c \
 			exec/utils_fork.c \
-			builtins/ft_cd_utils.c \
 			pars/ft_find_var.c \
 			builtins/ft_exit.c \
 			builtins/ft_echo.c \
@@ -46,11 +46,18 @@ SRC_FILES =	minishell.c \
 			builtins/ft_export.c \
 			pars/ft_space_pipe.c \
 			pars/ft_split_shell.c \
+			exec/ft_redirection.c \
 			exec/other_builtins.c \
+			pars/ft_replace_doll.c \
+			pars/ft_calloc_shell.c \
+			builtins/ft_cd_utils.c \
+			builtins/ft_cd_utils2.c \
+			pars/utils_parsing_exp.c \
 			pars/ft_space_chevron.c \
 			pars/utils_parsing_cmd.c \
 			builtins/ft_echo_utils.c \
 			builtins/ft_export_utils.c \
+			builtins/ft_export_modify.c \
 			pars/utils_export_quote.c
 
 SRC_FILES := $(addprefix src/, $(SRC_FILES))

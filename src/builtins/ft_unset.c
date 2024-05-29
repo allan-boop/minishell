@@ -27,6 +27,13 @@ static bool	ft_check_unset(t_mini *shell)
 		syntax_error(NOT_ENOUGH_ARG);
 		return (false);
 	}
+	if (shell->tab_pars[shell->tab_index + 1][0] == '-'
+		&& shell->tab_pars[shell->tab_index + 1][1] != '\0')
+	{
+		shell->status = 1;
+		syntax_error(INVALID_OPTION);
+		return (false);
+	}
 	return (true);
 }
 
@@ -70,6 +77,7 @@ bool	ft_unset(t_mini *shell, char ***envp)
 	size_t		i;
 	size_t		nb_args;
 
+	shell->status = 0;
 	if (ft_check_unset(shell) == false)
 		return (true);
 	nb_args = ft_count_args(shell);
