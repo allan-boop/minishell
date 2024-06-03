@@ -1,18 +1,5 @@
 #include "../../include/minishell.h"
 
-void	free_envp(char ***env)
-{
-	int	i;
-
-	i = 0;
-	while ((*env)[i])
-	{
-		free((*env)[i]);
-		i++;
-	}
-	free(*env);
-}
-
 static char	**ft_own_args(char ***own_arg, char **copy_envp, int i)
 {
 	int		k;
@@ -23,7 +10,7 @@ static char	**ft_own_args(char ***own_arg, char **copy_envp, int i)
 	while ((*own_arg)[i])
 	{
 		if (ft_getenv(ft_find_name_var((*own_arg)[i]), copy_envp) != NULL)
-			new_envp[k++] = ft_strdup((*own_arg)[i]);
+			new_envp[k++] = ft_strdup_shell((*own_arg)[i]);
 		i++;
 	}
 	new_envp[k] = NULL;
@@ -32,12 +19,12 @@ static char	**ft_own_args(char ***own_arg, char **copy_envp, int i)
 	{
 		if (ft_getenv(ft_find_name_var(copy_envp[i]), new_envp) == NULL)
 		{
-			new_envp[k++] = ft_strdup(copy_envp[i]);
+			new_envp[k++] = ft_strdup_shell(copy_envp[i]);
 			new_envp[k] = NULL;
 		}
 		i++;
 	}
-	free_envp(own_arg);
+	free(*own_arg);
 	return (new_envp);
 }
 
