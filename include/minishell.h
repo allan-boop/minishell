@@ -76,7 +76,7 @@ typedef struct s_mini
 	int				status;
 	bool			pipe;
 	int				i_p;
-	int				**pipe_fd; //  {[a b c d e f ] [a b c d e f ]} {[a b] [a b] [a b] [a b]} ??????
+	int				**pipe_fd;
 	int				tab_index;
 	int				i;
 	int				filein;

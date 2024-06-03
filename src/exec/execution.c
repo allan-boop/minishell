@@ -25,7 +25,7 @@ bool	custom_builtin(t_mini *shell, char **envp, char ***copy_envp, char *cmd_nex
 	return (false);
 }
 
-static void	ft_parent(char *cmd_next, t_mini *shell, pid_t pid)
+static void	ft_parent_p(char *cmd_next, t_mini *shell, pid_t pid)
 {
 	if (cmd_next != NULL)
 	{
@@ -39,6 +39,8 @@ static void	ft_parent(char *cmd_next, t_mini *shell, pid_t pid)
 		if (shell->filein == -1)
 			dup2(shell->og_stdin, STDIN_FILENO);
 		waitpid(pid, &(shell->status), 0);
+		while (wait(NULL) > 0)
+			continue;
 		if (WIFSIGNALED(shell->status))
 			if (WTERMSIG(shell->status) == SIGQUIT)
 				shell->status = 131;
@@ -70,7 +72,7 @@ bool	ft_execution_core(t_mini *shell, char **envp,
 			other_builtin(shell->tab_cmd[shell->i], envp);
 		exit(1);
 	}
-	ft_parent(cmd_next, shell, pid);
+	ft_parent_p(cmd_next, shell, pid);
 	return (true);
 }
 
