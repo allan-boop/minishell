@@ -101,7 +101,7 @@ typedef struct s_int_utils
 void			ft_signal(void);
 void			*ft_del_all(void);
 void			*ft_alloc(int size);
-bool			ft_exit(char **envp);
+bool			ft_exit(char **envp, char ***copy_envp);
 void			ft_nb_args(int argc);
 void			ft_loop(char **envp);
 char			*ft_itoa_shell(int n);

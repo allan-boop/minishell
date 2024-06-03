@@ -24,6 +24,9 @@ static char	**ft_own_args(char ***own_arg, char **copy_envp, int i)
 		}
 		i++;
 	}
+	i = -1;
+	while ((*own_arg)[++i])
+		free((*own_arg)[i]);
 	free(*own_arg);
 	return (new_envp);
 }

@@ -30,7 +30,10 @@ void	ft_add_new_var(t_mini **shell, char ***copy_envp, char *existing_var)
 		new_tab[i] = ft_strdup((*shell)->tab_pars[(*shell)->tab_index]);
 	ft_add_new_var_two(&new_tab, shell, i);
 	i = -1;
+	while ((*copy_envp)[++i])
+		free((*copy_envp)[i]);
 	free(*copy_envp);
+	*copy_envp = NULL;
 	*copy_envp = new_tab;
 	return ;
 }

@@ -23,7 +23,7 @@ char	**ft_sort_envp(char **envp)
 	char	*temp;
 
 	i = 1;
-	while (envp[i] != NULL)
+	while (envp[i])
 	{
 		temp = envp[i];
 		j = i - 1;

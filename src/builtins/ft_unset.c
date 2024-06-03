@@ -39,7 +39,6 @@ static bool	ft_check_unset(t_mini *shell)
 
 bool	ft_in_in_unset(char ***envp, size_t *i, size_t *nb_args)
 {
-	free((*envp)[*i]);
 	while ((*envp)[*i])
 	{
 		(*envp)[*i] = (*envp)[*i + 1];
