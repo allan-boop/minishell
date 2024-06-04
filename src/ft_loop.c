@@ -59,6 +59,8 @@ void	ft_loop(char **envp)
 		prompt_treatment(line, shell, envp, &copy_envp);
 		free(line);
 		status = shell->status;
+		close(shell->og_stdin);
+		close(shell->og_stdout);
 		ft_del_all();
 	}
 	free(copy_envp);
