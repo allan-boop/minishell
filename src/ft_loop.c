@@ -22,7 +22,17 @@ void	prompt_treatment(char *line, t_mini *shell,
 static void	ft_init_shell(t_mini *shell, int status)
 {
 	shell->og_stdout = dup(STDOUT_FILENO);
+	if (shell->og_stdout == -1)
+	{
+		ft_del_all();
+		exit(1);
+	}
 	shell->og_stdin = dup(STDIN_FILENO);
+	if (shell->og_stdin == -1)
+	{
+		ft_del_all();
+		exit(1);
+	}
 	shell->status = status;
 }
 
