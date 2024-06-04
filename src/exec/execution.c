@@ -21,7 +21,7 @@ bool	custom_builtin(t_mini *shell, char **envp, char ***copy_envp, char *cmd_nex
 	else if (ft_strcmp(shell->tab_pars[shell->tab_index], "env") == 0)
 		return (ft_env(envp, *copy_envp, shell));
 	else if (ft_strcmp(shell->tab_pars[shell->tab_index], "exit") == 0)
-		return (ft_exit(envp, copy_envp));
+		return (ft_exit(envp, copy_envp, &shell));
 	return (false);
 }
 

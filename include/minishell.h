@@ -101,7 +101,6 @@ typedef struct s_int_utils
 void			ft_signal(void);
 void			*ft_del_all(void);
 void			*ft_alloc(int size);
-bool			ft_exit(char **envp, char ***copy_envp);
 void			ft_nb_args(int argc);
 void			ft_loop(char **envp);
 char			*ft_itoa_shell(int n);
@@ -149,6 +148,7 @@ char			**ft_split_shell(char const *s, char c);
 bool			ft_error(char *cmd, char *msg, int ret);
 size_t			count_words_split(char const *s, char c);
 void			ft_copy_envp(char **envp, t_mini *shell);
+bool			ft_exit(char **envp, char ***copy_envp, t_mini **shell);
 char			*ft_replace_doll(char *line, char *value);
 t_list_struct	*create_node_list(t_mini *shell, size_t i);
 void			*ft_calloc_shell(size_t nmemb, size_t size);

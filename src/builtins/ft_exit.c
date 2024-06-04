@@ -1,6 +1,6 @@
 #include "../../include/minishell.h"
 
-bool	ft_exit(char **envp, char ***copy_envp)
+bool	ft_exit(char **envp, char ***copy_envp, t_mini **shell)
 {
 	int		j;
 	char	*shlvl;
@@ -20,6 +20,8 @@ bool	ft_exit(char **envp, char ***copy_envp)
 	}
 	free(shlvl);
 	free(tmp);
+	close((*shell)->og_stdin);
+	close((*shell)->og_stdout);
 	ft_del_all();
 	exit(0);
 	return (true);
