@@ -22,7 +22,6 @@ SRC_FILES =	minishell.c \
 			exec/utils.c \
 			exec/shlvl.c \
 			ft_error_two.c \
-			pars/ft_path.c \
 			pars/parsing.c \
 			malloc_factory.c \
 			builtins/ft_cd.c \
@@ -87,6 +86,9 @@ clean:
 fclean: clean
 	@make -C $(LIBS_DIR) fclean
 	@rm -f $(NAME)
+
+val :
+	@valgrind -s --leak-check=full --track-origins=yes --track-fds=yes --show-leak-kinds=all --trace-children=yes --gen-suppressions=all --suppressions=valgrind.supp --quiet ./minishell
 
 re: fclean all
 

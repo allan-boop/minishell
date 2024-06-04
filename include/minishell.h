@@ -148,7 +148,6 @@ void			ft_dell_double_quote_export(char *line);
 char			**ft_put_space_between(char **tab_line);
 char			**ft_split_shell(char const *s, char c);
 bool			ft_error(char *cmd, char *msg, int ret);
-char			*find_path(char *tab_shell, char **envp);
 size_t			count_words_split(char const *s, char c);
 void			ft_copy_envp(char **envp, t_mini *shell);
 char			*ft_replace_doll(char *line, char *value);
