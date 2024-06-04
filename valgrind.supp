@@ -45,7 +45,6 @@
    obj:/usr/bin/ls
    fun:(below main)
 }
-
 {
    <insert_a_suppression_name_here>
    Memcheck:Leak
@@ -125,4 +124,31 @@
    fun:prompt_treatment
    fun:ft_loop
    fun:main
+}
+{
+   <insert_a_suppression_name_here>
+   Memcheck:Leak
+   match-leak-kinds: reachable
+   fun:malloc
+   ...
+   obj:/usr/bin/clear
+   fun:(below main)
+}
+{
+   <insert_a_suppression_name_here>
+   Memcheck:Leak
+   match-leak-kinds: reachable
+   fun:realloc
+   ...
+   obj:/usr/bin/clear
+   fun:(below main)
+}
+{
+   <insert_a_suppression_name_here>
+   Memcheck:Leak
+   match-leak-kinds: reachable
+   fun:calloc
+   ...
+   obj:/usr/bin/clear
+   fun:(below main)
 }
