@@ -70,6 +70,7 @@ bool	ft_execution_core(t_mini *shell, char **envp,
 		close(shell->pipe_fd[shell->i_p][1]);
 		if (custom_builtin(shell, envp, copy_envp, shell->tab_cmd[shell->i + 1]) == false)
 			other_builtin(shell->tab_cmd[shell->i], envp);
+		ft_del_all();
 		exit(1);
 	}
 	ft_parent_p(cmd_next, shell, pid);

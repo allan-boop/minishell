@@ -55,7 +55,6 @@ char	*find_path_execve(char *tab_shell, char **envp)
 		part_path = ft_strjoin_shell(paths[i], "/");
 		path = ft_strjoin_shell(part_path, tab_shell);
 		free(part_path);
-		printf("%s\n", path);
 		if (path && access(path, F_OK) == 0)
 			return (path);
 		free(path);

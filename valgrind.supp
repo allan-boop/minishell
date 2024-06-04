@@ -13,8 +13,8 @@
    match-leak-kinds: reachable
    fun:realloc
     ...
-   fun:prompt3
-   fun:prompt
+   fun:readline
+   fun:ft_loop
    fun:main
 }
 {
@@ -22,10 +22,9 @@
    Memcheck:Leak
    match-leak-kinds: reachable
    fun:malloc
+   fun:xmalloc
+   fun:add_history
    ...
-   fun:readline
-   fun:prompt3
-   fun:prompt
    fun:main
 }
 {
@@ -54,8 +53,7 @@
    fun:calloc
    ...
    fun:readline
-   fun:prompt3
-   fun:prompt
+   fun:ft_loop
    fun:main
 }
 {
@@ -65,8 +63,8 @@
    fun:malloc
    fun:xmalloc
    ...
-   fun:add_history
-   ...
+   fun:readline
+   fun:ft_loop
    fun:main
 }
 {
@@ -84,16 +82,19 @@
    fun:malloc
    ...
    fun:readline
-   fun:prompt3
+   fun:ft_loop
+   fun:main
 }
 {
    <insert_a_suppression_name_here>
    Memcheck:Leak
    match-leak-kinds: reachable
-   fun:calloc
+   fun:malloc
    ...
+   fun:_rl_init_terminal_io
+   fun:rl_initialize
    fun:readline
-   fun:prompt3
+   fun:ft_loop
 }
 {
    <insert_a_suppression_name_here>
@@ -103,4 +104,25 @@
    ...
    obj:/usr/bin/cat
    fun:(below main)
+}
+{
+   <insert_a_suppression_name_here>
+   Memcheck:Leak
+   match-leak-kinds: reachable
+   fun:calloc
+   ...
+   fun:readline
+   fun:ft_loop
+}
+{
+   <insert_a_suppression_name_here>
+   Memcheck:Leak
+   match-leak-kinds: reachable
+   fun:malloc
+   fun:xmalloc
+   ...
+   fun:add_history
+   fun:prompt_treatment
+   fun:ft_loop
+   fun:main
 }

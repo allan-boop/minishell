@@ -18,6 +18,7 @@ bool	ft_exit(char **envp, char ***copy_envp)
 		free(**copy_envp);
 		(*copy_envp)++;
 	}
+	free(shlvl);
 	free(tmp);
 	ft_del_all();
 	exit(0);

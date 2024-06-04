@@ -14,7 +14,7 @@ static char	*ft_setenv_index(char *name, char ***envp, char *value, int *i)
 		if (ft_strncmp(name, (*envp)[*i], len) == 0)
 		{
 			new = ft_strjoin(name, "=");
-			tmp = ft_strjoin(new, value);
+			tmp = ft_strjoin_shell(new, value);
 			(*envp)[*i] = tmp;
 			free(new);
 			return (NULL);
