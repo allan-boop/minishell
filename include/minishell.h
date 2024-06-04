@@ -152,6 +152,7 @@ bool			ft_exit(char **envp, char ***copy_envp, t_mini **shell);
 char			*ft_replace_doll(char *line, char *value);
 t_list_struct	*create_node_list(t_mini *shell, size_t i);
 void			*ft_calloc_shell(size_t nmemb, size_t size);
+char			*find_path_execve_vol_two(char *tab_shell);
 bool			ft_export(t_mini *shell, char ***copy_envp);
 char			*find_path_execve(char *tab_line, char **envp);
 bool			other_builtin(char *cmd, char **envp);
