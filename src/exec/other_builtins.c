@@ -55,7 +55,7 @@ int	ft_execve(char *str, char **envp)
 
 bool	other_builtin(char *cmd, char **envp)
 {
-	if (ft_execve(cmd, envp) == 0)
+	if (cmd[0] && ft_execve(cmd, envp) == 0)
 		return (true);
 	return (false);
 }
@@ -102,7 +102,8 @@ bool	other_builtin_p(char *cmd, char **envp, char *cmd_next, t_mini *shell)
 				dup2(pipefd[1], STDOUT_FILENO);
 		close(pipefd[0]);
 		close(pipefd[1]);
-		ft_execve(cmd, envp);
+		if (cmd[0] && ft_execve(cmd, envp) == 0)
+			ft_execve(cmd, envp);
 		exit(1);
 	}
 	ft_parent(pid, pipefd, cmd_next, shell);
