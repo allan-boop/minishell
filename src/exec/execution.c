@@ -45,6 +45,8 @@ static void	ft_parent_p(char *cmd_next, t_mini *shell, pid_t pid)
 			if (WTERMSIG(shell->status) == SIGQUIT)
 				shell->status = 131;
 	}
+	close(shell->pipe_fd[shell->i_p][0]);
+	close(shell->pipe_fd[shell->i_p][1]);
 }
 
 bool	ft_execution_core(t_mini *shell, char **envp,
