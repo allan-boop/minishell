@@ -66,3 +66,10 @@ char	*find_path_execve(char *tab_shell, char **envp)
 	free(paths);
 	return (0);
 }
+
+char	*find_path_execve_vol_two(char *tab_shell)
+{
+	if (tab_shell && access(tab_shell, F_OK) == 0)
+		return (tab_shell);
+	return (0);
+}

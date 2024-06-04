@@ -6,6 +6,8 @@ int	ft_access_exec(char *path, char **tab_shell, char **envp)
 
 	i = -1;
 	if (!path)
+		path = find_path_execve_vol_two(tab_shell[0]);
+	if (!path)
 	{
 		while (tab_shell[++i])
 			free(tab_shell[i]);
