@@ -74,6 +74,7 @@ bool	ft_execution_core(t_mini *shell, char **envp,
 			other_builtin(shell->tab_cmd[shell->i], envp);
 		close(shell->og_stdin);
 		close(shell->og_stdout);
+		ft_free_copy_envp(*copy_envp);
 		ft_del_all();
 		exit(1);
 	}

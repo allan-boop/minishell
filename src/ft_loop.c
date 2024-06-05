@@ -63,5 +63,4 @@ void	ft_loop(char **envp)
 		close(shell->og_stdout);
 		ft_del_all();
 	}
-	free(copy_envp);
 }

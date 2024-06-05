@@ -129,6 +129,7 @@ char			*ft_find_value_var(char *content);
 int				ft_execve(char *str, char **envp);
 int				ft_current_arg(char *current_arg);
 bool			ft_pwd(t_mini *shell, char **envp);
+void			ft_free_copy_envp(char **copy_envp);
 char			**ft_copy_envp_no_sort(char **envp);
 bool			ft_echo(t_mini *shell, char **envp);
 char			*ft_getenv(char *name, char **envp);
