@@ -39,6 +39,7 @@ static void	ft_parent_p(char *cmd_next, t_mini *shell, pid_t pid)
 		if (shell->filein == -1)
 			dup2(shell->og_stdin, STDIN_FILENO);
 		waitpid(pid, &(shell->status), 0);
+		shell->status /= 256;
 		while (wait(NULL) > 0)
 			continue;
 		if (WIFSIGNALED(shell->status))

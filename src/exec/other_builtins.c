@@ -68,6 +68,7 @@ void	ft_parent(pid_t pid, int *pipefd, char *cmd_next, t_mini *shell)
 		if (shell->filein == -1)
 			dup2(shell->og_stdin, STDIN_FILENO);
 		waitpid(pid, &(shell->status), 0);
+		shell->status /= 256;
 		if (WIFSIGNALED(shell->status))
 		{
 			if (WTERMSIG(shell->status) == SIGQUIT)
@@ -102,7 +103,6 @@ bool	other_builtin_p(char *cmd, char **envp, char *cmd_next, t_mini *shell)
 		close(shell->og_stdout);
 		if (cmd[0] && ft_execve(cmd, envp) == 0)
 			ft_execve(cmd, envp);
-		printf("\033[38;2;118;38;113mtest\033[00m\033[38;2;252;127;0mtest\033[00m$ \n");
 		ft_del_all();
 		exit(1);
 	}
