@@ -2,16 +2,10 @@
 
 int	ft_access_exec(char *path, char **tab_shell, char **envp)
 {
-	int		i;
-
-	i = -1;
 	if (!path)
 		path = find_path_execve_vol_two(tab_shell[0]);
 	if (!path)
 	{
-		while (tab_shell[++i])
-			free(tab_shell[i]);
-		free(tab_shell);
 		syntax_error(ERROR_PATH);
 		return (-1);
 	}
@@ -104,8 +98,12 @@ bool	other_builtin_p(char *cmd, char **envp, char *cmd_next, t_mini *shell)
 				dup2(pipefd[1], STDOUT_FILENO);
 		close(pipefd[0]);
 		close(pipefd[1]);
+		close(shell->og_stdin);
+		close(shell->og_stdout);
 		if (cmd[0] && ft_execve(cmd, envp) == 0)
 			ft_execve(cmd, envp);
+		printf("\033[38;2;118;38;113mtest\033[00m\033[38;2;252;127;0mtest\033[00m$ \n");
+		ft_del_all();
 		exit(1);
 	}
 	ft_parent(pid, pipefd, cmd_next, shell);
