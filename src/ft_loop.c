@@ -43,11 +43,12 @@ void	ft_loop(char **envp)
 	t_mini			*shell;
 	char			**copy_envp;
 
-	ft_signal();
 	copy_envp = ft_copy_envp_no_sort(envp);
 	status = 0;
 	while (1)
 	{
+		signal(SIGINT, signal_handler);
+		signal(SIGQUIT, signal_handler);
 		shell = ft_alloc(sizeof(t_mini));
 		ft_init_shell(shell, status);
 		line = readline(PROMPT);
