@@ -5,9 +5,15 @@ bool	custom_builtin(t_mini *shell, char **envp, char ***copy_envp, char *cmd_nex
 	if (!cmd_next)
 		dup2(shell->og_stdout, STDOUT_FILENO);
 	if (shell->fileout != -1)
+	{
 		dup2(shell->fileout, STDOUT_FILENO);
+		close(shell->fileout);
+	}
 	if (shell->filein != -1)
+	{
 		dup2(shell->filein, STDIN_FILENO);
+		close(shell->filein);
+	}
 	if (ft_strcmp(shell->tab_pars[shell->tab_index], "cd") == 0)
 		return (ft_cd(shell, envp));
 	else if (ft_strcmp(shell->tab_pars[shell->tab_index], "echo") == 0)
