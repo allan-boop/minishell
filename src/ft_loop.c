@@ -58,6 +58,7 @@ void	ft_loop(char **envp)
 			exit(0);
 		}
 		prompt_treatment(line, shell, envp, &copy_envp);
+		printf("%s\n", ft_getenv("PWD", copy_envp));
 		free(line);
 		status = shell->status;
 		close(shell->og_stdin);

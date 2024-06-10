@@ -15,11 +15,11 @@ bool	custom_builtin(t_mini *shell, char **envp, char ***copy_envp, char *cmd_nex
 		close(shell->filein);
 	}
 	if (ft_strcmp(shell->tab_pars[shell->tab_index], "cd") == 0)
-		return (ft_cd(shell, envp));
+		return (ft_cd(shell, copy_envp));
 	else if (ft_strcmp(shell->tab_pars[shell->tab_index], "echo") == 0)
 		return (ft_echo(shell, envp));
 	else if (ft_strcmp(shell->tab_pars[shell->tab_index], "pwd") == 0)
-		return (ft_pwd(shell, envp));
+		return (ft_pwd(shell, copy_envp));
 	else if (ft_strcmp(shell->tab_pars[shell->tab_index], "export") == 0)
 		return (ft_export(shell, copy_envp));
 	else if (ft_strcmp(shell->tab_pars[shell->tab_index], "unset") == 0)
@@ -78,7 +78,7 @@ bool	ft_execution_core(t_mini *shell, char **envp,
 		close(shell->pipe_fd[shell->i_p][0]);
 		close(shell->pipe_fd[shell->i_p][1]);
 		if (custom_builtin(shell, envp, copy_envp, shell->tab_cmd[shell->i + 1]) == false)
-			other_builtin(shell->tab_cmd[shell->i], envp);
+			other_builtin(shell->tab_cmd[shell->i], *copy_envp);
 		close(shell->og_stdin);
 		close(shell->og_stdout);
 		ft_free_copy_envp(*copy_envp);
@@ -107,7 +107,7 @@ static void	ft_exec_logic( t_mini *shell, char **envp
 				shell->tab_cmd[shell->i + 1]);
 		else if (custom_builtin(shell, envp, copy_envp, shell->tab_cmd[shell->i + 1]) == false)
 			other_builtin_p(shell->tab_cmd[shell->i],
-				envp, shell->tab_cmd[shell->i + 1], shell);
+				*copy_envp, shell->tab_cmd[shell->i + 1], shell);
 		while (shell->tab_pars[shell->tab_index] != NULL
 			&& shell->tab_pars[shell->tab_index][0] != '|')
 			shell->tab_index++;

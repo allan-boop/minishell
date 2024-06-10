@@ -68,10 +68,10 @@ void	ft_change_path_ext(t_mini *shell, char **oldcwd)
 		{
 			while (shell->tab_pars[1][1] && shell->tab_pars[1][1] == '/')
 				shell->tab_pars[1]++;
-			*oldcwd = ft_strdup_shell(shell->tab_pars[1]);
+			*oldcwd = ft_strdup(shell->tab_pars[1]);
 		}
 		else
-			*oldcwd = ft_strjoin_shell(*oldcwd, shell->tab_pars[1]);
+			*oldcwd = ft_strjoin(*oldcwd, shell->tab_pars[1]);
 	}
 	*oldcwd = ft_clean_point(oldcwd, 0, 0);
 	while (*oldcwd && ft_strnstr(*oldcwd, "..", ft_strlen(*oldcwd)) != 0)
@@ -96,9 +96,9 @@ void	ft_change_path( t_mini *shell, char **envp, char **oldcwd)
 		*oldcwd = ft_getenv("OLDPWD", envp);
 	else if (shell->tab_pars[1] && (ft_strcmp(shell->tab_pars[1], "/") == 0
 			|| ft_strcmp(shell->tab_pars[1], "/.") == 0))
-		*oldcwd = ft_strdup_shell("/");
+		*oldcwd = ft_strdup("/");
 	else if (shell->tab_pars[1] && ft_strcmp(shell->tab_pars[1], "//") == 0)
-		*oldcwd = ft_strdup_shell(shell->tab_pars[1]);
+		*oldcwd = ft_strdup(shell->tab_pars[1]);
 	else
 		ft_change_path_ext(shell, oldcwd);
 }
