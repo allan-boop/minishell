@@ -22,6 +22,7 @@ SRC_FILES =	minishell.c \
 			exec/utils.c \
 			exec/shlvl.c \
 			ft_error_two.c \
+			pars/env_shell.c \
 			pars/parsing.c \
 			malloc_factory.c \
 			builtins/ft_cd.c \

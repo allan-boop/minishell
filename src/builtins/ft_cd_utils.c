@@ -71,7 +71,7 @@ void	ft_change_path_ext(t_mini *shell, char **oldcwd)
 			*oldcwd = ft_strdup(shell->tab_pars[1]);
 		}
 		else
-			*oldcwd = ft_strjoin(*oldcwd, shell->tab_pars[1]);
+			*oldcwd = ft_strjoin_shell(*oldcwd, shell->tab_pars[1]);
 	}
 	*oldcwd = ft_clean_point(oldcwd, 0, 0);
 	while (*oldcwd && ft_strnstr(*oldcwd, "..", ft_strlen(*oldcwd)) != 0)

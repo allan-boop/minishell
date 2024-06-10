@@ -11,7 +11,7 @@ bool	ft_exit(char **envp, char ***copy_envp, t_mini **shell)
 	j = ft_atoi(shlvl);
 	j--;
 	shlvl = ft_itoa(j);
-	ft_setenv("SHLVL", shlvl, &envp);
+	ft_setenv_shell("SHLVL", shlvl, &envp);
 	ft_printf("exit\n");
 	while (**copy_envp)
 	{
