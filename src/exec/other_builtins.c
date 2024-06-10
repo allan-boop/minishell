@@ -103,6 +103,7 @@ bool	other_builtin_p(char *cmd, char **envp, char *cmd_next, t_mini *shell)
 		close(shell->og_stdout);
 		if (cmd[0] && ft_execve(cmd, envp) == 0)
 			ft_execve(cmd, envp);
+		ft_free_copy_envp(envp);
 		ft_del_all();
 		exit(1);
 	}
