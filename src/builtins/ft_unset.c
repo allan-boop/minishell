@@ -41,6 +41,7 @@ bool	ft_in_in_unset(char ***envp, size_t *i, size_t *nb_args)
 {
 	while ((*envp)[*i])
 	{
+		free((*envp)[*i]);
 		(*envp)[*i] = (*envp)[*i + 1];
 		(*i)++;
 	}
