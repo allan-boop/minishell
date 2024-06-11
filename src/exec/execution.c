@@ -39,6 +39,7 @@ static void	ft_parent_p(char *cmd_next, t_mini *shell, pid_t pid)
 			dup2(shell->pipe_fd[shell->i_p][0], STDIN_FILENO);
 		close(shell->pipe_fd[shell->i_p][1]);
 		close(shell->pipe_fd[shell->i_p][0]);
+		close(shell->fileout);
 	}
 	else
 	{
