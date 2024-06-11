@@ -35,7 +35,6 @@ static char	*ft_list_cmd_two(t_mini **shell, char *tmp, int *i)
 			(*i)++;
 		}
 	}
-	printf("tmp = %s\n", tmp);
 	return (tmp);
 }
 
