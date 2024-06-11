@@ -1,9 +1,0 @@
-asd
-include
-libft
-Makefile
-minishell
-qwe
-src
-test
-valgrind.supp

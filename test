@@ -1,7 +1,0 @@
-include
-libft
-Makefile
-minishell
-src
-test
-valgrind.supp

@@ -18,29 +18,24 @@ static int	ft_nb_pipe_cmd(t_mini *shell)
 
 static char	*ft_list_cmd_two(t_mini **shell, char *tmp, int *i)
 {
-	while ((*shell) && (*shell)->tab_pars[*i]
-		&& (*shell)->tab_pars[*i][0] != '|'
-		&& (*shell)->tab_pars[*i][0] != '>'
-		&& (*shell)->tab_pars[*i][0] != '<')
+	tmp = ft_strdup_shell((*shell)->tab_pars[*i]);
+	(*i)++;
+	while ((*shell)->tab_pars[*i] && (*shell)->tab_pars[*i][0] != '|')
 	{
-		if ((*shell)->tab_pars[*i][0] != '>'
-				&& (*shell)->tab_pars[*i][0] != '<')
+		if ((*shell)->tab_pars[*i][0] == '<' || (*shell)->tab_pars[*i][0] == '>')
 		{
-			if (tmp == NULL)
-			{
-				tmp = ft_strdup_shell((*shell)->tab_pars[*i]);
+			(*i)++;
+			if ((*shell)->tab_pars[*i] && (*shell)->tab_pars[*i][0] != '|')
 				(*i)++;
-			}
-			else
-			{
-				tmp = ft_strjoin_shell(tmp, " ");
-				tmp = ft_strjoin_shell(tmp, (*shell)->tab_pars[*i]);
-				(*i)++;
-			}
 		}
 		else
+		{
+			tmp = ft_strjoin_shell(tmp, " ");
+			tmp = ft_strjoin_shell(tmp, (*shell)->tab_pars[*i]);
 			(*i)++;
+		}
 	}
+	printf("tmp = %s\n", tmp);
 	return (tmp);
 }
 

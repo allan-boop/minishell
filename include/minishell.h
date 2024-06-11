@@ -104,6 +104,7 @@ void			proc_signal_handler(int sig);
 void			*ft_del_all(void);
 void			*ft_alloc(int size);
 void			ft_nb_args(int argc);
+void			ft_redir(t_mini *shell, char *cmd_next);
 void			ft_loop(char **envp);
 char			*ft_itoa_shell(int n);
 int				ft_tab_len(char **envp);

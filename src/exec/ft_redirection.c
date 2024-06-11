@@ -1,5 +1,21 @@
 #include "../../include/minishell.h"
 
+void	ft_redir(t_mini *shell, char *cmd_next)
+{
+	if (!cmd_next)
+		dup2(shell->og_stdout, STDOUT_FILENO);
+	if (shell->fileout != -1)
+	{
+		dup2(shell->fileout, STDOUT_FILENO);
+		close(shell->fileout);
+	}
+	if (shell->filein != -1)
+	{
+		dup2(shell->filein, STDIN_FILENO);
+		close(shell->filein);
+	}
+}
+
 int	gnl(char **line)
 {
 	char	*buffer;
@@ -30,6 +46,7 @@ static void	ft_parent_process(int *fd)
 {
 	close(fd[1]);
 	dup2(fd[0], STDIN_FILENO);
+	close(fd[0]);
 	wait(NULL);
 }
 
