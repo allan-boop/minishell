@@ -2,8 +2,8 @@
 
 void	ft_redir(t_mini *shell, char *cmd_next)
 {
-	if (!cmd_next)
-		dup2(shell->og_stdout, STDOUT_FILENO);
+	if (!cmd_next && shell->og_stdout == -1)
+			dup2(shell->og_stdout, STDOUT_FILENO);
 	if (shell->fileout != -1)
 	{
 		dup2(shell->fileout, STDOUT_FILENO);
@@ -96,8 +96,10 @@ void	ft_redirection(t_mini *shell)
 			shell->fileout = open(shell->tab_pars[i + 1], O_WRONLY
 					| O_CREAT | O_APPEND, 0777);
 		else if (shell->tab_pars[i][0] == '>' && shell->tab_pars[i + 1])
+		{
 			shell->fileout = open(shell->tab_pars[i + 1], O_WRONLY
 					| O_CREAT | O_TRUNC, 0777);
+		}
 		i++;
 	}
 }
