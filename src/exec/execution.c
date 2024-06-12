@@ -91,6 +91,8 @@ static void	ft_exec_logic( t_mini *shell, char **envp
 			&& shell->tab_pars[shell->tab_index][0] == '|')
 			shell->tab_index++;
 		signal(SIGINT, proc_signal_handler);
+		enable_echo_quit();
+		signal(SIGQUIT, proc_signal_handler);
 		ft_redirection(shell);
 		close(shell->filein);
 		if (is_p > 1)
@@ -102,7 +104,6 @@ static void	ft_exec_logic( t_mini *shell, char **envp
 		while (shell->tab_pars[shell->tab_index] != NULL
 			&& shell->tab_pars[shell->tab_index][0] != '|')
 			shell->tab_index++;
-		close(shell->fileout);
 		shell->i++;
 		shell->i_p++;
 	}
