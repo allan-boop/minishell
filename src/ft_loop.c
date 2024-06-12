@@ -47,6 +47,7 @@ void	ft_loop(char **envp)
 	status = 0;
 	while (1)
 	{
+		disable_echo_quit();
 		signal(SIGINT, signal_handler);
 		signal(SIGQUIT, signal_handler);
 		shell = ft_alloc(sizeof(t_mini));
