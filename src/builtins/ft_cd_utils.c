@@ -36,23 +36,26 @@ char	*ft_clean_point(char **str, int i, int j)
 	char	*new;
 
 	new = (char *)ft_calloc_shell(ft_strlen(*str) + 1, sizeof(char));
-	while ((*str)[i])
+	if (*str)
 	{
-		if ((*str)[i] == '.' && (*str)[i + 1] && (*str)[i + 1] == '.')
+		while ((*str)[i])
 		{
-			new[j++] = (*str)[i++];
-			new[j++] = (*str)[i++];
-		}
-		if ((*str)[i] == '.')
-		{
-			i++;
-			if ((*str)[i] == '/')
+			if ((*str)[i] == '.' && (*str)[i + 1] && (*str)[i + 1] == '.')
+			{
+				new[j++] = (*str)[i++];
+				new[j++] = (*str)[i++];
+			}
+			if ((*str)[i] == '.')
+			{
 				i++;
+				if ((*str)[i] == '/')
+					i++;
+			}
+			else if (i > 0 && (*str)[i] == '/' && (*str)[i - 1] == '/')
+				i++;
+			else if ((*str)[i])
+				new[j++] = (*str)[i++];
 		}
-		else if (i > 0 && (*str)[i] == '/' && (*str)[i - 1] == '/')
-			i++;
-		else if ((*str)[i])
-			new[j++] = (*str)[i++];
 	}
 	return (new);
 }
@@ -60,6 +63,7 @@ char	*ft_clean_point(char **str, int i, int j)
 void	ft_change_path_ext(t_mini *shell, char **oldcwd)
 {
 	if (shell->tab_pars[1] && shell->tab_pars[1][0] != '\0'
+			&& ft_strlen(*oldcwd) > 0
 			&& (*oldcwd)[ft_strlen(*oldcwd) - 1] != '/')
 		*oldcwd = ft_strjoin_shell(*oldcwd, "/");
 	if (shell->tab_pars[1])
