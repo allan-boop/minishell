@@ -26,9 +26,9 @@ static void	ft_parent_p(char *cmd_next, t_mini *shell, pid_t pid)
 	{
 		if (shell->filein == -1)
 			dup2(shell->pipe_fd[shell->i_p][0], STDIN_FILENO);
-		close(shell->pipe_fd[shell->i_p][1]);
-		close(shell->pipe_fd[shell->i_p][0]);
-		close(shell->fileout);
+		close_fd(shell->pipe_fd[shell->i_p][1]);
+		close_fd(shell->pipe_fd[shell->i_p][0]);
+		close_fd(shell->fileout);
 	}
 	else
 	{
@@ -42,8 +42,8 @@ static void	ft_parent_p(char *cmd_next, t_mini *shell, pid_t pid)
 			if (WTERMSIG(shell->status) == SIGQUIT)
 				shell->status = 131;
 	}
-	close(shell->pipe_fd[shell->i_p][0]);
-	close(shell->pipe_fd[shell->i_p][1]);
+	close_fd(shell->pipe_fd[shell->i_p][0]);
+	close_fd(shell->pipe_fd[shell->i_p][1]);
 }
 
 bool	ft_execution_core(t_mini *shell, char **envp,
@@ -65,12 +65,14 @@ bool	ft_execution_core(t_mini *shell, char **envp,
 		inc_shlvl(shell, envp);
 		if (cmd_next != NULL && shell->fileout == -1)
 			dup2(shell->pipe_fd[shell->i_p][1], STDOUT_FILENO);
-		close(shell->pipe_fd[shell->i_p][0]);
-		close(shell->pipe_fd[shell->i_p][1]);
+		if (shell->pipe_fd[shell->i_p][0] != -1)
+			close(shell->pipe_fd[shell->i_p][0]);
+		if (shell->pipe_fd[shell->i_p][1] != -1)
+			close(shell->pipe_fd[shell->i_p][1]);
 		if (custom_builtin(shell, envp, copy_envp) == false)
 			other_builtin(shell->tab_cmd[shell->i], *copy_envp);
-		close(shell->og_stdin);
-		close(shell->og_stdout);
+		close_fd(shell->og_stdin);
+		close_fd(shell->og_stdout);
 		ft_free_copy_envp(*copy_envp);
 		ft_del_all();
 		exit(1);
@@ -94,7 +96,7 @@ static void	ft_exec_logic( t_mini *shell, char **envp
 		enable_echo_quit();
 		signal(SIGQUIT, proc_signal_handler);
 		ft_redirection(shell);
-		close(shell->filein);
+		close_fd(shell->filein);
 		if (is_p > 1)
 			ft_execution_core(shell, envp, copy_envp,
 				shell->tab_cmd[shell->i + 1]);

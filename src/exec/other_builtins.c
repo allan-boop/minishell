@@ -75,8 +75,8 @@ void	ft_parent(pid_t pid, int *pipefd, char *cmd_next, t_mini *shell)
 				shell->status = 131;
 		}
 	}
-	close(pipefd[1]);
-	close(pipefd[0]);
+	close_fd(pipefd[1]);
+	close_fd(pipefd[0]);
 }
 
 bool	other_builtin_p(char *cmd, char **envp, char *cmd_next, t_mini *shell)
@@ -97,10 +97,10 @@ bool	other_builtin_p(char *cmd, char **envp, char *cmd_next, t_mini *shell)
 		if (cmd_next != NULL)
 			if (shell->fileout == -1)
 				dup2(pipefd[1], STDOUT_FILENO);
-		close(pipefd[0]);
-		close(pipefd[1]);
-		close(shell->og_stdin);
-		close(shell->og_stdout);
+		close_fd(pipefd[0]);
+		close_fd(pipefd[1]);
+		close_fd(shell->og_stdin);
+		close_fd(shell->og_stdout);
 		if (cmd[0] && ft_execve(cmd, envp) == 0)
 			ft_execve(cmd, envp);
 		ft_free_copy_envp(envp);

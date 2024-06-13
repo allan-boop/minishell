@@ -22,8 +22,8 @@ bool	ft_exit(char **envp, char ***copy_envp, t_mini **shell)
 	}
 	free(shlvl);
 	free(tmp);
-	close((*shell)->og_stdin);
-	close((*shell)->og_stdout);
+	close_fd((*shell)->og_stdin);
+	close_fd((*shell)->og_stdout);
 	ft_del_all();
 	ret_val = ret_val % 256;
 	exit(ret_val);

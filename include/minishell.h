@@ -98,6 +98,7 @@ typedef struct s_int_utils
 	char	**envp;
 }	t_int_utils;
 
+void    		close_fd(int fd);
 void			ft_setenv_shell(char *name, char *value, char ***envp);
 void			signal_handler(int sig);
 void			proc_signal_handler(int sig);

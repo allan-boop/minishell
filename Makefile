@@ -15,6 +15,7 @@ all: $(NAME)
 ## SOURCES
 ########################################
 SRC_FILES =	minishell.c \
+			exec/close_fd.c \
 			ft_loop.c \
 			ft_error.c \
 			ft_signal.c \
