@@ -44,8 +44,6 @@ static int	ft_check_special_char_two(char *just_name_var)
 		|| ft_strchr(just_name_var, '/') != NULL
 		|| ft_strchr(just_name_var, '~') != NULL)
 		return (1);
-	if (ft_strchr(just_name_var, '+') != NULL)
-		return (1);
 	return (0);
 }
 

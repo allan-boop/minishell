@@ -37,7 +37,10 @@ static void	ft_parent_p(char *cmd_next, t_mini *shell, pid_t pid)
 		waitpid(pid, &(shell->status), 0);
 		shell->status /= 256;
 		while (wait(NULL) > 0)
+		{
+			signal(SIGQUIT, SIG_IGN);
 			continue ;
+		}
 		if (WIFSIGNALED(shell->status))
 			if (WTERMSIG(shell->status) == SIGQUIT)
 				shell->status = 131;
@@ -92,9 +95,9 @@ static void	ft_exec_logic( t_mini *shell, char **envp
 		if (shell->tab_pars[shell->tab_index]
 			&& shell->tab_pars[shell->tab_index][0] == '|')
 			shell->tab_index++;
+		ft_redirection(shell);
 		signal(SIGINT, proc_signal_handler);
 		signal(SIGQUIT, proc_signal_handler);
-		ft_redirection(shell);
 		close_fd(shell->filein);
 		if (is_p > 1)
 			ft_execution_core(shell, envp, copy_envp,
