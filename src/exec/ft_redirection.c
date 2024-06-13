@@ -7,12 +7,12 @@ void	ft_redir(t_mini *shell, char *cmd_next)
 	if (shell->fileout != -1)
 	{
 		dup2(shell->fileout, STDOUT_FILENO);
-		close(shell->fileout);
+		close_fd(shell->fileout);
 	}
 	if (shell->filein != -1)
 	{
 		dup2(shell->filein, STDIN_FILENO);
-		close(shell->filein);
+		close_fd(shell->filein);
 	}
 }
 
@@ -44,9 +44,9 @@ int	gnl(char **line)
 
 static void	ft_parent_process(int *fd)
 {
-	close(fd[1]);
+	close_fd(fd[1]);
 	dup2(fd[0], STDIN_FILENO);
-	close(fd[0]);
+	close_fd(fd[0]);
 	wait(NULL);
 }
 
@@ -61,7 +61,7 @@ void	ft_here_doc(t_mini *shell, int *i, int *fd)
 	if (reader == 0)
 	{
 		write(1, "> ", 2);
-		close(fd[0]);
+		close_fd(fd[0]);
 		while (gnl(&line))
 		{
 			write(1, "> ", 2);
