@@ -67,13 +67,13 @@ void	ft_parent(pid_t pid, int *pipefd, char *cmd_next, t_mini *shell)
 	{
 		if (shell->filein == -1)
 			dup2(shell->og_stdin, STDIN_FILENO);
+		signal(SIGQUIT, proc_signal_handler);
 		waitpid(pid, &(shell->status), 0);
-		shell->status /= 256;
 		if (WIFSIGNALED(shell->status))
-		{
-			if (WTERMSIG(shell->status) == SIGQUIT)
-				shell->status = 131;
-		}
+			shell->status = WTERMSIG(shell->status) + 128;
+		else
+			if (WIFEXITED(shell->status))
+				shell->status = WEXITSTATUS(shell->status);
 	}
 	close_fd(pipefd[1]);
 	close_fd(pipefd[0]);
