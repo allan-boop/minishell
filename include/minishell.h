@@ -103,7 +103,6 @@ void			signal_handler(int sig);
 void			proc_signal_handler(int sig);
 void			enable_echo_quit(void);
 void			*ft_del_all(void);
-void			disable_echo_quit(void);
 void			*ft_alloc(int size);
 void			ft_nb_args(int argc);
 void			ft_redir(t_mini *shell, char *cmd_next);

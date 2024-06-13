@@ -44,10 +44,10 @@ void	ft_loop(char **envp)
 	char			**copy_envp;
 
 	copy_envp = ft_copy_envp_no_sort(envp);
+	rl_catch_signals = 0;
 	status = 0;
 	while (1)
 	{
-		disable_echo_quit();
 		signal(SIGINT, signal_handler);
 		signal(SIGQUIT, signal_handler);
 		shell = ft_alloc(sizeof(t_mini));
