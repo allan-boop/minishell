@@ -84,11 +84,11 @@ void	ft_change_path_ext(t_mini *shell, char **oldcwd)
 		chdir(*oldcwd);
 }
 
-void	ft_change_path( t_mini *shell, char **envp, char **oldcwd)
+void	ft_change_path( t_mini *shell, t_env *env, char **oldcwd)
 {
 	if (shell->tab_pars[1] == NULL || shell->tab_pars[1][0] == '~')
 	{
-		*oldcwd = ft_getenv("HOME", envp);
+		*oldcwd = ft_getenv("HOME", (*env).copy_envp);
 		if (shell->tab_pars[1] && shell->tab_pars[1][0] == '~')
 			shell->tab_pars[1]++;
 		while (shell->tab_pars[1] && shell->tab_pars[1][0] == '/')
@@ -97,7 +97,7 @@ void	ft_change_path( t_mini *shell, char **envp, char **oldcwd)
 	else if (shell->tab_pars[1][0] == '.' && shell->tab_pars[1][1] == '/')
 		shell->tab_pars[1] += 2;
 	if (shell->tab_pars[1] && ft_strcmp(shell->tab_pars[1], "-") == 0)
-		*oldcwd = ft_getenv("OLDPWD", envp);
+		*oldcwd = ft_getenv("OLDPWD", (*env).copy_envp);
 	else if (shell->tab_pars[1] && (ft_strcmp(shell->tab_pars[1], "/") == 0
 			|| ft_strcmp(shell->tab_pars[1], "/.") == 0))
 		*oldcwd = ft_strdup("/");

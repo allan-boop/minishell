@@ -21,7 +21,7 @@ static bool	error_exit(t_mini **shell, int i)
 	return (false);
 }
 
-bool	ft_exit(char **envp, char ***copy_envp, t_mini **shell)
+bool	ft_exit(char **envp, t_env *env, t_mini **shell)
 {
 	int		j;
 	char	*shlvl;
@@ -30,7 +30,7 @@ bool	ft_exit(char **envp, char ***copy_envp, t_mini **shell)
 
 	if (error_exit(shell, 0) == true)
 		return (syntax_error(MANY_ARGS));
-	tmp = *copy_envp;
+	tmp = (*env).copy_envp;
 	shlvl = ft_getenv("SHLVL", envp);
 	j = ft_atoi(shlvl);
 	j--;
@@ -38,10 +38,10 @@ bool	ft_exit(char **envp, char ***copy_envp, t_mini **shell)
 	shlvl = ft_itoa(j);
 	ft_setenv_shell("SHLVL", shlvl, &envp);
 	ft_printf("exit\n");
-	while (**copy_envp)
+	while (*(*env).copy_envp)
 	{
-		free(**copy_envp);
-		(*copy_envp)++;
+		free(*(*env).copy_envp);
+		(*(*env).copy_envp)++;
 	}
 	free(shlvl);
 	free(tmp);

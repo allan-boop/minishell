@@ -53,7 +53,7 @@ bool	ft_n_option(bool *n_option, bool is_n_option, t_mini *shell)
 	return (false);
 }
 
-void	print_exp_vard(char *tab_pars, char **envp, int *j, char *str)
+void	print_exp_vard(char *tab_pars, t_env *env, int *j, char *str)
 {
 	int		k;
 
@@ -72,17 +72,17 @@ void	print_exp_vard(char *tab_pars, char **envp, int *j, char *str)
 			&& tab_pars[*j] != 39)
 			(*j)++;
 		k = 0;
-		while (envp[k])
+		while ((*env).copy_envp[k])
 		{
-			if (ft_strcmp(str + 1, ft_find_name_var(envp[k])) == 0)
-				ft_putstr_fd(ft_getenv(str + 1, envp), 1);
+			if (ft_strcmp(str + 1, ft_find_name_var((*env).copy_envp[k])) == 0)
+				ft_putstr_fd(ft_getenv(str + 1, (*env).copy_envp), 1);
 			k++;
 		}
 		str = ft_strchr(tab_pars, '$');
 	}	
 }
 
-void	if_exp_vard(t_mini *shell, char **envp)
+void	if_exp_vard(t_mini *shell, t_env *env)
 {
 	int		j;
 	char	*str;
@@ -92,7 +92,7 @@ void	if_exp_vard(t_mini *shell, char **envp)
 	{
 		j = 0;
 		if (ft_is_in_quote(shell->tab_pars[shell->tab_index], str) == 0)
-			print_exp_vard(shell->tab_pars[shell->tab_index], envp, &j, str);
+			print_exp_vard(shell->tab_pars[shell->tab_index], env, &j, str);
 		while (shell->tab_pars[shell->tab_index][j])
 			ft_printf("%c", shell->tab_pars[shell->tab_index][j++], 1);
 		if (shell->tab_pars[shell->tab_index + 1] != NULL)
@@ -106,7 +106,7 @@ void	if_exp_vard(t_mini *shell, char **envp)
 	}	
 }
 
-bool	ft_echo(t_mini *shell, char **envp)
+bool	ft_echo(t_mini *shell, t_env *env)
 {
 	bool	n_option;
 	bool	is_n_option;
@@ -126,7 +126,7 @@ bool	ft_echo(t_mini *shell, char **envp)
 		if (shell->tab_pars[shell->tab_index] != NULL)
 		{
 			ft_replace_space_in_str(shell->tab_pars[shell->tab_index], true);
-			if_exp_vard(shell, envp);
+			if_exp_vard(shell, env);
 			(shell->tab_index)++;
 		}
 	}

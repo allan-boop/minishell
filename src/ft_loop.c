@@ -1,20 +1,20 @@
 #include "../include/minishell.h"
 
 void	prompt_treatment(char *line, t_mini *shell,
-	char **envp, char ***copy_envp)
+	char **envp, t_env *env)
 {
 	int				error;
 
 	if (line[0] != '\0')
 	{
-		error = ft_parsing(shell, line, *copy_envp);
+		error = ft_parsing(shell, line, env->copy_envp);
 		if (error == 0)
 		{
 			shell->list = create_list(shell);
 			add_history(line);
-			ft_copy_envp(*copy_envp, shell);
+			ft_copy_envp(env, shell);
 			if (shell->list->error_parsing == false)
-				ft_execution(shell, envp, copy_envp);
+				ft_execution(shell, envp, env);
 		}
 	}
 }
@@ -36,14 +36,12 @@ static void	ft_init_shell(t_mini *shell, int status)
 	shell->status = status;
 }
 
-void	ft_loop(char **envp)
+void	ft_loop(char **envp, t_env *env)
 {
 	int				status;
 	char			*line;
 	t_mini			*shell;
-	char			**copy_envp;
 
-	copy_envp = ft_copy_envp_no_sort(envp);
 	rl_catch_signals = 0;
 	status = 0;
 	while (1)
@@ -58,7 +56,7 @@ void	ft_loop(char **envp)
 			ft_printf("\n");
 			exit(0);
 		}
-		prompt_treatment(line, shell, envp, &copy_envp);
+		prompt_treatment(line, shell, envp, env);
 		free(line);
 		status = shell->status;
 		close_fd(shell->og_stdin);

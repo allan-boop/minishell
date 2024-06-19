@@ -69,19 +69,19 @@ char	**ft_copy_envp_no_sort(char **envp)
 	return (copy_envp);
 }
 
-void	ft_copy_envp(char **envp, t_mini *shell)
+void	ft_copy_envp(t_env *env, t_mini *shell)
 {
 	int		len;
 	t_envp	*new;
 	int		i;
 
 	i = 0;
-	ft_sort_envp(envp);
-	len = ft_tab_len(envp);
+	ft_sort_envp(env);
+	len = ft_tab_len((*env).copy_envp);
 	shell->team_envp = NULL;
 	while (i < len)
 	{
-		new = ft_lstnew_envp(envp[i]);
+		new = ft_lstnew_envp((*env).copy_envp[i]);
 		ft_lstadd_back_envp(&shell, new);
 		i++;
 	}

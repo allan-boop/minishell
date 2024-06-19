@@ -51,14 +51,14 @@ void	ft_setenv(char *name, char *value, char ***envp)
 	*envp = new_envp;
 }
 
-static bool	ft_cd_logic( t_mini *shell, char **envp)
+static bool	ft_cd_logic( t_mini *shell, t_env *env)
 {
 	char	*path;
 
 	if (shell->tab_pars[shell->tab_index] == NULL
 		|| shell->tab_pars[shell->tab_index][0] == '~')
 	{
-		path = ft_getenv("HOME", envp);
+		path = ft_getenv("HOME", (*env).copy_envp);
 		if (shell->tab_pars[shell->tab_index]
 			&& shell->tab_pars[shell->tab_index][1] != '\0')
 			path = ft_strjoin(path, shell->tab_pars[shell->tab_index]
@@ -68,7 +68,7 @@ static bool	ft_cd_logic( t_mini *shell, char **envp)
 	}
 	else if (ft_strcmp(shell->tab_pars[shell->tab_index], "-") == 0)
 	{
-		path = ft_getenv("OLDPWD", envp);
+		path = ft_getenv("OLDPWD", (*env).copy_envp);
 		if (path == NULL)
 			return (ft_error("cd", "OLDPWD not set", 1));
 	}
@@ -77,7 +77,7 @@ static bool	ft_cd_logic( t_mini *shell, char **envp)
 	return (check_cd_err(shell, path));
 }
 
-static void	ft_change_env(char ***envp, char *oldpwd, char *oldcwd)
+static void	ft_change_env(t_env *env, char *oldpwd, char *oldcwd)
 {
 	int	i;
 
@@ -85,13 +85,13 @@ static void	ft_change_env(char ***envp, char *oldpwd, char *oldcwd)
 	i = ft_strlen(oldcwd) - 1;
 	while (i > 2 && oldcwd[i] == '/')
 		oldcwd[i--] = '\0';
-	ft_setenv("OLDPWD", oldpwd, envp);
+	ft_setenv("OLDPWD", oldpwd, &((*env).copy_envp));
 	if (oldcwd[0] == '\0')
 		oldcwd = ft_strdup("/");
-	ft_setenv("PWD", oldcwd, envp);
+	ft_setenv("PWD", oldcwd, &((*env).copy_envp));
 }
 
-bool	ft_cd(t_mini *shell, char ***envp)
+bool	ft_cd(t_mini *shell, t_env *env)
 {
 	char		*oldpwd;
 	char		*oldcwd;
@@ -104,17 +104,17 @@ bool	ft_cd(t_mini *shell, char ***envp)
 		&& shell->tab_pars[shell->tab_index + 1]
 		&& shell->tab_pars[shell->tab_index + 1][0] != '|')
 		return (ft_error("cd", "too many arguments", 1));
-	oldpwd = ft_getenv("PWD", *envp);
-	oldcwd = ft_getenv("PWD", *envp);
-	if (ft_cd_logic(shell, *envp) == 1)
+	oldpwd = ft_getenv("PWD", (*env).copy_envp);
+	oldcwd = ft_getenv("PWD", (*env).copy_envp);
+	if (ft_cd_logic(shell, env) == 1)
 		return (true);
-	ft_change_path(shell, *envp, &oldcwd);
+	ft_change_path(shell, env, &oldcwd);
 	if (!oldcwd)
 	{
-		ft_setenv("OLDPWD", oldpwd, envp);
-		ft_setenv("PWD", oldpwd, envp);
+		ft_setenv("OLDPWD", oldpwd, &((*env).copy_envp));
+		ft_setenv("PWD", oldpwd, &((*env).copy_envp));
 		return (true);
 	}
-	ft_change_env(envp, oldpwd, oldcwd);
+	ft_change_env(env, oldpwd, oldcwd);
 	return (true);
 }
