@@ -92,7 +92,7 @@ bool	ft_export(t_mini *shell, t_env *env)
 	char	*just_name_var;
 
 	just_name_var = NULL;
-	if (ft_print_export_alone(shell) == true)
+	if (ft_print_export_alone(shell, env) == true)
 		return (true);
 	shell->tab_index++;
 	shell->status = 0;

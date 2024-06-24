@@ -149,7 +149,7 @@ char			**ft_copy_envp_no_sort(char **envp);
 bool			ft_echo(t_mini *shell, t_env *env);
 char			*ft_getenv(char *name, char **envp);
 int				ft_replace_quote_export(char **line);
-bool			ft_print_export_alone(t_mini *shell);
+bool			ft_print_export_alone(t_mini *shell, t_env *env);
 void			ft_dell_all_quote_export(char *line);
 int				ft_is_in_quote(char *line, char *str);
 bool			ft_unset(t_mini *shell, t_env *env);

@@ -43,14 +43,23 @@ static void	ft_print_export_else(char *value, t_envp *tmp)
 		ft_printf("declare -x %s=\"%s\"\n", tmp->var, tmp->value);
 }
 
-static void	ft_print_export(t_mini *shell)
+static void	ft_print_export(t_mini *shell, t_env *env)
 {
 	t_envp	*tmp;
 
 	tmp = shell->team_envp;
 	while (tmp)
 	{
-		if (tmp->value[0] == 0)
+		if ((strcmp(tmp->var, "OLDPWD") == 0 && (*env).oldpwd == false)
+			|| (strcmp(tmp->var, "PWD") == 0 && (*env).pwd == false)
+			|| (strcmp(tmp->var, "SHLVL") == 0 && (*env).shlvl == false)
+			|| (strcmp(tmp->var, "HOME") == 0 && (*env).home == false)
+			|| (strcmp(tmp->var, "PATH") == 0 && (*env).path == false))
+		{
+			tmp = tmp->next;
+			continue ;
+		}
+		else if (tmp->value[0] == 0)
 			ft_printf("declare -x %s\n", tmp->var);
 		else
 			ft_print_export_else(tmp->value, tmp);
@@ -58,12 +67,12 @@ static void	ft_print_export(t_mini *shell)
 	}
 }
 
-bool	ft_print_export_alone(t_mini *shell)
+bool	ft_print_export_alone(t_mini *shell, t_env *env)
 {
 	if (ft_strcmp_shell(shell->tab_pars[shell->tab_index], "export") == 0
 		&& shell->tab_pars[shell->tab_index + 1] == NULL)
 	{
-		ft_print_export(shell);
+		ft_print_export(shell, env);
 		return (true);
 	}
 	else if (ft_strcmp_shell(shell->tab_pars[shell->tab_index], "export") == 0
@@ -76,7 +85,7 @@ bool	ft_print_export_alone(t_mini *shell)
 		|| shell->tab_pars[shell->tab_index + 1][0] == '#'
 		|| shell->tab_pars[shell->tab_index + 1][0] == ';'))
 	{
-		ft_print_export(shell);
+		ft_print_export(shell, env);
 		return (true);
 	}
 	return (false);
