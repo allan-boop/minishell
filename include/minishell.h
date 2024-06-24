@@ -121,6 +121,7 @@ char			*ft_itoa_shell(int n);
 int				ft_tab_len(char **envp);
 int				syntax_error(char *msg);
 void			*ft_del_alloc(void *var);
+bool			yes_unset_env(char *name, t_env *env);
 int				ft_count_quote(char *str);
 int				ft_del_quotes(char **arg);
 char			*ft_space_pipe(char *line);

@@ -1,5 +1,28 @@
 #include "../../include/minishell.h"
 
+bool	yes_unset_env(char *name, t_env *env)
+{
+	if (ft_strcmp(name, "PWD") == 0
+		|| ft_strcmp(name, "OLDPWD") == 0
+		|| ft_strcmp(name, "HOME") == 0
+		|| ft_strcmp(name, "SHLVL") == 0
+		|| ft_strcmp(name, "PATH") == 0)
+	{
+		if (ft_strcmp(name, "PWD") == 0)
+			(*env).pwd = true;
+		if (ft_strcmp(name, "OLDPWD") == 0)
+			(*env).oldpwd = true;
+		if (ft_strcmp(name, "HOME") == 0)
+			(*env).home = true;
+		if (ft_strcmp(name, "SHLVL") == 0)
+			(*env).shlvl = true;
+		if (ft_strcmp(name, "PATH") == 0)
+			(*env).path = true;
+		return (true);
+	}
+	return (false);
+}
+
 static char	*ft_print_export_else_two(char *new_value, char *value, size_t j)
 {
 	size_t	i;
