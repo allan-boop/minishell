@@ -47,8 +47,10 @@ static int	ft_cd_logic_error(t_mini *shell, char *path)
 			&& shell->tab_pars[shell->tab_index][0] != '|'))
 	{
 		shell->status = 1;
+		free(path);
 		return (ft_error("cd", strerror(errno), 1));
 	}
+	free(path);
 	shell->status = 0;
 	return (0);
 }

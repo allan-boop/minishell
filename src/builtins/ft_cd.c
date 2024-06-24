@@ -54,15 +54,20 @@ void	ft_setenv(char *name, char *value, char ***envp)
 static bool	ft_cd_logic( t_mini *shell, t_env *env)
 {
 	char	*path;
+	char	*tmp;
 
 	if (shell->tab_pars[shell->tab_index] == NULL
 		|| shell->tab_pars[shell->tab_index][0] == '~')
 	{
-		path = ft_getenv("HOME", (*env).copy_envp);
+		path = ft_strdup(ft_getenv("HOME", (*env).copy_envp));
 		if (shell->tab_pars[shell->tab_index]
 			&& shell->tab_pars[shell->tab_index][1] != '\0')
+		{
+			tmp = path;
 			path = ft_strjoin(path, shell->tab_pars[shell->tab_index]
 					+ 1);
+			free(tmp);
+		}
 		if (path == NULL)
 			return (ft_error("cd", "HOME not set", 1));
 	}
@@ -73,7 +78,7 @@ static bool	ft_cd_logic( t_mini *shell, t_env *env)
 			return (ft_error("cd", "OLDPWD not set", 1));
 	}
 	else
-		path = shell->tab_pars[shell->tab_index];
+		path = ft_strdup(shell->tab_pars[shell->tab_index]);
 	return (check_cd_err(shell, path));
 }
 
@@ -86,9 +91,11 @@ static void	ft_change_env(t_env *env, char *oldpwd, char *oldcwd)
 	while (i > 2 && oldcwd[i] == '/')
 		oldcwd[i--] = '\0';
 	ft_setenv("OLDPWD", oldpwd, &((*env).copy_envp));
-	if (oldcwd[0] == '\0')
+	if (oldcwd[0] == '\0' && (oldcwd[0] != '/' && oldcwd[1] != '\0'))
 		oldcwd = ft_strdup("/");
 	ft_setenv("PWD", oldcwd, &((*env).copy_envp));
+	if (oldcwd[0] == '/' && oldcwd[1] == '\0')
+		free(oldcwd);
 }
 
 bool	ft_cd(t_mini *shell, t_env *env)
