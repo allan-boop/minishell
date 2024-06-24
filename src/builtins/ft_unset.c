@@ -50,6 +50,29 @@ bool	ft_in_in_unset(t_env *env, size_t *i, size_t *nb_args)
 	return (false);
 }
 
+bool	no_unset_env(t_mini *shell, t_env *env)
+{
+	if (ft_strcmp(shell->tab_pars[shell->tab_index], "PWD") == 0
+		|| ft_strcmp(shell->tab_pars[shell->tab_index], "OLDPWD") == 0
+		|| ft_strcmp(shell->tab_pars[shell->tab_index], "HOME") == 0
+		|| ft_strcmp(shell->tab_pars[shell->tab_index], "SHLVL") == 0
+		|| ft_strcmp(shell->tab_pars[shell->tab_index], "PATH") == 0)
+	{
+		if (ft_strcmp(shell->tab_pars[shell->tab_index], "PWD") == 0)
+			(*env).pwd = false;
+		if (ft_strcmp(shell->tab_pars[shell->tab_index], "OLDPWD") == 0)
+			(*env).oldpwd = false;
+		if (ft_strcmp(shell->tab_pars[shell->tab_index], "HOME") == 0)
+			(*env).home = false;
+		if (ft_strcmp(shell->tab_pars[shell->tab_index], "SHLVL") == 0)
+			(*env).shlvl = false;
+		if (ft_strcmp(shell->tab_pars[shell->tab_index], "PATH") == 0)
+			(*env).path = false;
+		return (true);
+	}
+	return (false);
+}
+
 static bool	ft_in_unset(t_env *env, t_mini *shell, size_t *i, size_t *nb_args)
 {
 	char		*name;
@@ -62,35 +85,14 @@ static bool	ft_in_unset(t_env *env, t_mini *shell, size_t *i, size_t *nb_args)
 		&& shell->tab_pars[shell->tab_index][0] != '<'
 			&& shell->tab_pars[shell->tab_index][0] != '>'))
 	{
-		if (ft_strncmp((*env).copy_envp[*i], name, len) == 0
+		if (no_unset_env(shell, env) == true)
+			(*i)++;
+		else if (ft_strncmp((*env).copy_envp[*i], name, len) == 0
 			&& shell->tab_pars[shell->tab_index][len] != '='
 			&& ((*env).copy_envp[*i][len] == '=' || (*env).copy_envp[*i][len] == '\0'))
 			ft_in_in_unset(env, i, nb_args);
 		else
 			(*i)++;
-	}
-	return (false);
-}
-
-bool	no_unset_env(t_mini *shell, t_env *env)
-{
-	if (ft_strcmp(shell->tab_pars[shell->tab_index + 1], "PWD") == 0
-		|| ft_strcmp(shell->tab_pars[shell->tab_index + 1], "OLDPWD") == 0
-		|| ft_strcmp(shell->tab_pars[shell->tab_index + 1], "HOME") == 0
-		|| ft_strcmp(shell->tab_pars[shell->tab_index + 1], "SHLVL") == 0
-		|| ft_strcmp(shell->tab_pars[shell->tab_index + 1], "PATH") == 0)
-	{
-		if (ft_strcmp(shell->tab_pars[shell->tab_index + 1], "PWD") == 0)
-			(*env).pwd = false;
-		if (ft_strcmp(shell->tab_pars[shell->tab_index + 1], "OLDPWD") == 0)
-			(*env).oldpwd = false;
-		if (ft_strcmp(shell->tab_pars[shell->tab_index + 1], "HOME") == 0)
-			(*env).home = false;
-		if (ft_strcmp(shell->tab_pars[shell->tab_index + 1], "SHLVL") == 0)
-			(*env).shlvl = false;
-		if (ft_strcmp(shell->tab_pars[shell->tab_index + 1], "PATH") == 0)
-			(*env).path = false;
-		return (true);
 	}
 	return (false);
 }
@@ -102,8 +104,6 @@ bool	ft_unset(t_mini *shell, t_env *env)
 
 	shell->status = 0;
 	if (ft_check_unset(shell) == false)
-		return (true);
-	if (no_unset_env(shell, env) == true)
 		return (true);
 	nb_args = ft_count_args(shell);
 	while (nb_args > 0 && shell->tab_pars[shell->tab_index + 1]
