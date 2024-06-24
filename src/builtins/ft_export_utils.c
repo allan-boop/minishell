@@ -50,11 +50,11 @@ static void	ft_print_export(t_mini *shell, t_env *env)
 	tmp = shell->team_envp;
 	while (tmp)
 	{
-		if ((strcmp(tmp->var, "OLDPWD") == 0 && (*env).oldpwd == false)
-			|| (strcmp(tmp->var, "PWD") == 0 && (*env).pwd == false)
-			|| (strcmp(tmp->var, "SHLVL") == 0 && (*env).shlvl == false)
-			|| (strcmp(tmp->var, "HOME") == 0 && (*env).home == false)
-			|| (strcmp(tmp->var, "PATH") == 0 && (*env).path == false))
+		if ((ft_strcmp(tmp->var, "OLDPWD") == 0 && (*env).oldpwd == false)
+			|| (ft_strcmp(tmp->var, "PWD") == 0 && (*env).pwd == false)
+			|| (ft_strcmp(tmp->var, "SHLVL") == 0 && (*env).shlvl == false)
+			|| (ft_strcmp(tmp->var, "HOME") == 0 && (*env).home == false)
+			|| (ft_strcmp(tmp->var, "PATH") == 0 && (*env).path == false))
 		{
 			tmp = tmp->next;
 			continue ;

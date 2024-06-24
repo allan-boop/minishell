@@ -49,8 +49,20 @@ bool	ft_env(char **envp, t_env *env, t_mini *shell)
 	}
 	while (own_arg[i])
 	{
-		ft_printf("%s\n", own_arg[i]);
-		i++;
+		if ((ft_strcmp(ft_find_name_var(own_arg[i]), "OLDPWD") == 0 && (*env).oldpwd == false)
+			|| (ft_strcmp(ft_find_name_var(own_arg[i]), "PWD") == 0 && (*env).pwd == false)
+			|| (ft_strcmp(ft_find_name_var(own_arg[i]), "SHLVL") == 0 && (*env).shlvl == false)
+			|| (ft_strcmp(ft_find_name_var(own_arg[i]), "HOME") == 0 && (*env).home == false)
+			|| (ft_strcmp(ft_find_name_var(own_arg[i]), "PATH") == 0 && (*env).path == false))
+		{
+			i++;
+			continue ;
+		}
+		else
+		{
+			ft_printf("%s\n", own_arg[i]);
+			i++;
+		}
 	}
 	return (true);
 }
