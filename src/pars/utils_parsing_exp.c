@@ -65,7 +65,7 @@ char	*print_exp_var(char *tab_pars, char *str, char *n_str,
 	return (n_str);
 }
 
-char	*if_exp_var(t_mini *shell, char **copy_envp, int *i)
+char	*if_exp_var(t_mini *shell, t_env *env, int *i)
 {
 	char		*str;
 	char		*n_str;
@@ -73,19 +73,28 @@ char	*if_exp_var(t_mini *shell, char **copy_envp, int *i)
 
 	utils.i = 0;
 	str = ft_strchr(shell->tab_pars[*i], '$');
-	if (str)
+	if (str && ((ft_strcmp(str, "$PWD") == 0 && (*env).pwd == false)
+			|| (ft_strcmp(str, "$OLDPWD") == 0 && (*env).oldpwd == false)
+			|| (ft_strcmp(str, "$HOME") == 0 && (*env).home == false)
+			|| (ft_strcmp(str, "$SHLVL") == 0 && (*env).shlvl == false)
+			|| (ft_strcmp(str, "$PATH") == 0 && (*env).path == false)))
+	{
+		return (NULL);
+	}
+	else if (str)
 	{
 		n_str = ft_calloc_shell(ft_strlen(shell->tab_pars[*i])
 				+ 1, sizeof(char));
 		utils.j = 0;
 		if (ft_is_in_quote(shell->tab_pars[*i], str) == 0)
 		{
-			utils.envp = copy_envp;
+			utils.envp = env->copy_envp;
 			n_str = print_exp_var(shell->tab_pars[*i], str, n_str, &utils);
 		}
 		while (shell->tab_pars[*i][utils.j])
 			n_str[(utils.i)++] = shell->tab_pars[*i][(utils.j)++];
 		n_str[utils.i] = '\0';
+		printf("n_str = %s\n", n_str);
 		return (n_str);
 	}
 	return (shell->tab_pars[*i]);
