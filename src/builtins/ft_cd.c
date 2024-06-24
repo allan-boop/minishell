@@ -73,9 +73,12 @@ static bool	ft_cd_logic( t_mini *shell, t_env *env)
 	}
 	else if (ft_strcmp(shell->tab_pars[shell->tab_index], "-") == 0)
 	{
-		path = ft_getenv("OLDPWD", (*env).copy_envp);
+		path = ft_strdup(ft_getenv("OLDPWD", (*env).copy_envp));
 		if (path == NULL)
+		{
+			free(path);
 			return (ft_error("cd", "OLDPWD not set", 1));
+		}
 	}
 	else
 		path = ft_strdup(shell->tab_pars[shell->tab_index]);

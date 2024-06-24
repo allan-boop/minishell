@@ -97,7 +97,7 @@ void	ft_change_path( t_mini *shell, t_env *env, char **oldcwd)
 	else if (shell->tab_pars[1][0] == '.' && shell->tab_pars[1][1] == '/')
 		shell->tab_pars[1] += 2;
 	if (shell->tab_pars[1] && ft_strcmp(shell->tab_pars[1], "-") == 0)
-		*oldcwd = ft_getenv("OLDPWD", (*env).copy_envp);
+		*oldcwd = ft_strdup(ft_getenv("OLDPWD", (*env).copy_envp));
 	else if (shell->tab_pars[1] && (ft_strcmp(shell->tab_pars[1], "/") == 0
 			|| ft_strcmp(shell->tab_pars[1], "/.") == 0))
 		*oldcwd = ft_strdup("/");
