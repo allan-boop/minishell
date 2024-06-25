@@ -3,5 +3,11 @@ ip -V
 echo lol
 echo $DISPLAY
 cd ..
+cd /
+cd ~
+cd /
+cd ..
+cd ..
+cd ~/Documents/minishell
 pwd
 < qwe

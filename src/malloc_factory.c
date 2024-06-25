@@ -80,6 +80,8 @@ void	*malloc_factory(size_t size, int type, void *ptr)
 	void				*new_ptr;
 	t_malloc_ptr		*new_node;
 
+	if (size <= 0)
+		return (NULL);
 	if (type == NEW)
 	{
 		new_ptr = malloc(size);
