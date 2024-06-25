@@ -1,3 +1,7 @@
-ls -a
+ls
 ip -V
 echo lol
+echo $DISPLAY
+cd ..
+pwd
+< qwe

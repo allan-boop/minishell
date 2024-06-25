@@ -94,7 +94,6 @@ char	*if_exp_var(t_mini *shell, t_env *env, int *i)
 		while (shell->tab_pars[*i][utils.j])
 			n_str[(utils.i)++] = shell->tab_pars[*i][(utils.j)++];
 		n_str[utils.i] = '\0';
-		printf("n_str = %s\n", n_str);
 		return (n_str);
 	}
 	return (shell->tab_pars[*i]);
