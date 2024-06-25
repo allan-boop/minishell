@@ -126,6 +126,7 @@ int				ft_count_quote(char *str);
 int				ft_del_quotes(char **arg);
 char			*ft_space_pipe(char *line);
 int				ft_check_quote(char *line);
+void			set_env(char **envp, t_env *env, int argc, char **argv);
 char			*ft_clean_quotes(char *str);
 void			ft_list_cmd(t_mini **shell);
 char			**ft_sort_envp(t_env *env);
