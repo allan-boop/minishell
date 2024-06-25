@@ -66,6 +66,7 @@ int	ft_parsing(t_mini *shell, char *line, t_env *env)
 {
 	int i;
 
+	shell->tab_cmd = NULL;
 	if (ft_check_quote(line) == 1)
 		return (1);
 	line = ft_space_pipe(line);
