@@ -121,6 +121,8 @@ void	ft_execution(t_mini *shell, char **envp, t_env *env)
 	shell->tab_index = 0;
 	shell->i = 0;
 	is_p = ft_tab_len(shell->tab_cmd);
+	if (is_p == 0)
+		return ;
 	shell->pipe_fd = ft_alloc(sizeof(int *) * is_p + 1);
 	while (shell->i < is_p)
 	{
