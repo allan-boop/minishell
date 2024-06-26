@@ -11,4 +11,5 @@ void	ft_free_copy_envp(t_env *env)
 		i++;
 	}
 	free((*env).copy_envp);
+	free(env);
 }
