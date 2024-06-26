@@ -44,7 +44,7 @@ char	*print_exp_var(char *tab_pars, char *str, char *n_str,
 
 	while (str)
 	{
-		while (tab_pars[(*utils).j] != '$')
+		while (tab_pars[(*utils).j] && tab_pars[(*utils).j] != '$')
 			n_str[((*utils).i)++] = tab_pars[((*utils).j)++];
 		tab_pars[((*utils).j)++] = 'q';
 		str = clean_var(str);
@@ -74,6 +74,7 @@ char	*print_exp_var(char *tab_pars, char *str, char *n_str,
 			}
 			k++;
 		}
+		str = ft_strchr(tab_pars, '$');
 	}
 	return (n_str);
 }
