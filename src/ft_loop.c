@@ -57,6 +57,8 @@ void	ft_loop(char **envp, t_env *env)
 		line = readline(PROMPT);
 		if (line == NULL)
 		{
+			close_fd(shell->og_stdin);
+			close_fd(shell->og_stdout);
 			ft_del_all();
 			ft_free_copy_envp(env);
 			ft_printf("\n");
