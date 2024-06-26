@@ -11,3 +11,7 @@ cd ..
 cd ~/Documents/minishell
 pwd
 < qwe
+ls -a | wc -l > asd
+cat < echo lol
+echo test
+exit
