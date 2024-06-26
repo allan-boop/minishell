@@ -52,6 +52,20 @@ char	*print_exp_var(char *tab_pars, char *str, char *n_str,
 		k = 0;
 		while ((*utils).envp[k])
 		{
+			if ((ft_strcmp("PWD", ft_find_name_var((*utils).envp[k])) == 0
+					&& (*utils).env->pwd == false)
+				|| (ft_strcmp("OLDPWD", ft_find_name_var((*utils).envp[k])) == 0
+					&& (*utils).env->oldpwd == false)
+				|| (ft_strcmp("HOME", ft_find_name_var((*utils).envp[k])) == 0
+					&& (*utils).env->home == false)
+				|| (ft_strcmp("SHLVL", ft_find_name_var((*utils).envp[k])) == 0
+					&& (*utils).env->shlvl == false)
+				|| (ft_strcmp("PATH", ft_find_name_var((*utils).envp[k])) == 0
+					&& (*utils).env->path == false))
+			{
+				k++;
+				continue ;
+			}
 			if (ft_strcmp(str + 1, ft_find_name_var((*utils).envp[k])) == 0)
 			{
 				n_str = ft_strjoin_shell(n_str,
@@ -60,7 +74,6 @@ char	*print_exp_var(char *tab_pars, char *str, char *n_str,
 			}
 			k++;
 		}
-		str = ft_strchr(tab_pars, '$');
 	}
 	return (n_str);
 }
@@ -71,17 +84,10 @@ char	*if_exp_var(t_mini *shell, t_env *env, int *i)
 	char		*n_str;
 	t_int_utils	utils;
 
+	utils.env = env;
 	utils.i = 0;
 	str = ft_strchr(shell->tab_pars[*i], '$');
-	if (str && ((ft_strcmp(str, "$PWD") == 0 && (*env).pwd == false)
-			|| (ft_strcmp(str, "$OLDPWD") == 0 && (*env).oldpwd == false)
-			|| (ft_strcmp(str, "$HOME") == 0 && (*env).home == false)
-			|| (ft_strcmp(str, "$SHLVL") == 0 && (*env).shlvl == false)
-			|| (ft_strcmp(str, "$PATH") == 0 && (*env).path == false)))
-	{
-		return (NULL);
-	}
-	else if (str)
+	if (str)
 	{
 		n_str = ft_calloc_shell(ft_strlen(shell->tab_pars[*i])
 				+ 1, sizeof(char));

@@ -106,6 +106,7 @@ typedef struct s_int_utils
 	int		i;
 	int		j;
 	char	**envp;
+	t_env	*env;
 }	t_int_utils;
 
 void			close_fd(int fd);
