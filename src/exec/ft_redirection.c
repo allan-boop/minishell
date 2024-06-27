@@ -54,6 +54,8 @@ void	ft_mini_doc(t_mini *shell)
 {
 	char	*line;
 
+	signal(SIGINT, proc_signal_handler);
+	signal(SIGQUIT, proc_signal_handler);
 	write(1, "> ", 2);
 	while (gnl(&line))
 	{
