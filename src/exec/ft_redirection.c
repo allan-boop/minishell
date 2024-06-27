@@ -62,10 +62,10 @@ void	ft_mini_doc(t_mini *shell)
 		write(1, "> ", 2);
 		while (gnl(&line))
 		{
-			write(1, "> ", 2);
 			if (!ft_strncmp(line, shell->tab_pars[1],
 					ft_strlen(shell->tab_pars[1])))
 				break ;
+			write(1, "> ", 2);
 		}
 	}
 }
