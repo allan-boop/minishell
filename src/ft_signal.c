@@ -1,5 +1,19 @@
 #include "../include/minishell.h"
 
+void	proc_signal_handler_heredoc(int sig)
+{
+	if (sig == SIGINT)
+	{
+		write(1, "\n", 1);
+		signal(SIGINT, proc_signal_handler_heredoc);
+	}
+	else if (sig == SIGQUIT)
+	{
+		write(1, "Quit\n", 5);
+		signal(SIGQUIT, proc_signal_handler_heredoc);
+	}
+}
+
 void	proc_signal_handler(int sig)
 {
 	if (sig == SIGINT)
