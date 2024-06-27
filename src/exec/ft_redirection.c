@@ -50,6 +50,20 @@ static void	ft_parent_process(int *fd)
 	wait(NULL);
 }
 
+void	ft_mini_doc(t_mini *shell)
+{
+	char	*line;
+
+	write(1, "> ", 2);
+	while (gnl(&line))
+	{
+		write(1, "> ", 2);
+		if (!ft_strncmp(line, shell->tab_pars[1],
+				ft_strlen(shell->tab_pars[1])))
+			break ;
+	}
+}
+
 void	ft_here_doc(t_mini *shell, int *i, int *fd)
 {
 	char	*line;

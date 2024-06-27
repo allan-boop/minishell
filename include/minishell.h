@@ -114,6 +114,8 @@ void			ft_setenv_shell(char *name, char *value, char ***envp);
 void			signal_handler(int sig);
 void			proc_signal_handler(int sig);
 void			*ft_del_all(void);
+void			ft_mini_doc(t_mini *shell);
+void			ft_here_doc(t_mini *shell, int *i, int *fd);
 void			*ft_alloc(int size);
 void			ft_nb_args(int argc);
 void			ft_redir(t_mini *shell, char *cmd_next);
