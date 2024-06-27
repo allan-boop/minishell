@@ -96,8 +96,7 @@ static void	ft_exec_logic( t_mini *shell, char **envp
 		if (shell->tab_pars[shell->tab_index]
 			&& shell->tab_pars[shell->tab_index][0] == '|')
 			shell->tab_index++;
-
-		ft_redirection(shell);
+		ft_redirection(shell, env);
 		signal(SIGINT, proc_signal_handler);
 		signal(SIGQUIT, proc_signal_handler);
 		close_fd(shell->filein);

@@ -82,7 +82,7 @@ void	ft_mini_doc(t_mini *shell)
 	}
 }
 
-void	ft_here_doc(t_mini *shell, int *i, int *fd)
+void	ft_here_doc(t_mini *shell, int *i, int *fd, t_env *env)
 {
 	char	*line;
 	pid_t	reader;
@@ -99,7 +99,17 @@ void	ft_here_doc(t_mini *shell, int *i, int *fd)
 			write(1, "> ", 2);
 			if (ft_strncmp(line, shell->tab_pars[*i + 1],
 					ft_strlen(shell->tab_pars[*i + 1])) == 0)
+			{
+				close_fd(fd[0]);
+				close_fd(fd[1]);
+				close_fd(shell->filein);
+				close_fd(shell->fileout);
+				close_fd(shell->og_stdin);
+				close_fd(shell->og_stdout);
+				ft_del_all();
+				ft_free_copy_envp(env);
 				exit(EXIT_SUCCESS);
+			}
 			write(fd[1], line, ft_strlen(line));
 		}
 	}
@@ -108,11 +118,12 @@ void	ft_here_doc(t_mini *shell, int *i, int *fd)
 	(*i)++;
 }
 
-void	ft_redirection(t_mini *shell)
+void	ft_redirection(t_mini *shell, t_env *env)
 {
 	int		i;
 	int		fd[2];
 
+	(void)env;
 	i = shell->tab_index;
 	shell->filein = -1;
 	shell->fileout = -1;
@@ -120,7 +131,7 @@ void	ft_redirection(t_mini *shell)
 	{
 		if (shell->tab_pars[i][0] == '<'
 				&& shell->tab_pars[i][1] == '<' && shell->tab_pars[i + 1])
-			ft_here_doc(shell, &i, fd);
+			ft_here_doc(shell, &i, fd, env);
 		else if (shell->tab_pars[i][0] == '<' && shell->tab_pars[i + 1])
 			shell->filein = open(shell->tab_pars[i + 1], O_RDONLY);
 		if (shell->tab_pars[i][0] == '>'
