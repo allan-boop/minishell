@@ -123,9 +123,7 @@ void	ft_execution(t_mini *shell, char **envp, t_env *env)
 	is_p = ft_tab_len(shell->tab_cmd);
 	if (is_p == 0)
 	{
-		if (shell->tab_pars[0][0] == '<'
-				&& shell->tab_pars[0][1] == '<' && shell->tab_pars[1])
-			ft_mini_doc(shell);
+		ft_mini_doc(shell);
 		return ;
 	}
 	shell->pipe_fd = ft_alloc(sizeof(int *) * is_p + 1);

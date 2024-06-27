@@ -54,15 +54,19 @@ void	ft_mini_doc(t_mini *shell)
 {
 	char	*line;
 
-	signal(SIGINT, proc_signal_handler);
-	signal(SIGQUIT, proc_signal_handler);
-	write(1, "> ", 2);
-	while (gnl(&line))
+	if (shell->tab_pars[0][0] == '<'
+			&& shell->tab_pars[0][1] == '<' && shell->tab_pars[1])
 	{
+		signal(SIGINT, proc_signal_handler);
+		signal(SIGQUIT, proc_signal_handler);
 		write(1, "> ", 2);
-		if (!ft_strncmp(line, shell->tab_pars[1],
-				ft_strlen(shell->tab_pars[1])))
-			break ;
+		while (gnl(&line))
+		{
+			write(1, "> ", 2);
+			if (!ft_strncmp(line, shell->tab_pars[1],
+					ft_strlen(shell->tab_pars[1])))
+				break ;
+		}
 	}
 }
 
