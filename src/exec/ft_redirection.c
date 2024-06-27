@@ -88,10 +88,14 @@ void	ft_here_doc(t_mini *shell, int *i, int *fd, t_env *env)
 			if (ft_strncmp(line, shell->tab_pars[*i + 1],
 					ft_strlen(shell->tab_pars[*i + 1])) == 0)
 			{
+				close_fd(fd[0]);
+				close_fd(fd[1]);
+				close_fd(shell->filein);
+				close_fd(shell->fileout);
+				close_fd(shell->og_stdin);
+				close_fd(shell->og_stdout);
 				ft_del_all();
 				ft_free_copy_envp(env);
-				close_fd(fd[1]);
-				close_fd(shell->og_stdin);
 				exit(EXIT_SUCCESS);
 			}
 			write(fd[1], line, ft_strlen(line));
