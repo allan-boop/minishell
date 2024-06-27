@@ -29,16 +29,22 @@ int	gnl(char **line)
 	if (!buffer)
 		return (-1);
 	r = read(0, &c, 1);
+	if (g_sig == SIGINT)
+		return (-1);
 	while (r && c != '\n' && c != '\0')
 	{
 		if (c != '\n' && c != '\0')
 			buffer[i] = c;
 		i++;
 		r = read(0, &c, 1);
+		if (g_sig == SIGINT)
+			return (-1);
 	}
 	buffer[i] = '\n';
 	buffer[++i] = '\0';
 	*line = buffer;
+	if (r == 0)
+		write(1, "\n", 1);
 	return (r);
 }
 
@@ -52,16 +58,22 @@ static void	ft_parent_process(int *fd)
 
 void	ft_mini_doc(t_mini *shell)
 {
-	char	*line;
+	char				*line;
+	struct sigaction	act;
 
+	sigemptyset(&act.sa_mask);
+	act.sa_flags = 0;
+	act.sa_handler = proc_signal_handler_heredoc;
 	if (shell->tab_pars[0][0] == '<'
 			&& shell->tab_pars[0][1] == '<' && shell->tab_pars[1])
 	{
-		signal(SIGINT, proc_signal_handler);
-		signal(SIGQUIT, proc_signal_handler);
+		sigaction(SIGINT, &act, NULL);
+		signal(SIGQUIT, signal_handler);
 		write(1, "> ", 2);
 		while (gnl(&line))
 		{
+			if (g_sig == SIGINT)
+				break ;
 			if (!ft_strncmp(line, shell->tab_pars[1],
 					ft_strlen(shell->tab_pars[1])))
 				break ;

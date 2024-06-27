@@ -42,6 +42,8 @@
 # include <readline/history.h>
 # include <readline/readline.h>
 
+extern volatile int g_sig;
+
 typedef struct s_malloc_ptr
 {
 	void				*ptr;

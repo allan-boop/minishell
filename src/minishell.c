@@ -1,5 +1,7 @@
 #include "../include/minishell.h"
 
+volatile int	g_sig = 0;
+
 int	main(int argc, char **argv, char **envp)
 {
 	t_env	*env;
