@@ -205,5 +205,5 @@ void			ft_check_plus(char **envp, char *just_name_var,
 bool			other_builtin_p(char *cmd, t_env *env,
 					char *cmd_next, t_mini *shell);
 void			ft_modify_var(t_mini *shell, char *existing_var,
-				t_env *env, char *just_name_var);
+					t_env *env, char *just_name_var);
 #endif

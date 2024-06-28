@@ -54,11 +54,12 @@ SRC_FILES =	minishell.c \
 			pars/ft_replace_doll.c \
 			pars/ft_calloc_shell.c \
 			builtins/ft_cd_utils.c \
-			builtins/ft_cd_utils2.c \
-			pars/utils_parsing_exp.c \
+			builtins/ft_cd_setenv.c \
 			pars/ft_space_chevron.c \
-			pars/utils_parsing_cmd.c \
+			builtins/ft_cd_utils2.c \
 			builtins/ft_echo_utils.c \
+			pars/utils_parsing_exp.c \
+			pars/utils_parsing_cmd.c \
 			builtins/ft_export_utils.c \
 			builtins/ft_export_modify.c \
 			pars/utils_export_quote.c
