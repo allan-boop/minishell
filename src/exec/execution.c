@@ -20,38 +20,27 @@ bool	custom_builtin(t_mini *shell, char **envp, t_env *env)
 	return (false);
 }
 
-static void	ft_parent_p(char *cmd_next, t_mini *shell, pid_t pid)
+static void	ft_execution_core_children(t_env *env, char **envp,
+	t_mini *shell, char *cmd_next)
 {
-	if (cmd_next != NULL)
-	{
-		if (shell->filein == -1)
-			dup2(shell->pipe_fd[shell->i_p][0], STDIN_FILENO);
-		close_fd(shell->pipe_fd[shell->i_p][1]);
-		close_fd(shell->pipe_fd[shell->i_p][0]);
-		close_fd(shell->fileout);
-	}
-	else
-	{
-		if (shell->filein == -1)
-			dup2(shell->og_stdin, STDIN_FILENO);
-		waitpid(pid, &(shell->status), 0);
-		while (wait(NULL) > 0)
-		{
-			signal(SIGQUIT, SIG_IGN);
-			continue ;
-		}
-		signal(SIGQUIT, proc_signal_handler);
-		if (WIFSIGNALED(shell->status))
-			shell->status = WTERMSIG(shell->status) + 128;
-		else
-			if (WIFEXITED(shell->status))
-				shell->status = WEXITSTATUS(shell->status);
-		close_fd(shell->pipe_fd[shell->i_p][0]);
-		close_fd(shell->pipe_fd[shell->i_p][1]);
-	}
+	inc_shlvl(shell, env);
+	if (cmd_next != NULL && shell->fileout == -1)
+		dup2(shell->pipe_fd[shell->i_p][1], STDOUT_FILENO);
+	if (shell->pipe_fd[shell->i_p][0] != -1)
+		close(shell->pipe_fd[shell->i_p][0]);
+	if (shell->pipe_fd[shell->i_p][1] != -1)
+		close(shell->pipe_fd[shell->i_p][1]);
+	if (custom_builtin(shell, envp, env) == false)
+		other_builtin(shell->tab_cmd[shell->i], env);
+	close_fd(shell->og_stdin);
+	close_fd(shell->og_stdout);
+	ft_free_copy_envp(env);
+	ft_del_all();
+	exit(1);
 }
 
-bool	ft_execution_core(t_mini *shell, char **envp, t_env *env, char *cmd_next)
+bool	ft_execution_core(t_mini *shell, char **envp,
+	t_env *env, char *cmd_next)
 {
 	pid_t	pid;
 	int		pipefd[2];
@@ -65,22 +54,7 @@ bool	ft_execution_core(t_mini *shell, char **envp, t_env *env, char *cmd_next)
 		return (false);
 	}
 	if (pid == 0)
-	{
-		inc_shlvl(shell, env);
-		if (cmd_next != NULL && shell->fileout == -1)
-			dup2(shell->pipe_fd[shell->i_p][1], STDOUT_FILENO);
-		if (shell->pipe_fd[shell->i_p][0] != -1)
-			close(shell->pipe_fd[shell->i_p][0]);
-		if (shell->pipe_fd[shell->i_p][1] != -1)
-			close(shell->pipe_fd[shell->i_p][1]);
-		if (custom_builtin(shell, envp, env) == false)
-			other_builtin(shell->tab_cmd[shell->i], env);
-		close_fd(shell->og_stdin);
-		close_fd(shell->og_stdout);
-		ft_free_copy_envp(env);
-		ft_del_all();
-		exit(1);
-	}
+		ft_execution_core_children(env, envp, shell, cmd_next);
 	ft_parent_p(cmd_next, shell, pid);
 	return (true);
 }
