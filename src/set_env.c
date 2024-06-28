@@ -1,6 +1,5 @@
 #include "../include/minishell.h"
 
-
 void	set_env(char **envp, t_env *env, int argc, char **argv)
 {
 	env->copy_envp = ft_copy_envp_no_sort(envp);

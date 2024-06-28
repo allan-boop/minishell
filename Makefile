@@ -35,6 +35,7 @@ SRC_FILES =	minishell.c \
 			pars/give_token.c \
 			builtins/ft_pwd.c \
 			pars/utils_envp.c \
+			exec/gnl.c \
 			exec/utils_fork.c \
 			exec/ft_parent_p.c \
 			pars/ft_find_var.c \

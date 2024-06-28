@@ -42,7 +42,7 @@
 # include <readline/history.h>
 # include <readline/readline.h>
 
-extern volatile int g_sig;
+extern volatile int	g_sig;
 
 typedef struct s_malloc_ptr
 {
@@ -111,6 +111,9 @@ typedef struct s_int_utils
 	t_env	*env;
 }	t_int_utils;
 
+void			ft_here_doc_while(t_mini *shell, int *i, t_env *env, int *fd);
+void			ft_here_doc_in(t_env *env, int *fd, t_mini *shell);
+int				gnl(char **line, int i, int r, char c);
 void			proc_signal_handler_heredoc_parent(int sig);
 void			proc_signal_handler_heredoc(int sig);
 void			close_fd(int fd);

@@ -15,6 +15,7 @@ void	proc_signal_handler_heredoc(int sig)
 
 void	proc_signal_handler_heredoc_parent(int sig)
 {
+	(void)sig;
 	return ;
 }
 

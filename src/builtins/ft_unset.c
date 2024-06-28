@@ -66,7 +66,8 @@ static bool	ft_in_unset(t_env *env, t_mini *shell, size_t *i, size_t *nb_args)
 			(*i)++;
 		else if (ft_strncmp((*env).copy_envp[*i], name, len) == 0
 			&& shell->tab_pars[shell->tab_index][len] != '='
-			&& ((*env).copy_envp[*i][len] == '=' || (*env).copy_envp[*i][len] == '\0'))
+			&& ((*env).copy_envp[*i][len] == '='
+				|| (*env).copy_envp[*i][len] == '\0'))
 			ft_in_in_unset(env, i, nb_args);
 		else
 			(*i)++;
