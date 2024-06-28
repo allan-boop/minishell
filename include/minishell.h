@@ -111,6 +111,8 @@ typedef struct s_int_utils
 	t_env	*env;
 }	t_int_utils;
 
+void			proc_signal_handler_heredoc_parent(int sig);
+void			proc_signal_handler_heredoc(int sig);
 void			close_fd(int fd);
 void			*ft_del_all(void);
 void			*ft_alloc(int size);

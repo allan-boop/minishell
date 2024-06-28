@@ -25,13 +25,14 @@ int	gnl(char **line)
 
 	i = 0;
 	r = 0;
+	c = 0;
 	buffer = (char *)ft_alloc(10000);
 	if (!buffer)
 		return (-1);
 	r = read(0, &c, 1);
 	if (g_sig == SIGINT)
 		return (-1);
-	while (r && c != '\n' && c != '\0')
+	while (r && c && c != '\n' && c != '\0')
 	{
 		if (c != '\n' && c != '\0')
 			buffer[i] = c;
@@ -50,6 +51,7 @@ int	gnl(char **line)
 
 static void	ft_parent_process(int *fd)
 {
+	signal(SIGINT, proc_signal_handler_heredoc_parent);
 	close_fd(fd[1]);
 	dup2(fd[0], STDIN_FILENO);
 	close_fd(fd[0]);
@@ -68,7 +70,7 @@ void	ft_mini_doc(t_mini *shell)
 			&& shell->tab_pars[0][1] == '<' && shell->tab_pars[1])
 	{
 		sigaction(SIGINT, &act, NULL);
-		signal(SIGQUIT, signal_handler);
+		sigaction(SIGQUIT, &act, NULL);
 		write(1, "> ", 2);
 		while (gnl(&line))
 		{
@@ -80,24 +82,30 @@ void	ft_mini_doc(t_mini *shell)
 			write(1, "> ", 2);
 		}
 	}
+	g_sig = 0;
 }
 
 void	ft_here_doc(t_mini *shell, int *i, int *fd, t_env *env)
 {
 	char	*line;
 	pid_t	reader;
+	struct sigaction	act;
 
+	sigemptyset(&act.sa_mask);
+	act.sa_flags = 0;
+	act.sa_handler = proc_signal_handler_heredoc;
 	if (pipe(fd) == -1)
 		exit(EXIT_FAILURE);
 	reader = fork();
 	if (reader == 0)
 	{
+		sigaction(SIGINT, &act, NULL);
+		sigaction(SIGQUIT, &act, NULL);
 		write(1, "> ", 2);
 		close_fd(fd[0]);
 		while (gnl(&line))
 		{
-			write(1, "> ", 2);
-			if (ft_strncmp(line, shell->tab_pars[*i + 1],
+			if (g_sig == SIGINT || ft_strncmp(line, shell->tab_pars[*i + 1],
 					ft_strlen(shell->tab_pars[*i + 1])) == 0)
 			{
 				close_fd(fd[0]);
@@ -111,7 +119,17 @@ void	ft_here_doc(t_mini *shell, int *i, int *fd, t_env *env)
 				exit(EXIT_SUCCESS);
 			}
 			write(fd[1], line, ft_strlen(line));
+			write(1, "> ", 2);
 		}
+		close_fd(fd[0]);
+		close_fd(fd[1]);
+		close_fd(shell->filein);
+		close_fd(shell->fileout);
+		close_fd(shell->og_stdin);
+		close_fd(shell->og_stdout);
+		ft_del_all();
+		ft_free_copy_envp(env);
+		exit(EXIT_SUCCESS);		
 	}
 	else
 		ft_parent_process(fd);
