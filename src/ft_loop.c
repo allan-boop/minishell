@@ -19,25 +19,14 @@ void	prompt_treatment(char *line, t_mini *shell,
 	}
 }
 
-static void	ft_init_shell(t_mini *shell, int status)
+void	ft_loop_readline(t_mini *shell, t_env *env)
 {
-	shell->og_stdout = dup(STDOUT_FILENO);
-	if (shell->og_stdout == -1)
-	{
-		ft_del_all();
-		close(shell->og_stdout);
-		close(shell->og_stdin);
-		exit(1);
-	}
-	shell->og_stdin = dup(STDIN_FILENO);
-	if (shell->og_stdin == -1)
-	{
-		ft_del_all();
-		close(shell->og_stdin);
-		close(shell->og_stdout);
-		exit(1);
-	}
-	shell->status = status;
+	close_fd(shell->og_stdin);
+	close_fd(shell->og_stdout);
+	ft_del_all();
+	ft_free_copy_envp(env);
+	ft_printf("\n");
+	exit(0);
 }
 
 void	ft_loop(char **envp, t_env *env)
@@ -56,14 +45,7 @@ void	ft_loop(char **envp, t_env *env)
 		ft_init_shell(shell, status);
 		line = readline(PROMPT);
 		if (line == NULL)
-		{
-			close_fd(shell->og_stdin);
-			close_fd(shell->og_stdout);
-			ft_del_all();
-			ft_free_copy_envp(env);
-			ft_printf("\n");
-			exit(0);
-		}
+			ft_loop_readline(shell, env);
 		prompt_treatment(line, shell, envp, env);
 		free(line);
 		status = shell->status;

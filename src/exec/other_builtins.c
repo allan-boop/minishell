@@ -98,10 +98,7 @@ bool	other_builtin_p(char *cmd, t_env *env, char *cmd_next, t_mini *shell)
 		if (cmd_next != NULL)
 			if (shell->fileout == -1)
 				dup2(pipefd[1], STDOUT_FILENO);
-		close_fd(pipefd[0]);
-		close_fd(pipefd[1]);
-		close_fd(shell->og_stdin);
-		close_fd(shell->og_stdout);
+		ft_close_pipefd_bis(shell, pipefd);
 		if (cmd[0] && ft_execve(cmd, env) == 0)
 			ft_execve(cmd, env);
 		ft_free_copy_envp(env);

@@ -64,7 +64,7 @@ char	**ft_put_space_between(char **tab_line)
 
 int	ft_parsing(t_mini *shell, char *line, t_env *env)
 {
-	int i;
+	int	i;
 
 	shell->tab_cmd = NULL;
 	if (ft_check_quote(line) == 1)

@@ -3,7 +3,7 @@
 void	ft_redir(t_mini *shell, char *cmd_next)
 {
 	if (!cmd_next && shell->og_stdout == -1)
-			dup2(shell->og_stdout, STDOUT_FILENO);
+		dup2(shell->og_stdout, STDOUT_FILENO);
 	if (shell->fileout != -1)
 	{
 		dup2(shell->fileout, STDOUT_FILENO);

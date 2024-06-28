@@ -1,54 +1,19 @@
 #include "../../include/minishell.h"
 
-static char	*ft_setenv_index(char *name, char ***envp, char *value, int *i)
+static bool	ft_cd_logic_in(char **path, char *tmp, t_mini *shell, t_env *env)
 {
-	int		len;
-	char	*new;
-	char	*tmp;
-
-	len = ft_strlen(name);
-	new = NULL;
-	tmp = NULL;
-	while ((*envp)[*i] != NULL)
+	*path = ft_strdup(ft_getenv("HOME", (*env).copy_envp));
+	if (shell->tab_pars[shell->tab_index]
+		&& shell->tab_pars[shell->tab_index][1] != '\0')
 	{
-		if (ft_strncmp(name, (*envp)[*i], len) == 0)
-		{
-			new = ft_strjoin(name, "=");
-			tmp = ft_strjoin(new, value);
-			free((*envp)[*i]);
-			(*envp)[*i] = tmp;
-			free(new);
-			return (NULL);
-		}
-		(*i)++;
+		tmp = *path;
+		*path = ft_strjoin(*path, shell->tab_pars[shell->tab_index]
+				+ 1);
+		free(tmp);
 	}
-	return (new);
-}
-
-void	ft_setenv(char *name, char *value, char ***envp)
-{
-	int		i;
-	char	*new;
-	char	**new_envp;
-
-	i = 0;
-	new = ft_setenv_index(name, envp, value, &i);
-	if (new == NULL)
-		return ;
-	new_envp = malloc(sizeof(char *) * (i + 2));
-	i = 0;
-	while ((*envp)[i] != NULL)
-	{
-		new_envp[i] = (*envp)[i];
-		i++;
-	}
-	free(new);
-	new = ft_strjoin(name, "=");
-	new = ft_strjoin(new, value);
-	new_envp[i] = new;
-	new_envp[i + 1] = NULL;
-	free(*envp);
-	*envp = new_envp;
+	if (*path == NULL)
+		return (ft_error("cd", "HOME not set", 1));
+	return (0);
 }
 
 static bool	ft_cd_logic( t_mini *shell, t_env *env)
@@ -56,20 +21,13 @@ static bool	ft_cd_logic( t_mini *shell, t_env *env)
 	char	*path;
 	char	*tmp;
 
+	path = NULL;
+	tmp = NULL;
 	if (shell->tab_pars[shell->tab_index] == NULL
 		|| shell->tab_pars[shell->tab_index][0] == '~')
 	{
-		path = ft_strdup(ft_getenv("HOME", (*env).copy_envp));
-		if (shell->tab_pars[shell->tab_index]
-			&& shell->tab_pars[shell->tab_index][1] != '\0')
-		{
-			tmp = path;
-			path = ft_strjoin(path, shell->tab_pars[shell->tab_index]
-					+ 1);
-			free(tmp);
-		}
-		if (path == NULL)
-			return (ft_error("cd", "HOME not set", 1));
+		if (ft_cd_logic_in(&path, tmp, shell, env) == 1)
+			return (1);
 	}
 	else if (ft_strcmp(shell->tab_pars[shell->tab_index], "-") == 0)
 	{

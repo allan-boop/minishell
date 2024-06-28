@@ -22,7 +22,8 @@ static char	*ft_list_cmd_two(t_mini **shell, char *tmp, int *i)
 	(*i)++;
 	while ((*shell)->tab_pars[*i] && (*shell)->tab_pars[*i][0] != '|')
 	{
-		if ((*shell)->tab_pars[*i][0] == '<' || (*shell)->tab_pars[*i][0] == '>')
+		if ((*shell)->tab_pars[*i][0] == '<'
+			|| (*shell)->tab_pars[*i][0] == '>')
 		{
 			(*i)++;
 			if ((*shell)->tab_pars[*i] && (*shell)->tab_pars[*i][0] != '|')
