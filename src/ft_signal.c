@@ -7,6 +7,15 @@ void	proc_signal_handler_heredoc(int sig)
 		write(1, "\n", 1);
 		g_sig = sig;
 	}
+	if (sig == SIGQUIT)
+	{
+		write(1, "\b\b\b\b    \b\b\b\b", 12);
+	}
+}
+
+void	proc_signal_handler_heredoc_parent(int sig)
+{
+	return ;
 }
 
 void	proc_signal_handler(int sig)
