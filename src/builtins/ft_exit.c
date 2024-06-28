@@ -35,6 +35,7 @@ static void	ft_exit_in(t_env *env, t_mini **shell, char *shlvl, char **tmp)
 	free(tmp);
 	close_fd((*shell)->og_stdin);
 	close_fd((*shell)->og_stdout);
+	free(env);
 	ft_del_all();
 }
 
