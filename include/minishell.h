@@ -170,6 +170,7 @@ bool			no_unset_env(t_mini *shell, t_env *env);
 char			**ft_split_shell(char const *s, char c);
 bool			ft_error(char *cmd, char *msg, int ret);
 void			ft_copy_envp(t_env *env, t_mini *shell);
+void			ft_init_shell(t_mini *shell, int status);
 size_t			count_words_split(char const *s, char c);
 void			ft_redirection(t_mini *shell, t_env *env);
 char			*ft_replace_doll(char *line, char *value);
