@@ -15,6 +15,11 @@ int	ft_access_exec(char *path, char **tab_shell, t_env *env)
 		ft_error_malloc(tab_shell);
 		return (-1);
 	}
+	if ((*env).path == false)
+	{
+		printf("%s : command not found\n", tab_shell[0]);
+		return (-1);
+	}
 	if (execve(path, tab_shell, (*env).copy_envp) == -1)
 	{
 		syntax_error(ERROR_EXECVE);
