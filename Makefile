@@ -101,7 +101,7 @@ fclean: clean
 	@rm -f $(NAME)
 
 val :
-	@valgrind -s --leak-check=full --track-origins=yes --track-fds=yes --show-leak-kinds=all --trace-children=yes --gen-suppressions=all --suppressions=/home/gdoumer/Documents/minishell/valgrind.supp --quiet ./minishell
+	@valgrind -s --leak-check=full --track-origins=yes --track-fds=yes --show-leak-kinds=all --trace-children=yes --gen-suppressions=all --suppressions=/home/kirotan/Documents/minishell/valgrind.supp --quiet ./minishell
 
 re: fclean all
 

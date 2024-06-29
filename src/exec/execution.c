@@ -6,7 +6,7 @@
 /*   By: gdoumer <gdoumer@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/29 14:31:22 by gdoumer           #+#    #+#             */
-/*   Updated: 2024/06/29 14:31:24 by gdoumer          ###   ########.fr       */
+/*   Updated: 2024/06/29 18:33:33 by gdoumer          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -82,7 +82,8 @@ static void	ft_exec_logic( t_mini *shell, char **envp
 		if (shell->tab_pars[shell->tab_index]
 			&& shell->tab_pars[shell->tab_index][0] == '|')
 			shell->tab_index++;
-		ft_redirection(shell, env);
+		if (ft_redirection(shell, env) == 1)
+			return ;
 		signal(SIGINT, proc_signal_handler);
 		signal(SIGQUIT, proc_signal_handler);
 		close_fd(shell->filein);

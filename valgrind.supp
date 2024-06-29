@@ -210,3 +210,15 @@
    fun:ft_loop
    fun:main
 }
+{
+   <insert_a_suppression_name_here>
+   Memcheck:Leak
+   match-leak-kinds: reachable
+   fun:realloc
+   ...
+   fun:_nl_find_locale
+   fun:setlocale
+   fun:setlocale
+   obj:/usr/bin/ls
+   fun:(below main)
+}

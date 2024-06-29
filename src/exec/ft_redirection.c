@@ -6,7 +6,7 @@
 /*   By: gdoumer <gdoumer@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/29 14:31:31 by gdoumer           #+#    #+#             */
-/*   Updated: 2024/06/29 14:31:33 by gdoumer          ###   ########.fr       */
+/*   Updated: 2024/06/29 18:48:10 by gdoumer          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -90,7 +90,7 @@ void	ft_here_doc(t_mini *shell, int *i, int *fd, t_env *env)
 	(*i)++;
 }
 
-void	ft_redirection(t_mini *shell, t_env *env)
+int	ft_redirection(t_mini *shell, t_env *env)
 {
 	int		i;
 	int		fd[2];
@@ -105,7 +105,15 @@ void	ft_redirection(t_mini *shell, t_env *env)
 				&& shell->tab_pars[i][1] == '<' && shell->tab_pars[i + 1])
 			ft_here_doc(shell, &i, fd, env);
 		else if (shell->tab_pars[i][0] == '<' && shell->tab_pars[i + 1])
+		{
 			shell->filein = open(shell->tab_pars[i + 1], O_RDONLY);
+			if (shell->filein == -1)
+			{
+				syntax_error(FILE_DIRECTORY);
+				return (1);
+			}
+			dup2(shell->filein, STDIN_FILENO);
+		}
 		if (shell->tab_pars[i][0] == '>'
 			&& shell->tab_pars[i][1] == '>' && shell->tab_pars[i + 1])
 			shell->fileout = open(shell->tab_pars[i + 1], O_WRONLY
@@ -117,4 +125,5 @@ void	ft_redirection(t_mini *shell, t_env *env)
 		}
 		i++;
 	}
+	return (0);
 }

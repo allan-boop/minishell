@@ -6,7 +6,7 @@
 /*   By: gdoumer <gdoumer@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/29 14:29:59 by gdoumer           #+#    #+#             */
-/*   Updated: 2024/06/29 16:22:24 by gdoumer          ###   ########.fr       */
+/*   Updated: 2024/06/29 18:38:04 by gdoumer          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,11 +17,12 @@
 # define NOT_ENOUGH_ARG "Not enough argument.\n"
 # define MALLOC_FAIL "Error: malloc failed.\n"
 # define SIGNAL_FAIL "Error: signal failed.\n"
+# define FILE_DIRECTORY "No such file or directory.\n"
 # define REDIR_FAIL "Error syntax: redirection failed.\n"
 # define OPERATOR_FAIL "Error syntax: operator failed.\n"
+# define INVALID_IDENTIFIER "Is not a valid identifier.\n"
 # define QUOTE_FAIL "Error syntax: quote failed.\n"
 # define PIPE_FAIL "Error syntax: pipe failed.\n"
-# define INVALID_IDENTIFIER "Is not a valid identifier.\n"
 # define INVALID_OPTION "Invalid option.\n"
 # define ERROR_EXECVE "Error execve.\n"
 # define ERROR_PATH "Error path.\n"
@@ -186,7 +187,7 @@ bool			ft_error(char *cmd, char *msg, int ret);
 void			ft_copy_envp(t_env *env, t_mini *shell);
 void			ft_init_shell(t_mini *shell, int status);
 size_t			count_words_split(char const *s, char c);
-void			ft_redirection(t_mini *shell, t_env *env);
+int				ft_redirection(t_mini *shell, t_env *env);
 char			*ft_replace_doll(char *line, char *value);
 t_list_struct	*create_node_list(t_mini *shell, size_t i);
 char			*find_path_execve_vol_two(char *tab_shell);
