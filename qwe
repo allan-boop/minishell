@@ -15,3 +15,4 @@ ls -a | wc -l > asd
 cat < echo lol
 echo test
 exit
+ip utility, iproute2-5.15.0, libbpf 0.5.0
