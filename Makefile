@@ -65,6 +65,7 @@ SRC_FILES =	minishell.c \
 			builtins/ft_echo_utils.c \
 			pars/utils_parsing_exp.c \
 			pars/utils_parsing_cmd.c \
+			builtins/ft_env_own_arg.c \
 			builtins/ft_no_unset_env.c \
 			builtins/ft_export_utils.c \
 			builtins/ft_export_modify.c \

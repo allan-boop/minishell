@@ -6,49 +6,42 @@
 /*   By: gdoumer <gdoumer@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/29 14:30:48 by gdoumer           #+#    #+#             */
-/*   Updated: 2024/06/29 14:30:50 by gdoumer          ###   ########.fr       */
+/*   Updated: 2024/06/29 16:22:28 by gdoumer          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../include/minishell.h"
 
-static void	ft_own_args_in(t_env *env, int *i, int *k, char ***new_envp)
+static int	ft_replace_value_var(char *own_arg, t_env *env)
 {
-	while ((*env).copy_envp[(*i)])
+	int		i;
+	char	*name_var_env;
+	char	*name_var_own;
+
+	i = 0;
+	while ((*env).copy_envp[i] && own_arg)
 	{
-		if (ft_getenv(ft_find_name_var((*env).copy_envp[(*i)]),
-				(*new_envp)) == NULL)
+		name_var_env = ft_find_name_var((*env).copy_envp[i]);
+		name_var_own = ft_find_name_var(own_arg);
+		if (ft_strcmp(name_var_env, name_var_own) == 0)
 		{
-			(*new_envp)[(*k)++] = ft_strdup_shell((*env).copy_envp[(*i)++]);
-			(*new_envp)[(*k)] = NULL;
+			printf("%s\n", (*env).copy_envp[i]);
+			return (1);
 		}
-		else
-			(*i)++;
-	}
-}
-
-static char	**ft_own_args(char ***own_arg, t_env *env, int i)
-{
-	int		k;
-	char	**new_envp;
-
-	k = 0;
-	new_envp = ft_alloc(sizeof(char *) * (ft_tab_len((*env).copy_envp) + 2));
-	while ((*own_arg)[i])
-	{
-		if (ft_getenv(ft_find_name_var((*own_arg)[i]),
-			(*env).copy_envp) != NULL)
-			new_envp[k++] = ft_strdup_shell((*own_arg)[i]);
 		i++;
 	}
-	new_envp[k] = NULL;
-	i = 0;
-	ft_own_args_in(env, &i, &k, &new_envp);
-	i = -1;
-	while ((*own_arg)[++i])
-		free((*own_arg)[i]);
-	free(*own_arg);
-	return (new_envp);
+	return (0);
+}
+
+static void	ft_env_in_in(int *i, char **own_arg, t_env *env)
+{
+	if (ft_replace_value_var(own_arg[(*i)], env) == 1)
+	{
+		(*i)++;
+		return ;
+	}
+	ft_printf("%s\n", own_arg[(*i)]);
+	(*i)++;
 }
 
 static void	ft_env_in(t_env *env, char **own_arg, int *i)
@@ -71,8 +64,7 @@ static void	ft_env_in(t_env *env, char **own_arg, int *i)
 		}
 		else
 		{
-			ft_printf("%s\n", own_arg[(*i)]);
-			(*i)++;
+			ft_env_in_in(i, own_arg, env);
 		}
 	}
 }

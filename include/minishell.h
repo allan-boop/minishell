@@ -6,7 +6,7 @@
 /*   By: gdoumer <gdoumer@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/29 14:29:59 by gdoumer           #+#    #+#             */
-/*   Updated: 2024/06/29 14:30:07 by gdoumer          ###   ########.fr       */
+/*   Updated: 2024/06/29 16:22:24 by gdoumer          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -123,24 +123,9 @@ typedef struct s_int_utils
 	t_env	*env;
 }	t_int_utils;
 
-char			*ft_strjoin_char(char *s1, char c);
-char			*ft_cat_str(t_mini *shell, t_int_utils *utils,
-					char *n_str, int *i);
-char			*skip_bef_doll( char *tab_pars, t_int_utils *utils,
-					bool *quote, char *n_str);
-char			*skip_doll_betw_q(char *tab_pars, char *n_str,
-					t_int_utils *utils, bool *quote);
-char			*skip_env_var(char *str, char *n_str,
-					t_int_utils *utils, int *k);
-void			ft_here_doc_while(t_mini *shell, int *i, t_env *env, int *fd);
-void			ft_here_doc_in(t_env *env, int *fd, t_mini *shell);
-int				gnl(char **line, int i, int r, char c);
-void			proc_signal_handler_heredoc_parent(int sig);
-void			proc_signal_handler_heredoc(int sig);
 void			close_fd(int fd);
 void			*ft_del_all(void);
 void			*ft_alloc(int size);
-void			ft_nb_args(int argc);
 char			*ft_itoa_shell(int n);
 void			signal_handler(int sig);
 int				ft_tab_len(char **envp);
@@ -174,9 +159,11 @@ char			*ft_find_value_var(char *content);
 int				ft_current_arg(char *current_arg);
 bool			ft_pwd(t_mini *shell, t_env *env);
 bool			ft_echo(t_mini *shell, t_env *env);
+char			*ft_strjoin_char(char *s1, char c);
 char			*ft_getenv(char *name, char **envp);
 bool			ft_unset(t_mini *shell, t_env *env);
 char			**ft_copy_envp_no_sort(char **envp);
+void			proc_signal_handler_heredoc(int sig);
 void			ft_dell_all_quote_export(char *line);
 int				ft_replace_quote_export(char **line);
 void			proc_signal_handler_heredoc(int sig);
@@ -185,6 +172,7 @@ void			inc_shlvl(t_mini *shell, t_env *env);
 bool			ft_export(t_mini *shell, t_env *env);
 int				ft_is_in_quote(char *line, char *str);
 bool			yes_unset_env(char *name, t_env *env);
+int				gnl(char **line, int i, int r, char c);
 int				ft_error_parsing(t_list_struct	*list);
 bool			check_cd_err(t_mini *shell, char *path);
 void			ft_redir(t_mini *shell, char *cmd_next);
@@ -203,6 +191,7 @@ char			*ft_replace_doll(char *line, char *value);
 t_list_struct	*create_node_list(t_mini *shell, size_t i);
 char			*find_path_execve_vol_two(char *tab_shell);
 void			*ft_calloc_shell(size_t nmemb, size_t size);
+void			proc_signal_handler_heredoc_parent(int sig);
 char			*find_path_execve(char *tab_line, char **envp);
 bool			ft_env(char **envp, t_env *env, t_mini *shell);
 char			*if_exp_var(t_mini *shell, t_env *env, int *i);
@@ -211,11 +200,13 @@ bool			ft_exit(char **envp, t_env *env, t_mini **shell);
 void			ft_setenv(char *name, char *value, char ***envp);
 int				ft_check_last(char *current_arg, t_mini **shell);
 void			ft_lstadd_back_envp(t_mini **shell, t_envp *new);
+char			**ft_own_args(char ***own_arg, t_env *env, int i);
 void			ft_close_pipefd_bis(t_mini *shell, int pipefd[2]);
 void			ft_create_list(char ***copy_envp, t_mini **shell);
 char			*ft_strjoin_shell(char const *s1, char const *s2);
 int				ft_parsing(t_mini *shell, char *line, t_env *env);
 void			*malloc_factory(size_t size, int type, void *ptr);
+void			ft_here_doc_in(t_env *env, int *fd, t_mini *shell);
 void			ft_execution(t_mini *shell, char **envp, t_env *env);
 void			ft_replace_space_in_str(char *line, bool only_quote);
 void			ft_parent_p(char *cmd_next, t_mini *shell, pid_t pid);
@@ -229,13 +220,22 @@ void			del_node_list(t_list_struct **list, t_list_struct *node);
 void			ft_change_path( t_mini *shell, t_env *env, char **oldcwd);
 void			ft_find_dpointb(int *i, int *start, char **str, char **new);
 void			del_if_same(t_malloc_ptr *l_m, t_malloc_ptr *tmp, void *var);
+void			ft_here_doc_while(t_mini *shell, int *i, t_env *env, int *fd);
 void			ft_add_new_var(t_mini **shell, t_env *env, char *existing_var);
 void			ft_add_new_var(t_mini **shell, t_env *env, char *existing_var);
 char			*ft_substr_shell(char const *s, unsigned int start, size_t len);
+char			*ft_cat_str(t_mini *shell, t_int_utils *utils,
+					char *n_str, int *i);
 void			ft_check_plus(char **envp, char *just_name_var,
 					char *existing_var);
 bool			other_builtin_p(char *cmd, t_env *env,
 					char *cmd_next, t_mini *shell);
 void			ft_modify_var(t_mini *shell, char *existing_var,
 					t_env *env, char *just_name_var);
+char			*skip_bef_doll( char *tab_pars, t_int_utils *utils,
+					bool *quote, char *n_str);
+char			*skip_doll_betw_q(char *tab_pars, char *n_str,
+					t_int_utils *utils, bool *quote);
+char			*skip_env_var(char *str, char *n_str,
+					t_int_utils *utils, int *k);
 #endif
