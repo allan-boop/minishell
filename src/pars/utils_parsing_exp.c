@@ -24,7 +24,7 @@ char	*clean_var(char *str)
 	return (var);
 }
 
-static int	ft_find_exp( char *tab_pars, int j)
+static int	ft_find_exp(char *tab_pars, int j)
 {
 	while (tab_pars[j] != '\0'
 		&& tab_pars[j] != '$'
@@ -63,77 +63,19 @@ char	*print_exp_var(char *tab_pars, char *str, char *n_str,
 	while (str)
 	{
 		quote = false;
-		while (tab_pars[(*utils).j] && tab_pars[(*utils).j] != '$')
-		{
-			if (tab_pars[(*utils).j] == 39)
-			{
-				n_str = ft_strjoin_char(n_str, tab_pars[(*utils).j]);
-				(*utils).i++;
-				(*utils).j++;
-				while (tab_pars[(*utils).j] != 39)
-				{
-					if (tab_pars[(*utils).j] == '$')
-					{
-						n_str = ft_strjoin_char(n_str, tab_pars[(*utils).j]);
-						(*utils).i++;
-						tab_pars[((*utils).j)++] = 'q';
-						quote = true;
-					}
-					else
-					{
-						n_str = ft_strjoin_char(n_str, tab_pars[(*utils).j]);
-						(*utils).i++;
-						(*utils).j++;
-					}
-				}
-				n_str = ft_strjoin_char(n_str, tab_pars[(*utils).j]);
-				(*utils).i++;
-				(*utils).j++;
-			}
-			else
-			{
-				n_str = ft_strjoin_char(n_str, tab_pars[(*utils).j]);
-				(*utils).i++;
-				(*utils).j++;
-
-			}
-		}
+		n_str = skip_bef_doll(tab_pars, utils, &quote, n_str);
 		if (quote == false)
 		{
 			tab_pars[((*utils).j)++] = 'q';
 			str = clean_var(str);
 			(*utils).j = ft_find_exp(tab_pars, (*utils).j);
 			k = 0;
-			while ((*utils).envp[k])
-			{
-				if ((ft_strcmp("PWD", ft_find_name_var((*utils).envp[k])) == 0
-						&& (*utils).env->pwd == false)
-					|| (ft_strcmp("OLDPWD", ft_find_name_var((*utils).envp[k])) == 0
-						&& (*utils).env->oldpwd == false)
-					|| (ft_strcmp("HOME", ft_find_name_var((*utils).envp[k])) == 0
-						&& (*utils).env->home == false)
-					|| (ft_strcmp("SHLVL", ft_find_name_var((*utils).envp[k])) == 0
-						&& (*utils).env->shlvl == false)
-					|| (ft_strcmp("PATH", ft_find_name_var((*utils).envp[k])) == 0
-						&& (*utils).env->path == false))
-				{
-					k++;
-					continue ;
-				}
-				if (ft_strcmp(str + 1, ft_find_name_var((*utils).envp[k])) == 0)
-				{
-					n_str = ft_strjoin_shell(n_str,
-							ft_getenv(str + 1, (*utils).envp));
-					(*utils).i = ft_strlen(n_str);
-				}
-				k++;
-			}
+			n_str = skip_env_var(str, n_str, utils, &k);
 		}
 		str = ft_strchr(tab_pars, '$');
 	}
 	return (n_str);
 }
-
 
 char	*if_exp_var(t_mini *shell, t_env *env, int *i)
 {
@@ -154,12 +96,7 @@ char	*if_exp_var(t_mini *shell, t_env *env, int *i)
 			utils.envp = env->copy_envp;
 			n_str = print_exp_var(shell->tab_pars[*i], str, n_str, &utils);
 		}
-		while (shell->tab_pars[*i][utils.j])
-		{
-			n_str = ft_strjoin_char(n_str, shell->tab_pars[*i][utils.j]);
-			(utils.i)++;
-			(utils.j)++;
-		}
+		n_str = ft_cat_str(shell, &utils, n_str, i);
 		n_str[utils.i] = '\0';
 		return (n_str);
 	}

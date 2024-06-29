@@ -111,6 +111,15 @@ typedef struct s_int_utils
 	t_env	*env;
 }	t_int_utils;
 
+char			*ft_strjoin_char(char *s1, char c);
+char			*ft_cat_str(t_mini *shell, t_int_utils *utils,
+					char *n_str, int *i);
+char			*skip_bef_doll( char *tab_pars, t_int_utils *utils,
+					bool *quote, char *n_str);
+char			*skip_doll_betw_q(char *tab_pars, char *n_str,
+					t_int_utils *utils, bool *quote);
+char			*skip_env_var(char *str, char *n_str,
+					t_int_utils *utils, int *k);
 void			ft_here_doc_while(t_mini *shell, int *i, t_env *env, int *fd);
 void			ft_here_doc_in(t_env *env, int *fd, t_mini *shell);
 int				gnl(char **line, int i, int r, char c);
