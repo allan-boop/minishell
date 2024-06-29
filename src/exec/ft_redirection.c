@@ -44,7 +44,8 @@ void	ft_mini_doc(t_mini *shell)
 			if (g_sig == SIGINT)
 				break ;
 			if (!ft_strncmp(line, shell->tab_pars[1],
-					ft_strlen(shell->tab_pars[1])))
+					ft_strlen(shell->tab_pars[1]))
+				&& ft_strlen(line) - 1 == ft_strlen(shell->tab_pars[1]))
 				break ;
 			write(1, "> ", 2);
 		}
