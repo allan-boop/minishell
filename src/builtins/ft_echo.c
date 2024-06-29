@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   ft_echo.c                                          :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: gdoumer <gdoumer@student.42.fr>            +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2024/06/29 14:30:35 by gdoumer           #+#    #+#             */
+/*   Updated: 2024/06/29 14:30:42 by gdoumer          ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "../../include/minishell.h"
 
 char	*clean_vard(char *str)
@@ -79,7 +91,7 @@ void	print_exp_vard(char *tab_pars, t_env *env, int *j, char *str)
 			k++;
 		}
 		str = ft_strchr(tab_pars, '$');
-	}	
+	}
 }
 
 void	if_exp_vard(t_mini *shell, t_env *env)
@@ -103,7 +115,7 @@ void	if_exp_vard(t_mini *shell, t_env *env)
 		ft_putstr_fd(shell->tab_pars[shell->tab_index], 1);
 		if (shell->tab_pars[shell->tab_index + 1] != NULL)
 			ft_putstr_fd(" ", 1);
-	}	
+	}
 }
 
 bool	ft_echo(t_mini *shell, t_env *env)

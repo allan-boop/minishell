@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   minishell.h                                        :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: gdoumer <gdoumer@student.42.fr>            +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2024/06/29 14:29:59 by gdoumer           #+#    #+#             */
+/*   Updated: 2024/06/29 14:30:07 by gdoumer          ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #ifndef MINISHELL_H
 # define MINISHELL_H
 
@@ -18,7 +30,7 @@
 # define NEW 2
 # define DELETE 3
 # define CLEAR 4
-# define PROMPT "\033[48;2;118;38;113mpika\033[00m\033[48;2;252;127;0mpika\033[00m$ "
+# define PROMPT "pikapika$ "
 # include "libft.h"
 # include <term.h>
 # include <stdio.h>

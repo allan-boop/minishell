@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   utils_parsing_exp_two.c                            :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: gdoumer <gdoumer@student.42.fr>            +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2024/06/29 14:32:38 by gdoumer           #+#    #+#             */
+/*   Updated: 2024/06/29 14:32:39 by gdoumer          ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "../../include/minishell.h"
 
 char	*skip_env_var(char *str, char *n_str, t_int_utils *utils, int *k)
@@ -72,7 +84,7 @@ char	*skip_bef_doll( char *tab_pars, t_int_utils *utils,
 			(*utils).i++;
 			(*utils).j++;
 		}
-	}	
+	}
 	return (n_str);
 }
 
