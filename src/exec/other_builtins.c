@@ -6,7 +6,6 @@ int	ft_access_exec(char *path, char **tab_shell, t_env *env)
 		path = find_path_execve_vol_two(tab_shell[0]);
 	if (!path)
 	{
-		syntax_error(ERROR_PATH);
 		printf("%s : command not found\n", tab_shell[0]);
 		return (-1);
 	}
