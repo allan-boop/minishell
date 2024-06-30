@@ -6,7 +6,7 @@
 /*   By: gdoumer <gdoumer@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/13 15:37:55 by gdoumer           #+#    #+#             */
-/*   Updated: 2024/03/05 17:55:14 by gdoumer          ###   ########.fr       */
+/*   Updated: 2024/06/30 19:47:21 by gdoumer          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,9 @@ char	*clean_stash(int fd, char **stash)
 	if (!stash[fd])
 		return (NULL);
 	while (stash[fd][end] && stash[fd][end] != '\n')
+	{
 		end++;
+	}
 	if (stash[fd][end] == '\n')
 		end++;
 	line = ft_substr_gnl(stash[fd], 0, end);

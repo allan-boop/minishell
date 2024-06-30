@@ -6,7 +6,7 @@
 /*   By: gdoumer <gdoumer@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/29 14:31:31 by gdoumer           #+#    #+#             */
-/*   Updated: 2024/06/30 15:31:36 by gdoumer          ###   ########.fr       */
+/*   Updated: 2024/06/30 17:10:32 by gdoumer          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,9 +30,10 @@ void	ft_redir(t_mini *shell, char *cmd_next)
 
 static void	ft_parent_process(t_mini *shell, int *fd, pid_t pid)
 {
+	(void)pid;
 	signal(SIGINT, proc_signal_handler_heredoc_parent);
 	signal(SIGQUIT, proc_signal_handler_heredoc_parent);
-	waitpid(pid, NULL, 0);
+	waitpid(pid, &(shell->status), 0);
 	close_fd(fd[1]);
 	dup2(fd[0], STDIN_FILENO);
 	close_fd(fd[0]);
@@ -83,9 +84,9 @@ void	ft_here_doc(t_mini *shell, int *i, int *fd, t_env *env)
 	{
 		sigaction(SIGINT, &act, NULL);
 		sigaction(SIGQUIT, &act, NULL);
-		write(1, "> ", 2);
 		dup2(shell->og_stdin, STDIN_FILENO);
 		dup2(shell->og_stdout, STDOUT_FILENO);
+		write(1, "> ", 2);
 		ft_here_doc_while(shell, i, env, fd);
 		ft_here_doc_in(env, fd, shell);
 	}
