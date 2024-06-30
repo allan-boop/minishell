@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_redirection.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: gdoumer <gdoumer@student.42.fr>            +#+  +:+       +#+        */
+/*   By: ahans <ahans@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/29 14:31:31 by gdoumer           #+#    #+#             */
-/*   Updated: 2024/06/29 20:36:00 by gdoumer          ###   ########.fr       */
+/*   Updated: 2024/06/30 14:04:04 by ahans            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,13 +28,14 @@ void	ft_redir(t_mini *shell, char *cmd_next)
 	}
 }
 
-static void	ft_parent_process(int *fd)
+static void	ft_parent_process(t_mini *shell, int *fd)
 {
 	signal(SIGINT, proc_signal_handler_heredoc_parent);
 	wait(NULL);
 	close_fd(fd[1]);
 	dup2(fd[0], STDIN_FILENO);
 	close_fd(fd[0]);
+	close_fd(shell->fileout);
 }
 
 void	ft_mini_doc(t_mini *shell)
@@ -62,6 +63,7 @@ void	ft_mini_doc(t_mini *shell)
 			write(1, "> ", 2);
 		}
 	}
+	ft_open_fd(shell, 0);
 	g_sig = 0;
 }
 
@@ -87,7 +89,7 @@ void	ft_here_doc(t_mini *shell, int *i, int *fd, t_env *env)
 		ft_here_doc_in(env, fd, shell);
 	}
 	else
-		ft_parent_process(fd);
+		ft_parent_process(shell, fd);
 	(*i)++;
 }
 
@@ -96,7 +98,6 @@ int	ft_redirection(t_mini *shell, t_env *env)
 	int		i;
 	int		fd[2];
 
-	(void)env;
 	i = shell->tab_index;
 	shell->filein = -1;
 	shell->fileout = -1;
@@ -115,15 +116,7 @@ int	ft_redirection(t_mini *shell, t_env *env)
 			}
 			dup2(shell->filein, STDIN_FILENO);
 		}
-		if (shell->tab_pars[i][0] == '>'
-			&& shell->tab_pars[i][1] == '>' && shell->tab_pars[i + 1])
-			shell->fileout = open(shell->tab_pars[i + 1], O_WRONLY
-					| O_CREAT | O_APPEND, 0777);
-		else if (shell->tab_pars[i][0] == '>' && shell->tab_pars[i + 1])
-		{
-			shell->fileout = open(shell->tab_pars[i + 1], O_WRONLY
-					| O_CREAT | O_TRUNC, 0777);
-		}
+		ft_open_fd(shell, i);
 		i++;
 	}
 	return (0);

@@ -36,6 +36,7 @@ SRC_FILES =	minishell.c \
 			builtins/ft_pwd.c \
 			pars/utils_envp.c \
 			exec/gnl.c \
+			exec/utils_redirection.c \
 			pars/utils_parsing_exp_two.c \
 			exec/utils_fork.c \
 			exec/ft_parent_p.c \
@@ -101,7 +102,7 @@ fclean: clean
 	@rm -f $(NAME)
 
 val :
-	@valgrind -s --leak-check=full --track-origins=yes --track-fds=yes --show-leak-kinds=all --trace-children=yes --gen-suppressions=all --suppressions=/home/kirotan/Documents/minishell/valgrind.supp --quiet ./minishell
+	@valgrind -s --leak-check=full --track-origins=yes --track-fds=yes --show-leak-kinds=all --trace-children=yes --gen-suppressions=all --suppressions=/home/ahans/Desktop/minishell/valgrind.supp --quiet ./minishell
 
 re: fclean all
 
