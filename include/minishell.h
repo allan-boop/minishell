@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ahans <ahans@student.42.fr>                +#+  +:+       +#+        */
+/*   By: gdoumer <gdoumer@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/29 14:29:59 by gdoumer           #+#    #+#             */
-/*   Updated: 2024/06/30 13:55:54 by ahans            ###   ########.fr       */
+/*   Updated: 2024/07/01 00:20:56 by gdoumer          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -222,7 +222,7 @@ void			del_node_list(t_list_struct **list, t_list_struct *node);
 void			ft_change_path( t_mini *shell, t_env *env, char **oldcwd);
 void			ft_find_dpointb(int *i, int *start, char **str, char **new);
 void			del_if_same(t_malloc_ptr *l_m, t_malloc_ptr *tmp, void *var);
-void			ft_here_doc_while(t_mini *shell, int *i, t_env *env, int *fd);
+void			ft_here_doc_whil(t_mini *shell, int *i, t_env *env, int *fd);
 void			ft_add_new_var(t_mini **shell, t_env *env, char *existing_var);
 void			ft_add_new_var(t_mini **shell, t_env *env, char *existing_var);
 char			*ft_substr_shell(char const *s, unsigned int start, size_t len);

@@ -6,7 +6,7 @@
 /*   By: gdoumer <gdoumer@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/29 14:31:22 by gdoumer           #+#    #+#             */
-/*   Updated: 2024/06/30 16:47:09 by gdoumer          ###   ########.fr       */
+/*   Updated: 2024/07/01 00:19:00 by gdoumer          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,13 +37,16 @@ static void	ft_execution_core_children(t_env *env, char **envp,
 {
 	inc_shlvl(shell, env);
 	if (cmd_next != NULL && shell->fileout == -1)
+	{
+		write(1, "test 2\n", 7);
 		dup2(shell->pipe_fd[shell->i_p][1], STDOUT_FILENO);
+	}
 	if (shell->pipe_fd[shell->i_p][0] != -1)
 		close(shell->pipe_fd[shell->i_p][0]);
 	if (shell->pipe_fd[shell->i_p][1] != -1)
 		close(shell->pipe_fd[shell->i_p][1]);
 	if (custom_builtin(shell, envp, env) == false)
-		other_builtin(shell->tab_cmd[shell->i], env);
+		other_builtin(shell->tab_cmd[shell->i], env, shell);
 	close_fd(shell->og_stdin);
 	close_fd(shell->og_stdout);
 	ft_free_copy_envp(env);
@@ -122,9 +125,13 @@ void	ft_execution(t_mini *shell, char **envp, t_env *env)
 	shell->i = 0;
 	shell->i_p = 0;
 	if (!shell->pipe_fd)
+	{
 		exit(1);
+	}
 	ft_exec_logic(shell, envp, env, is_p);
+	write(1, "test 3\n", 7);
 	dup2(shell->og_stdin, STDIN_FILENO);
+	write(1, "test 4\n", 7);
 	dup2(shell->og_stdout, STDOUT_FILENO);
 	shell->filein = -1;
 	shell->fileout = -1;

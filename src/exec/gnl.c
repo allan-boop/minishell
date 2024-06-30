@@ -6,7 +6,7 @@
 /*   By: gdoumer <gdoumer@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/29 14:31:34 by gdoumer           #+#    #+#             */
-/*   Updated: 2024/06/30 20:08:56 by gdoumer          ###   ########.fr       */
+/*   Updated: 2024/07/01 00:19:21 by gdoumer          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,6 @@ int	gnl(char **line, int i, int r, char c)
 	r = read(0, &c, 1);
 	if (g_sig == SIGINT)
 		return (-1);
-	printf("c = %c\n", c);
 	while (r && c && c != '\n' && c != '\0')
 	{
 		if (c != '\n' && c != '\0')
@@ -53,16 +52,14 @@ void	ft_here_doc_in(t_env *env, int *fd, t_mini *shell)
 	exit(EXIT_SUCCESS);
 }
 
-void	ft_here_doc_while(t_mini *shell, int *i, t_env *env, int *fd)
+void	ft_here_doc_whil(t_mini *shell, int *i, t_env *env, int *fd)
 {
 	char	*line;
 
-	(void)fd;
 	(void)env;
-	line = get_next_line(0);
 	while (1)
 	{
-		printf("line = %s\n", line);
+		line = get_next_line(STDIN_FILENO);
 		if (g_sig == SIGINT)
 			break ;
 		if (ft_strncmp(line, shell->tab_pars[*i + 1],
@@ -70,6 +67,7 @@ void	ft_here_doc_while(t_mini *shell, int *i, t_env *env, int *fd)
 			&& ft_strlen(line) - 1 == ft_strlen(shell->tab_pars[*i + 1]))
 			break ;
 		write(1, "> ", 2);
-		line = get_next_line(0);
+		write(fd[1], line, ft_strlen(line));
+		free(line);
 	}
 }

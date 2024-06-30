@@ -6,7 +6,7 @@
 /*   By: gdoumer <gdoumer@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/29 14:30:29 by gdoumer           #+#    #+#             */
-/*   Updated: 2024/06/29 15:14:47 by gdoumer          ###   ########.fr       */
+/*   Updated: 2024/06/30 23:19:31 by gdoumer          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,6 +77,7 @@ bool	ft_cd(t_mini *shell, t_env *env)
 	char		*oldcwd;
 
 	shell->tab_index++;
+	write(1, "test 1\n", 7);
 	dup2(shell->og_stdout, STDOUT_FILENO);
 	if (shell->tab_pars[shell->tab_index])
 		ft_dell_all_quote_export(shell->tab_pars[shell->tab_index]);
