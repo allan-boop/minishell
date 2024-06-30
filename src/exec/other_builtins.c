@@ -6,7 +6,7 @@
 /*   By: gdoumer <gdoumer@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/29 14:31:37 by gdoumer           #+#    #+#             */
-/*   Updated: 2024/06/29 14:31:38 by gdoumer          ###   ########.fr       */
+/*   Updated: 2024/06/30 15:22:25 by gdoumer          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,8 @@
 
 int	ft_access_exec(char *path, char **tab_shell, t_env *env)
 {
+	if (tab_shell[0][0] == '>' || tab_shell[0][0] == '<')
+		return (-1);
 	if (!path)
 		path = find_path_execve_vol_two(tab_shell[0]);
 	if (!path)

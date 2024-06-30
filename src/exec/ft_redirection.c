@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_redirection.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ahans <ahans@student.42.fr>                +#+  +:+       +#+        */
+/*   By: gdoumer <gdoumer@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/29 14:31:31 by gdoumer           #+#    #+#             */
-/*   Updated: 2024/06/30 14:04:04 by ahans            ###   ########.fr       */
+/*   Updated: 2024/06/30 15:08:22 by gdoumer          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,10 +28,10 @@ void	ft_redir(t_mini *shell, char *cmd_next)
 	}
 }
 
-static void	ft_parent_process(t_mini *shell, int *fd)
+static void	ft_parent_process(t_mini *shell, int *fd, pid_t pid)
 {
 	signal(SIGINT, proc_signal_handler_heredoc_parent);
-	wait(NULL);
+	waitpid(pid, NULL, 0);
 	close_fd(fd[1]);
 	dup2(fd[0], STDIN_FILENO);
 	close_fd(fd[0]);
@@ -89,7 +89,7 @@ void	ft_here_doc(t_mini *shell, int *i, int *fd, t_env *env)
 		ft_here_doc_in(env, fd, shell);
 	}
 	else
-		ft_parent_process(shell, fd);
+		ft_parent_process(shell, fd, reader);
 	(*i)++;
 }
 

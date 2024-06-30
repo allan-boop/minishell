@@ -6,7 +6,7 @@
 /*   By: gdoumer <gdoumer@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/30 13:33:23 by ahans             #+#    #+#             */
-/*   Updated: 2024/06/30 14:11:20 by gdoumer          ###   ########.fr       */
+/*   Updated: 2024/06/30 15:16:09 by gdoumer          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,5 +25,4 @@ void	ft_open_fd(t_mini *shell, int i)
 		shell->fileout = open(shell->tab_pars[i + 1], O_WRONLY
 				| O_CREAT | O_TRUNC, 0777);
 	}
-	close_fd(shell->fileout);
 }
