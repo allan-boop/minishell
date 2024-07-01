@@ -6,7 +6,7 @@
 /*   By: gdoumer <gdoumer@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/29 14:29:59 by gdoumer           #+#    #+#             */
-/*   Updated: 2024/07/01 00:20:56 by gdoumer          ###   ########.fr       */
+/*   Updated: 2024/07/01 16:54:51 by gdoumer          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -149,6 +149,7 @@ void			ft_close_pipefd(t_mini *shell);
 t_envp			*ft_lstnew_envp(void *content);
 void			give_token(t_list_struct *node);
 char			*ft_strdup_shell(const char *s);
+void			ft_close_pipe_ter(t_mini *shell);
 void			ft_open_fd(t_mini *shell, int i);
 char			**ft_sort_envp_char(char **envp);
 void			ft_loop(char **envp, t_env *env);

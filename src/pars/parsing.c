@@ -6,7 +6,7 @@
 /*   By: gdoumer <gdoumer@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/29 14:32:23 by gdoumer           #+#    #+#             */
-/*   Updated: 2024/06/29 14:32:24 by gdoumer          ###   ########.fr       */
+/*   Updated: 2024/07/01 16:46:55 by gdoumer          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,12 +74,26 @@ char	**ft_put_space_between(char **tab_line)
 	return (tab_line);
 }
 
+int	ft_check_tab(char *line)
+{
+	int	i;
+
+	i = 0;
+	while (line[i])
+	{
+		if (line[i] == '\t')
+			line[i] = ' ';
+		i++;
+	}
+	return (0);
+}
+
 int	ft_parsing(t_mini *shell, char *line, t_env *env)
 {
 	int	i;
 
 	shell->tab_cmd = NULL;
-	if (ft_check_quote(line) == 1)
+	if (ft_check_quote(line) == 1 || ft_check_tab(line) == 1)
 		return (1);
 	line = ft_space_pipe(line);
 	if (!line)

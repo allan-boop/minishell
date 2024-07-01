@@ -6,7 +6,7 @@
 /*   By: gdoumer <gdoumer@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/29 14:31:22 by gdoumer           #+#    #+#             */
-/*   Updated: 2024/07/01 15:56:48 by gdoumer          ###   ########.fr       */
+/*   Updated: 2024/07/01 16:56:32 by gdoumer          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -124,14 +124,7 @@ void	ft_execution(t_mini *shell, char **envp, t_env *env)
 	shell->i = 0;
 	shell->i_p = 0;
 	if (!shell->pipe_fd)
-	{
 		exit(1);
-	}
 	ft_exec_logic(shell, envp, env, is_p);
-	close_fd(shell->filein);
-	close_fd(shell->fileout);
-	dup2(shell->og_stdin, STDIN_FILENO);
-	dup2(shell->og_stdout, STDOUT_FILENO);
-	shell->filein = -1;
-	shell->fileout = -1;
+	ft_close_pipe_ter(shell);
 }

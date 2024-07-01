@@ -6,7 +6,7 @@
 /*   By: gdoumer <gdoumer@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/29 14:31:37 by gdoumer           #+#    #+#             */
-/*   Updated: 2024/07/01 14:35:38 by gdoumer          ###   ########.fr       */
+/*   Updated: 2024/07/01 17:03:07 by gdoumer          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -118,10 +118,10 @@ bool	other_builtin_p(char *cmd, t_env *env, char *cmd_next, t_mini *shell)
 	{
 		inc_shlvl(shell, env);
 		if (cmd_next != NULL)
+		{
 			if (shell->fileout == -1)
-			{
 				dup2(pipefd[1], STDOUT_FILENO);
-			}
+		}
 		ft_close_pipefd_bis(shell, pipefd);
 		if (cmd[0] && ft_execve(cmd, env) == 0)
 			ft_execve(cmd, env);
