@@ -6,7 +6,7 @@
 /*   By: gdoumer <gdoumer@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/29 14:31:34 by gdoumer           #+#    #+#             */
-/*   Updated: 2024/07/01 15:24:28 by gdoumer          ###   ########.fr       */
+/*   Updated: 2024/07/01 17:30:25 by gdoumer          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,9 +59,14 @@ void	ft_here_doc_whil(t_mini *shell, int *i, t_env *env, int *fd)
 	(void)env;
 	while (1)
 	{
-		line = get_next_line(STDIN_FILENO);
 		if (g_sig == SIGINT)
 			break ;
+		line = get_next_line(STDIN_FILENO);
+		if (!line)
+		{
+			ft_printf("\n");
+			break ;
+		}
 		if (ft_strncmp(line, shell->tab_pars[*i + 1],
 				ft_strlen(shell->tab_pars[*i + 1])) == 0
 			&& ft_strlen(line) - 1 == ft_strlen(shell->tab_pars[*i + 1]))
