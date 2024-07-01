@@ -21,6 +21,8 @@ SRC_FILES =	minishell.c \
 			ft_signal.c \
 			exec/utils.c \
 			exec/utils.c \
+			get_next_line.c \
+			get_next_line_utils.c \
 			exec/shlvl.c \
 			ft_error_two.c \
 			pars/parsing.c \

@@ -6,7 +6,7 @@
 /*   By: gdoumer <gdoumer@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/29 14:31:34 by gdoumer           #+#    #+#             */
-/*   Updated: 2024/07/01 00:19:21 by gdoumer          ###   ########.fr       */
+/*   Updated: 2024/07/01 15:24:28 by gdoumer          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,6 +68,5 @@ void	ft_here_doc_whil(t_mini *shell, int *i, t_env *env, int *fd)
 			break ;
 		write(1, "> ", 2);
 		write(fd[1], line, ft_strlen(line));
-		free(line);
 	}
 }

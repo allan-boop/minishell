@@ -6,7 +6,7 @@
 /*   By: gdoumer <gdoumer@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/29 14:31:29 by gdoumer           #+#    #+#             */
-/*   Updated: 2024/06/30 23:35:09 by gdoumer          ###   ########.fr       */
+/*   Updated: 2024/07/01 14:34:56 by gdoumer          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,6 @@ void	ft_parent_p(char *cmd_next, t_mini *shell, pid_t pid)
 	{
 		if (shell->filein == -1)
 		{
-			write(1, "test 5\n", 7);
 			dup2(shell->pipe_fd[shell->i_p][0], STDIN_FILENO);
 		}
 		ft_close_pipefd(shell);
@@ -27,7 +26,6 @@ void	ft_parent_p(char *cmd_next, t_mini *shell, pid_t pid)
 	{
 		if (shell->filein == -1)
 		{
-			write(1, "test 6\n", 7);
 			dup2(shell->og_stdin, STDIN_FILENO);
 		}
 		waitpid(pid, &(shell->status), 0);
