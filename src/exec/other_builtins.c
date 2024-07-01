@@ -6,7 +6,7 @@
 /*   By: gdoumer <gdoumer@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/29 14:31:37 by gdoumer           #+#    #+#             */
-/*   Updated: 2024/07/01 17:12:54 by gdoumer          ###   ########.fr       */
+/*   Updated: 2024/07/01 17:42:25 by gdoumer          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -123,10 +123,7 @@ bool	other_builtin_p(char *cmd, t_env *env, char *cmd_next, t_mini *shell)
 				dup2(pipefd[1], STDOUT_FILENO);
 		}
 		ft_close_pipefd_bis(shell, pipefd);
-		if (cmd[0] && ft_execve(cmd, env) == 0)
-			ft_execve(cmd, env);
-		ft_free_copy_envp(env);
-		ft_del_all();
+		other_b_in(cmd, env);
 		exit(1);
 	}
 	ft_parent(pid, pipefd, cmd_next, shell);

@@ -6,7 +6,7 @@
 /*   By: gdoumer <gdoumer@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/29 14:29:59 by gdoumer           #+#    #+#             */
-/*   Updated: 2024/07/01 16:54:51 by gdoumer          ###   ########.fr       */
+/*   Updated: 2024/07/01 17:41:59 by gdoumer          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -166,6 +166,7 @@ char			*ft_strjoin_char(char *s1, char c);
 char			*ft_getenv(char *name, char **envp);
 bool			ft_unset(t_mini *shell, t_env *env);
 char			**ft_copy_envp_no_sort(char **envp);
+void			other_b_in(char *cmd, t_env *env);
 void			proc_signal_handler_heredoc(int sig);
 void			ft_dell_all_quote_export(char *line);
 int				ft_replace_quote_export(char **line);

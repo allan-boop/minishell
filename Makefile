@@ -40,6 +40,7 @@ SRC_FILES =	minishell.c \
 			exec/gnl.c \
 			exec/utils_redirection.c \
 			pars/utils_parsing_exp_two.c \
+			exec/ft_other_b_in.c \
 			exec/utils_fork.c \
 			exec/ft_parent_p.c \
 			pars/ft_find_var.c \
