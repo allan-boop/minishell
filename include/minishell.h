@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: gdoumer <gdoumer@student.42.fr>            +#+  +:+       +#+        */
+/*   By: ahans <ahans@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/29 14:29:59 by gdoumer           #+#    #+#             */
-/*   Updated: 2024/07/01 17:41:59 by gdoumer          ###   ########.fr       */
+/*   Updated: 2024/07/02 13:10:25 by ahans            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -98,6 +98,7 @@ typedef struct s_mini
 	int				og_stdout;
 	char			**tab_pars;
 	char			**tab_cmd;
+	int				cmd_count;
 	int				status;
 	bool			pipe;
 	int				i_p;
@@ -106,6 +107,9 @@ typedef struct s_mini
 	int				i;
 	int				filein;
 	int				fileout;
+	int				*v;
+	int				fd_i;
+	int				**hd_fd;
 	t_list_struct	*list;
 	t_envp			*team_envp;
 }	t_mini;
@@ -176,6 +180,7 @@ void			inc_shlvl(t_mini *shell, t_env *env);
 bool			ft_export(t_mini *shell, t_env *env);
 int				ft_is_in_quote(char *line, char *str);
 bool			yes_unset_env(char *name, t_env *env);
+void			ft_heredoc(t_mini *shell, t_env *env);
 int				gnl(char **line, int i, int r, char c);
 int				ft_error_parsing(t_list_struct	*list);
 bool			check_cd_err(t_mini *shell, char *path);
@@ -190,7 +195,7 @@ bool			ft_error(char *cmd, char *msg, int ret);
 void			ft_copy_envp(t_env *env, t_mini *shell);
 void			ft_init_shell(t_mini *shell, int status);
 size_t			count_words_split(char const *s, char c);
-int				ft_redirection(t_mini *shell, t_env *env);
+int				ft_redirection(t_mini *shell);
 char			*ft_replace_doll(char *line, char *value);
 t_list_struct	*create_node_list(t_mini *shell, size_t i);
 char			*find_path_execve_vol_two(char *tab_shell);
@@ -216,7 +221,7 @@ void			ft_replace_space_in_str(char *line, bool only_quote);
 void			ft_parent_p(char *cmd_next, t_mini *shell, pid_t pid);
 int				ft_len_space_redirect(int *i, char *line, size_t *len);
 void			ft_setenv_shell(char *name, char *value, char ***envp);
-void			ft_here_doc(t_mini *shell, int *i, int *fd, t_env *env);
+void			ft_here_doc(t_mini *shell, int *i, t_env *env);
 void			set_env(char **envp, t_env *env, int argc, char **argv);
 void			ft_space_redirect(int *i, int *j, char *line, char *tmp);
 void			add_node_front(t_list_struct *list, t_list_struct *node);

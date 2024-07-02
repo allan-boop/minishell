@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   gnl.c                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: gdoumer <gdoumer@student.42.fr>            +#+  +:+       +#+        */
+/*   By: ahans <ahans@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/29 14:31:34 by gdoumer           #+#    #+#             */
-/*   Updated: 2024/07/01 17:30:25 by gdoumer          ###   ########.fr       */
+/*   Updated: 2024/07/02 13:32:16 by ahans            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,8 +43,6 @@ void	ft_here_doc_in(t_env *env, int *fd, t_mini *shell)
 {
 	close_fd(fd[0]);
 	close_fd(fd[1]);
-	close_fd(shell->filein);
-	close_fd(shell->fileout);
 	close_fd(shell->og_stdin);
 	close_fd(shell->og_stdout);
 	ft_del_all();
@@ -72,6 +70,6 @@ void	ft_here_doc_whil(t_mini *shell, int *i, t_env *env, int *fd)
 			&& ft_strlen(line) - 1 == ft_strlen(shell->tab_pars[*i + 1]))
 			break ;
 		write(1, "> ", 2);
-		write(fd[1], line, ft_strlen(line));
+		write(fd[0], line, ft_strlen(line));
 	}
 }

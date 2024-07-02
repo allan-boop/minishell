@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   execution.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: gdoumer <gdoumer@student.42.fr>            +#+  +:+       +#+        */
+/*   By: ahans <ahans@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/29 14:31:22 by gdoumer           #+#    #+#             */
-/*   Updated: 2024/07/01 16:56:32 by gdoumer          ###   ########.fr       */
+/*   Updated: 2024/07/02 13:51:29 by ahans            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,7 +38,8 @@ static void	ft_execution_core_children(t_env *env, char **envp,
 	inc_shlvl(shell, env);
 	if (cmd_next != NULL && shell->fileout == -1)
 	{
-		dup2(shell->pipe_fd[shell->i_p][1], STDOUT_FILENO);
+		//printf("4\n");
+		//dup2(shell->pipe_fd[shell->i_p][1], STDOUT_FILENO);
 	}
 	if (shell->pipe_fd[shell->i_p][0] != -1)
 		close(shell->pipe_fd[shell->i_p][0]);
@@ -76,6 +77,7 @@ bool	ft_execution_core(t_mini *shell, char **envp,
 static void	ft_exec_logic( t_mini *shell, char **envp
 			, t_env *env, int is_p)
 {
+	ft_heredoc(shell, env);
 	while (shell && shell->tab_index < ft_tab_len(shell->tab_pars)
 		&& shell->i < ft_tab_len(shell->tab_cmd)
 		&& shell->tab_pars[shell->tab_index]
@@ -83,8 +85,11 @@ static void	ft_exec_logic( t_mini *shell, char **envp
 	{
 		if (shell->tab_pars[shell->tab_index]
 			&& shell->tab_pars[shell->tab_index][0] == '|')
+		{
+			shell->cmd_count++;
 			shell->tab_index++;
-		if (ft_redirection(shell, env) == 1)
+		}
+		if (ft_redirection(shell) == 1)
 			return ;
 		signal(SIGINT, proc_signal_handler);
 		signal(SIGQUIT, proc_signal_handler);
@@ -109,7 +114,9 @@ void	ft_execution(t_mini *shell, char **envp, t_env *env)
 
 	shell->tab_index = 0;
 	shell->i = 0;
+	shell->cmd_count = 0;
 	is_p = ft_tab_len(shell->tab_cmd);
+	shell->v = ft_alloc(sizeof(int) * is_p);
 	if (is_p == 0)
 	{
 		ft_mini_doc(shell);
