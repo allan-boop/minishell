@@ -6,11 +6,11 @@
 /*   By: gdoumer <gdoumer@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/13 15:39:26 by gdoumer           #+#    #+#             */
-/*   Updated: 2024/03/05 17:55:14 by gdoumer          ###   ########.fr       */
+/*   Updated: 2024/07/01 15:22:48 by gdoumer          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libft.h"
+#include "../include/minishell.h"
 
 char	*ft_strjoin_gnl(char const *s1, char const *s2)
 {
@@ -21,13 +21,13 @@ char	*ft_strjoin_gnl(char const *s1, char const *s2)
 	if (!s1 || !s2)
 	{
 		if (s1)
-			return (ft_strdup_gnl(s1));
+			return (ft_strdup_shell(s1));
 		else if (s2)
-			return (ft_strdup_gnl(""));
+			return (ft_strdup_shell(""));
 		return (NULL);
 	}
 	all_size = ft_strlen_gnl(s2) + ft_strlen_gnl(s1);
-	str = (char *)malloc((all_size + 1) * sizeof(char));
+	str = (char *)ft_alloc((all_size + 1) * sizeof(char));
 	if (!str)
 		return (str);
 	i = 0;
@@ -48,12 +48,12 @@ char	*ft_substr_gnl(char const *s, unsigned int start, size_t len)
 	if (!s)
 		return (NULL);
 	if (start >= ft_strlen_gnl(s))
-		return (ft_strdup_gnl(""));
+		return (ft_strdup_shell(""));
 	if (len > ft_strlen_gnl(s) - start)
 		len = ft_strlen_gnl(s) - start;
 	i = 0;
 	j = start;
-	ptr = malloc(len + 1);
+	ptr = ft_alloc(len + 1);
 	if (!ptr)
 		return (0);
 	while (s[j] != '\0' && i < len)

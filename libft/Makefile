@@ -63,8 +63,6 @@ SRC_FILES = ft_isalpha.c \
 				ft_lstiter.c \
 				ft_lstmap.c \
 				ft_lstnew.c \
-				get_next_line.c \
-				get_next_line_utils.c \
 				ft_count_words.c \
 				ft_len_y.c \
 				ft_len_x.c \

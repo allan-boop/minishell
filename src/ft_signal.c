@@ -1,23 +1,55 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   ft_signal.c                                        :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: gdoumer <gdoumer@student.42.fr>            +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2024/06/29 14:33:02 by gdoumer           #+#    #+#             */
+/*   Updated: 2024/06/29 14:33:04 by gdoumer          ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "../include/minishell.h"
 
-static void	signal_handler(int sig)
+void	proc_signal_handler_heredoc(int sig)
 {
 	if (sig == SIGINT)
 	{
-		write(1, "^C", 2);
+		write(1, "\n", 1);
+		g_sig = sig;
+	}
+	if (sig == SIGQUIT)
+	{
+		write(1, "\b\b\b\b    \b\b\b\b", 12);
+	}
+}
+
+void	proc_signal_handler_heredoc_parent(int sig)
+{
+	(void)sig;
+	return ;
+}
+
+void	proc_signal_handler(int sig)
+{
+	if (sig == SIGINT)
+		write(1, "\n", 1);
+	else if (sig == SIGQUIT)
+		write(1, "Quit\n", 5);
+}
+
+void	signal_handler(int sig)
+{
+	if (sig == SIGINT)
+	{
 		write(1, "\n", 1);
 		rl_replace_line("", 0);
 		rl_on_new_line();
 		rl_redisplay();
-		signal(SIGINT, signal_handler);
 	}
 	else if (sig == SIGQUIT)
-		signal(SIGQUIT, signal_handler);
-}
-
-void	ft_signal(void)
-{
-	rl_catch_signals = 0;
-	signal(SIGINT, signal_handler);
-	signal(SIGQUIT, signal_handler);
+	{
+		signal(SIGQUIT, SIG_IGN);
+	}
 }

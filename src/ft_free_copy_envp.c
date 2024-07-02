@@ -1,25 +1,27 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_pwd.c                                           :+:      :+:    :+:   */
+/*   ft_free_copy_envp.c                                :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: gdoumer <gdoumer@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/06/29 14:31:12 by gdoumer           #+#    #+#             */
-/*   Updated: 2024/06/29 14:31:13 by gdoumer          ###   ########.fr       */
+/*   Created: 2024/06/29 14:32:54 by gdoumer           #+#    #+#             */
+/*   Updated: 2024/06/29 14:32:56 by gdoumer          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../../include/minishell.h"
+#include "../include/minishell.h"
 
-bool	ft_pwd(t_mini *shell, t_env *env)
+void	ft_free_copy_envp(t_env *env)
 {
-	char	*path;
+	int	i;
 
-	path = ft_getenv("PWD", (*env).copy_envp);
-	path = getcwd(NULL, 0);
-	printf("%s\n", path);
-	free(path);
-	shell->status = 0;
-	return (true);
+	i = 0;
+	while ((*env).copy_envp[i])
+	{
+		free((*env).copy_envp[i]);
+		i++;
+	}
+	free((*env).copy_envp);
+	free(env);
 }

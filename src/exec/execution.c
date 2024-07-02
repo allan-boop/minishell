@@ -1,57 +1,66 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   execution.c                                        :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: gdoumer <gdoumer@student.42.fr>            +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2024/06/29 14:31:22 by gdoumer           #+#    #+#             */
+/*   Updated: 2024/07/01 16:56:32 by gdoumer          ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "../../include/minishell.h"
 
-bool	custom_builtin(t_mini *shell, char **envp, char ***copy_envp, char *cmd_next)
+bool	custom_builtin(t_mini *shell, char **envp, t_env *env)
 {
-	if (!cmd_next)
-		dup2(shell->og_stdout, STDOUT_FILENO);
-	if (shell->fileout != -1)
-		dup2(shell->fileout, STDOUT_FILENO);
-	if (shell->filein != -1)
-		dup2(shell->filein, STDIN_FILENO);
+	ft_redir(shell, shell->tab_cmd[shell->i + 1]);
 	if (ft_strcmp(shell->tab_pars[shell->tab_index], "cd") == 0)
-		return (ft_cd(shell, envp));
+		return (ft_cd(shell, env));
 	else if (ft_strcmp(shell->tab_pars[shell->tab_index], "echo") == 0)
-		return (ft_echo(shell, envp));
+		return (ft_echo(shell, env));
 	else if (ft_strcmp(shell->tab_pars[shell->tab_index], "pwd") == 0)
-		return (ft_pwd(shell, envp));
+		return (ft_pwd(shell, env));
 	else if (ft_strcmp(shell->tab_pars[shell->tab_index], "export") == 0)
-		return (ft_export(shell, copy_envp));
+		return (ft_export(shell, env));
 	else if (ft_strcmp(shell->tab_pars[shell->tab_index], "unset") == 0)
-		return (ft_unset(shell, copy_envp));
+		return (ft_unset(shell, env));
 	else if (ft_strcmp(shell->tab_pars[shell->tab_index], "env") == 0)
-		return (ft_env(envp, *copy_envp, shell));
+		return (ft_env(envp, env, shell));
 	else if (ft_strcmp(shell->tab_pars[shell->tab_index], "exit") == 0)
-		return (ft_exit(envp));
+		return (ft_exit(envp, env, &shell));
 	return (false);
 }
 
-static void	ft_parent(char *cmd_next, t_mini *shell, pid_t pid, int *pipefd)
+static void	ft_execution_core_children(t_env *env, char **envp,
+	t_mini *shell, char *cmd_next)
 {
-	if (cmd_next != NULL)
+	inc_shlvl(shell, env);
+	if (cmd_next != NULL && shell->fileout == -1)
 	{
-		if (shell->filein == -1)
-			dup2(pipefd[0], STDIN_FILENO);
-		close(pipefd[1]);
-		close(pipefd[0]);
+		dup2(shell->pipe_fd[shell->i_p][1], STDOUT_FILENO);
 	}
-	else
-	{
-		if (shell->filein == -1)
-			dup2(shell->og_stdin, STDIN_FILENO);
-		waitpid(pid, &(shell->status), 0);
-		if (WIFSIGNALED(shell->status))
-			if (WTERMSIG(shell->status) == SIGQUIT)
-				shell->status = 131;
-	}
+	if (shell->pipe_fd[shell->i_p][0] != -1)
+		close(shell->pipe_fd[shell->i_p][0]);
+	if (shell->pipe_fd[shell->i_p][1] != -1)
+		close(shell->pipe_fd[shell->i_p][1]);
+	if (custom_builtin(shell, envp, env) == false)
+		other_builtin(shell->tab_cmd[shell->i], env);
+	close_fd(shell->og_stdin);
+	close_fd(shell->og_stdout);
+	ft_free_copy_envp(env);
+	ft_del_all();
+	exit(1);
 }
 
 bool	ft_execution_core(t_mini *shell, char **envp,
-	char ***copy_envp, char *cmd_next)
+	t_env *env, char *cmd_next)
 {
 	pid_t	pid;
 	int		pipefd[2];
 
-	pipe(pipefd);
+	shell->pipe_fd[shell->i_p] = pipefd;
+	pipe(shell->pipe_fd[shell->i_p]);
 	pid = fork();
 	if (pid == -1)
 	{
@@ -59,22 +68,13 @@ bool	ft_execution_core(t_mini *shell, char **envp,
 		return (false);
 	}
 	if (pid == 0)
-	{
-		inc_shlvl(shell, envp);
-		if (cmd_next != NULL && shell->fileout == -1)
-			dup2(pipefd[1], STDOUT_FILENO);
-		close(pipefd[0]);
-		close(pipefd[1]);
-		if (custom_builtin(shell, envp, copy_envp, shell->tab_cmd[shell->i + 1]) == false)
-			other_builtin(shell->tab_cmd[shell->i], envp);
-		exit(1);
-	}
-	ft_parent(cmd_next, shell, pid, pipefd);
+		ft_execution_core_children(env, envp, shell, cmd_next);
+	ft_parent_p(cmd_next, shell, pid);
 	return (true);
 }
 
 static void	ft_exec_logic( t_mini *shell, char **envp
-			, char ***copy_envp, int is_p)
+			, t_env *env, int is_p)
 {
 	while (shell && shell->tab_index < ft_tab_len(shell->tab_pars)
 		&& shell->i < ft_tab_len(shell->tab_cmd)
@@ -84,30 +84,47 @@ static void	ft_exec_logic( t_mini *shell, char **envp
 		if (shell->tab_pars[shell->tab_index]
 			&& shell->tab_pars[shell->tab_index][0] == '|')
 			shell->tab_index++;
-		ft_redirection(shell);
+		if (ft_redirection(shell, env) == 1)
+			return ;
+		signal(SIGINT, proc_signal_handler);
+		signal(SIGQUIT, proc_signal_handler);
+		close_fd(shell->filein);
 		if (is_p > 1)
-			ft_execution_core(shell, envp, copy_envp,
+			ft_execution_core(shell, envp, env,
 				shell->tab_cmd[shell->i + 1]);
-		else if (custom_builtin(shell, envp, copy_envp, shell->tab_cmd[shell->i + 1]) == false)
+		else if (custom_builtin(shell, envp, env) == false)
 			other_builtin_p(shell->tab_cmd[shell->i],
-				envp, shell->tab_cmd[shell->i + 1], shell);
+				env, shell->tab_cmd[shell->i + 1], shell);
 		while (shell->tab_pars[shell->tab_index] != NULL
 			&& shell->tab_pars[shell->tab_index][0] != '|')
 			shell->tab_index++;
 		shell->i++;
+		shell->i_p++;
 	}
 }
 
-void	ft_execution(t_mini *shell, char **envp, char ***copy_envp)
+void	ft_execution(t_mini *shell, char **envp, t_env *env)
 {
 	int	is_p;
 
 	shell->tab_index = 0;
 	shell->i = 0;
 	is_p = ft_tab_len(shell->tab_cmd);
-	ft_exec_logic(shell, envp, copy_envp, is_p);
-	dup2(shell->og_stdin, STDIN_FILENO);
-	dup2(shell->og_stdout, STDOUT_FILENO);
-	shell->filein = -1;
-	shell->fileout = -1;
+	if (is_p == 0)
+	{
+		ft_mini_doc(shell);
+		return ;
+	}
+	shell->pipe_fd = ft_alloc(sizeof(int *) * is_p + 1);
+	while (shell->i < is_p)
+	{
+		shell->pipe_fd[shell->i] = ft_alloc(2 * sizeof(int));
+		shell->i++;
+	}
+	shell->i = 0;
+	shell->i_p = 0;
+	if (!shell->pipe_fd)
+		exit(1);
+	ft_exec_logic(shell, envp, env, is_p);
+	ft_close_pipe_ter(shell);
 }

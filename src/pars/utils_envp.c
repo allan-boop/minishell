@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   utils_envp.c                                       :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: gdoumer <gdoumer@student.42.fr>            +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2024/06/29 14:32:26 by gdoumer           #+#    #+#             */
+/*   Updated: 2024/06/29 14:32:27 by gdoumer          ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "../../include/minishell.h"
 
 void	ft_create_list(char ***copy_envp, t_mini **shell)
@@ -16,14 +28,36 @@ void	ft_create_list(char ***copy_envp, t_mini **shell)
 	}
 }
 
-char	**ft_sort_envp(char **envp)
+char	**ft_sort_envp(t_env *env)
 {
 	int		i;
 	int		j;
 	char	*temp;
 
 	i = 1;
-	while (envp[i] != NULL)
+	while ((*env).copy_envp[i])
+	{
+		temp = (*env).copy_envp[i];
+		j = i - 1;
+		while (j >= 0 && ft_strcmp_shell((*env).copy_envp[j], temp) > 0)
+		{
+			(*env).copy_envp[j + 1] = (*env).copy_envp[j];
+			j--;
+		}
+		(*env).copy_envp[j + 1] = temp;
+		i++;
+	}
+	return ((*env).copy_envp);
+}
+
+char	**ft_sort_envp_char(char **envp)
+{
+	int		i;
+	int		j;
+	char	*temp;
+
+	i = 1;
+	while (envp[i])
 	{
 		temp = envp[i];
 		j = i - 1;

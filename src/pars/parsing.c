@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   parsing.c                                          :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: gdoumer <gdoumer@student.42.fr>            +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2024/06/29 14:32:23 by gdoumer           #+#    #+#             */
+/*   Updated: 2024/07/01 16:46:55 by gdoumer          ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "../../include/minishell.h"
 
 static void	ft_replace_quote(char **line, int i)
@@ -62,11 +74,26 @@ char	**ft_put_space_between(char **tab_line)
 	return (tab_line);
 }
 
-int	ft_parsing(t_mini *shell, char *line, char **copy_envp)
+int	ft_check_tab(char *line)
 {
-	int		i;
+	int	i;
 
-	if (ft_check_quote(line) == 1)
+	i = 0;
+	while (line[i])
+	{
+		if (line[i] == '\t')
+			line[i] = ' ';
+		i++;
+	}
+	return (0);
+}
+
+int	ft_parsing(t_mini *shell, char *line, t_env *env)
+{
+	int	i;
+
+	shell->tab_cmd = NULL;
+	if (ft_check_quote(line) == 1 || ft_check_tab(line) == 1)
 		return (1);
 	line = ft_space_pipe(line);
 	if (!line)
@@ -80,7 +107,7 @@ int	ft_parsing(t_mini *shell, char *line, char **copy_envp)
 		if (ft_strcmp_shell(shell->tab_pars[i], "$?") == 0)
 			shell->tab_pars[i] = ft_replace_doll(shell->tab_pars[i],
 					ft_itoa_shell(shell->status));
-		shell->tab_pars[i] = if_exp_var(shell, copy_envp, &i);
+		shell->tab_pars[i] = if_exp_var(shell, env, &i);
 		i++;
 	}
 	if (!shell->tab_pars[0] || shell->tab_pars[0][0] == '|')

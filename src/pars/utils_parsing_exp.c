@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   utils_parsing_exp.c                                :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: gdoumer <gdoumer@student.42.fr>            +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2024/06/29 14:32:40 by gdoumer           #+#    #+#             */
+/*   Updated: 2024/06/29 14:32:44 by gdoumer          ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "../../include/minishell.h"
 
 char	*clean_var(char *str)
@@ -24,7 +36,7 @@ char	*clean_var(char *str)
 	return (var);
 }
 
-static int	ft_find_exp( char *tab_pars, int j)
+static int	ft_find_exp(char *tab_pars, int j)
 {
 	while (tab_pars[j] != '\0'
 		&& tab_pars[j] != '$'
@@ -37,40 +49,53 @@ static int	ft_find_exp( char *tab_pars, int j)
 	return (j);
 }
 
+char	*ft_strjoin_char(char *s1, char c)
+{
+	char	*str;
+	int		i;
+
+	i = 0;
+	str = ft_calloc_shell(ft_strlen(s1) + 2, sizeof(char));
+	while (s1[i])
+	{
+		str[i] = s1[i];
+		i++;
+	}
+	str[i] = c;
+	str[i + 1] = '\0';
+	return (str);
+}
+
 char	*print_exp_var(char *tab_pars, char *str, char *n_str,
 			t_int_utils *utils)
 {
 	int		k;
+	bool	quote;
 
 	while (str)
 	{
-		while (tab_pars[(*utils).j] != '$')
-			n_str[((*utils).i)++] = tab_pars[((*utils).j)++];
-		tab_pars[((*utils).j)++] = 'q';
-		str = clean_var(str);
-		(*utils).j = ft_find_exp(tab_pars, (*utils).j);
-		k = 0;
-		while ((*utils).envp[k])
+		quote = false;
+		n_str = skip_bef_doll(tab_pars, utils, &quote, n_str);
+		if (quote == false)
 		{
-			if (ft_strcmp(str + 1, ft_find_name_var((*utils).envp[k])) == 0)
-			{
-				n_str = ft_strjoin_shell(n_str,
-						ft_getenv(str + 1, (*utils).envp));
-				(*utils).i = ft_strlen(n_str);
-			}
-			k++;
+			tab_pars[((*utils).j)++] = 'q';
+			str = clean_var(str);
+			(*utils).j = ft_find_exp(tab_pars, (*utils).j);
+			k = 0;
+			n_str = skip_env_var(str, n_str, utils, &k);
 		}
 		str = ft_strchr(tab_pars, '$');
 	}
 	return (n_str);
 }
 
-char	*if_exp_var(t_mini *shell, char **copy_envp, int *i)
+char	*if_exp_var(t_mini *shell, t_env *env, int *i)
 {
 	char		*str;
 	char		*n_str;
 	t_int_utils	utils;
 
+	utils.env = env;
 	utils.i = 0;
 	str = ft_strchr(shell->tab_pars[*i], '$');
 	if (str)
@@ -80,11 +105,10 @@ char	*if_exp_var(t_mini *shell, char **copy_envp, int *i)
 		utils.j = 0;
 		if (ft_is_in_quote(shell->tab_pars[*i], str) == 0)
 		{
-			utils.envp = copy_envp;
+			utils.envp = env->copy_envp;
 			n_str = print_exp_var(shell->tab_pars[*i], str, n_str, &utils);
 		}
-		while (shell->tab_pars[*i][utils.j])
-			n_str[(utils.i)++] = shell->tab_pars[*i][(utils.j)++];
+		n_str = ft_cat_str(shell, &utils, n_str, i);
 		n_str[utils.i] = '\0';
 		return (n_str);
 	}

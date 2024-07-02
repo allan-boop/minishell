@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   utils_export.c                                     :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: gdoumer <gdoumer@student.42.fr>            +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2024/06/29 14:32:32 by gdoumer           #+#    #+#             */
+/*   Updated: 2024/06/29 14:32:33 by gdoumer          ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "../../include/minishell.h"
 
 int	ft_check_last(char *current_arg, t_mini **shell)
@@ -43,8 +55,6 @@ static int	ft_check_special_char_two(char *just_name_var)
 	if (ft_strchr(just_name_var, ',') != NULL
 		|| ft_strchr(just_name_var, '/') != NULL
 		|| ft_strchr(just_name_var, '~') != NULL)
-		return (1);
-	if (ft_strchr(just_name_var, '+') != NULL)
 		return (1);
 	return (0);
 }

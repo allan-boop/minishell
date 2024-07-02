@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   exe_utils.c                                        :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: gdoumer <gdoumer@student.42.fr>            +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2024/06/29 14:31:19 by gdoumer           #+#    #+#             */
+/*   Updated: 2024/06/29 14:31:21 by gdoumer          ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "../../include/minishell.h"
 
 int	ft_count_quote(char *str)
@@ -24,7 +36,8 @@ char	*ft_clean_quotes(char *str)
 
 	i = 0;
 	j = 0;
-	new_str = malloc(sizeof(char) * (ft_strlen(str) - ft_count_quote(str) + 1));
+	new_str = ft_alloc(sizeof(char)
+			* (ft_strlen(str) - ft_count_quote(str) + 1));
 	if (!new_str)
 		return (NULL);
 	while (str[i])
@@ -34,7 +47,6 @@ char	*ft_clean_quotes(char *str)
 		i++;
 	}
 	new_str[j] = '\0';
-	free(str);
 	return (new_str);
 }
 
@@ -54,15 +66,17 @@ char	*find_path_execve(char *tab_shell, char **envp)
 	{
 		part_path = ft_strjoin_shell(paths[i], "/");
 		path = ft_strjoin_shell(part_path, tab_shell);
-		free(part_path);
 		if (path && access(path, F_OK) == 0)
 			return (path);
-		free(path);
 		i++;
 	}
 	i = -1;
-	while (paths[++i])
-		free(paths[i]);
-	free(paths);
+	return (0);
+}
+
+char	*find_path_execve_vol_two(char *tab_shell)
+{
+	if (tab_shell && access(tab_shell, F_OK) == 0)
+		return (tab_shell);
 	return (0);
 }

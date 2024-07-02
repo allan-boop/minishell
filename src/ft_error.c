@@ -1,13 +1,16 @@
-#include "../include/minishell.h"
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   ft_error.c                                         :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: gdoumer <gdoumer@student.42.fr>            +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2024/06/29 14:32:51 by gdoumer           #+#    #+#             */
+/*   Updated: 2024/06/29 15:10:04 by gdoumer          ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
 
-void	ft_nb_args(int argc)
-{
-	if (argc != 1)
-	{
-		ft_printf(MANY_ARGS);
-		exit (1);
-	}
-}
+#include "../include/minishell.h"
 
 int	syntax_error(char *msg)
 {

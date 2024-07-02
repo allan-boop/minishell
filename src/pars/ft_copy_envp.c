@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   ft_copy_envp.c                                     :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: gdoumer <gdoumer@student.42.fr>            +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2024/06/29 14:32:00 by gdoumer           #+#    #+#             */
+/*   Updated: 2024/06/29 15:46:03 by gdoumer          ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "../../include/minishell.h"
 
 int	ft_tab_len(char **envp)
@@ -62,26 +74,26 @@ char	**ft_copy_envp_no_sort(char **envp)
 		return (NULL);
 	while (i < len - 1)
 	{
-		copy_envp[i] = envp[i];
+		copy_envp[i] = ft_strdup(envp[i]);
 		i++;
 	}
 	copy_envp[i] = NULL;
 	return (copy_envp);
 }
 
-void	ft_copy_envp(char **envp, t_mini *shell)
+void	ft_copy_envp(t_env *env, t_mini *shell)
 {
 	int		len;
 	t_envp	*new;
 	int		i;
 
 	i = 0;
-	ft_sort_envp(envp);
-	len = ft_tab_len(envp);
+	ft_sort_envp(env);
+	len = ft_tab_len((*env).copy_envp);
 	shell->team_envp = NULL;
 	while (i < len)
 	{
-		new = ft_lstnew_envp(envp[i]);
+		new = ft_lstnew_envp((*env).copy_envp[i]);
 		ft_lstadd_back_envp(&shell, new);
 		i++;
 	}

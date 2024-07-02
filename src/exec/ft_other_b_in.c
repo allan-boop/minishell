@@ -1,25 +1,21 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_pwd.c                                           :+:      :+:    :+:   */
+/*   ft_other_b_in.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: gdoumer <gdoumer@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/06/29 14:31:12 by gdoumer           #+#    #+#             */
-/*   Updated: 2024/06/29 14:31:13 by gdoumer          ###   ########.fr       */
+/*   Created: 2024/07/01 17:38:20 by gdoumer           #+#    #+#             */
+/*   Updated: 2024/07/01 17:41:19 by gdoumer          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../include/minishell.h"
 
-bool	ft_pwd(t_mini *shell, t_env *env)
+void	other_b_in(char *cmd, t_env *env)
 {
-	char	*path;
-
-	path = ft_getenv("PWD", (*env).copy_envp);
-	path = getcwd(NULL, 0);
-	printf("%s\n", path);
-	free(path);
-	shell->status = 0;
-	return (true);
+	if (cmd[0] && ft_execve(cmd, env) == 0)
+		ft_execve(cmd, env);
+	ft_free_copy_envp(env);
+	ft_del_all();
 }

@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   ft_cd_utils2.c                                     :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: gdoumer <gdoumer@student.42.fr>            +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2024/06/29 14:30:16 by gdoumer           #+#    #+#             */
+/*   Updated: 2024/06/29 14:30:22 by gdoumer          ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "../../include/minishell.h"
 
 void	ft_find_dpointb(int *i, int *start, char **str, char **new)
@@ -47,8 +59,10 @@ static int	ft_cd_logic_error(t_mini *shell, char *path)
 			&& shell->tab_pars[shell->tab_index][0] != '|'))
 	{
 		shell->status = 1;
+		free(path);
 		return (ft_error("cd", strerror(errno), 1));
 	}
+	free(path);
 	shell->status = 0;
 	return (0);
 }

@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   ft_cd_utils.c                                      :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: gdoumer <gdoumer@student.42.fr>            +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2024/06/29 14:30:12 by gdoumer           #+#    #+#             */
+/*   Updated: 2024/06/29 14:30:15 by gdoumer          ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "../../include/minishell.h"
 
 void	ft_find_dpoint(char **str, int *i, int *start, char **new)
@@ -36,23 +48,26 @@ char	*ft_clean_point(char **str, int i, int j)
 	char	*new;
 
 	new = (char *)ft_calloc_shell(ft_strlen(*str) + 1, sizeof(char));
-	while ((*str)[i])
+	if (*str)
 	{
-		if ((*str)[i] == '.' && (*str)[i + 1] && (*str)[i + 1] == '.')
+		while ((*str)[i])
 		{
-			new[j++] = (*str)[i++];
-			new[j++] = (*str)[i++];
-		}
-		if ((*str)[i] == '.')
-		{
-			i++;
-			if ((*str)[i] == '/')
+			if ((*str)[i] == '.' && (*str)[i + 1] && (*str)[i + 1] == '.')
+			{
+				new[j++] = (*str)[i++];
+				new[j++] = (*str)[i++];
+			}
+			if ((*str)[i] == '.')
+			{
 				i++;
+				if ((*str)[i] == '/')
+					i++;
+			}
+			else if (i > 0 && (*str)[i] == '/' && (*str)[i - 1] == '/')
+				i++;
+			else if ((*str)[i])
+				new[j++] = (*str)[i++];
 		}
-		else if (i > 0 && (*str)[i] == '/' && (*str)[i - 1] == '/')
-			i++;
-		else if ((*str)[i])
-			new[j++] = (*str)[i++];
 	}
 	return (new);
 }
@@ -60,6 +75,7 @@ char	*ft_clean_point(char **str, int i, int j)
 void	ft_change_path_ext(t_mini *shell, char **oldcwd)
 {
 	if (shell->tab_pars[1] && shell->tab_pars[1][0] != '\0'
+			&& ft_strlen(*oldcwd) > 0
 			&& (*oldcwd)[ft_strlen(*oldcwd) - 1] != '/')
 		*oldcwd = ft_strjoin_shell(*oldcwd, "/");
 	if (shell->tab_pars[1])
@@ -80,11 +96,11 @@ void	ft_change_path_ext(t_mini *shell, char **oldcwd)
 		chdir(*oldcwd);
 }
 
-void	ft_change_path( t_mini *shell, char **envp, char **oldcwd)
+void	ft_change_path( t_mini *shell, t_env *env, char **oldcwd)
 {
 	if (shell->tab_pars[1] == NULL || shell->tab_pars[1][0] == '~')
 	{
-		*oldcwd = ft_getenv("HOME", envp);
+		*oldcwd = ft_getenv("HOME", (*env).copy_envp);
 		if (shell->tab_pars[1] && shell->tab_pars[1][0] == '~')
 			shell->tab_pars[1]++;
 		while (shell->tab_pars[1] && shell->tab_pars[1][0] == '/')
@@ -93,10 +109,10 @@ void	ft_change_path( t_mini *shell, char **envp, char **oldcwd)
 	else if (shell->tab_pars[1][0] == '.' && shell->tab_pars[1][1] == '/')
 		shell->tab_pars[1] += 2;
 	if (shell->tab_pars[1] && ft_strcmp(shell->tab_pars[1], "-") == 0)
-		*oldcwd = ft_getenv("OLDPWD", envp);
+		*oldcwd = ft_strdup_shell(ft_getenv("OLDPWD", (*env).copy_envp));
 	else if (shell->tab_pars[1] && (ft_strcmp(shell->tab_pars[1], "/") == 0
 			|| ft_strcmp(shell->tab_pars[1], "/.") == 0))
-		*oldcwd = ft_strdup_shell("/");
+		*oldcwd = ft_strdup("/");
 	else if (shell->tab_pars[1] && ft_strcmp(shell->tab_pars[1], "//") == 0)
 		*oldcwd = ft_strdup_shell(shell->tab_pars[1]);
 	else

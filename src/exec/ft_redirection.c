@@ -1,65 +1,105 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   ft_redirection.c                                   :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: gdoumer <gdoumer@student.42.fr>            +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2024/06/29 14:31:31 by gdoumer           #+#    #+#             */
+/*   Updated: 2024/07/01 17:17:13 by gdoumer          ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "../../include/minishell.h"
 
-int	gnl(char **line)
+void	ft_redir(t_mini *shell, char *cmd_next)
 {
-	char	*buffer;
-	int		i;
-	int		r;
-	char	c;
-
-	i = 0;
-	r = 0;
-	buffer = (char *)ft_alloc(10000);
-	if (!buffer)
-		return (-1);
-	r = read(0, &c, 1);
-	while (r && c != '\n' && c != '\0')
+	if (!cmd_next && shell->og_stdout == -1)
 	{
-		if (c != '\n' && c != '\0')
-			buffer[i] = c;
-		i++;
-		r = read(0, &c, 1);
+		dup2(shell->og_stdout, STDOUT_FILENO);
 	}
-	buffer[i] = '\n';
-	buffer[++i] = '\0';
-	*line = buffer;
-	return (r);
+	if (shell->fileout != -1)
+	{
+		dup2(shell->fileout, STDOUT_FILENO);
+		close_fd(shell->fileout);
+	}
+	if (shell->filein != -1)
+	{
+		dup2(shell->filein, STDIN_FILENO);
+		close_fd(shell->filein);
+	}
 }
 
-static void	ft_parent_process(int *fd)
+static void	ft_parent_process(t_mini *shell, int *fd, pid_t pid)
 {
-	close(fd[1]);
+	(void)pid;
+	signal(SIGINT, proc_signal_handler_heredoc_parent);
+	signal(SIGQUIT, proc_signal_handler_heredoc_parent);
+	waitpid(pid, &(shell->status), 0);
 	dup2(fd[0], STDIN_FILENO);
-	wait(NULL);
+	close_fd(fd[0]);
+	close_fd(fd[1]);
+	close_fd(shell->fileout);
 }
 
-void	ft_here_doc(t_mini *shell, int *i, int *fd)
+void	ft_mini_doc(t_mini *shell)
 {
-	char	*line;
-	pid_t	reader;
+	char				*line;
+	struct sigaction	act;
 
+	sigemptyset(&act.sa_mask);
+	act.sa_flags = 0;
+	act.sa_handler = proc_signal_handler_heredoc;
+	if (shell->tab_pars[0][0] == '<'
+			&& shell->tab_pars[0][1] == '<' && shell->tab_pars[1])
+	{
+		sigaction(SIGINT, &act, NULL);
+		sigaction(SIGQUIT, &act, NULL);
+		write(1, "> ", 2);
+		while (gnl(&line, 0, 0, 0))
+		{
+			if (g_sig == SIGINT)
+				break ;
+			if (!ft_strncmp(line, shell->tab_pars[1],
+					ft_strlen(shell->tab_pars[1]))
+				&& ft_strlen(line) - 1 == ft_strlen(shell->tab_pars[1]))
+				break ;
+			write(1, "> ", 2);
+		}
+	}
+	ft_open_fd(shell, 0);
+	g_sig = 0;
+}
+
+void	ft_here_doc(t_mini *shell, int *i, int *fd, t_env *env)
+{
+	pid_t				reader;
+	struct sigaction	act;
+
+	sigemptyset(&act.sa_mask);
+	act.sa_flags = 0;
+	act.sa_handler = proc_signal_handler_heredoc;
 	if (pipe(fd) == -1)
+	{
 		exit(EXIT_FAILURE);
+	}
+	shell->filein = fd[0];
 	reader = fork();
 	if (reader == 0)
 	{
+		sigaction(SIGINT, &act, NULL);
+		sigaction(SIGQUIT, &act, NULL);
+		dup2(shell->og_stdin, STDIN_FILENO);
 		write(1, "> ", 2);
-		close(fd[0]);
-		while (gnl(&line))
-		{
-			write(1, "> ", 2);
-			if (ft_strncmp(line, shell->tab_pars[*i + 1],
-					ft_strlen(shell->tab_pars[*i + 1])) == 0)
-				exit(EXIT_SUCCESS);
-			write(fd[1], line, ft_strlen(line));
-		}
+		ft_here_doc_whil(shell, i, env, fd);
+		ft_here_doc_in(env, fd, shell);
 	}
 	else
-		ft_parent_process(fd);
+		ft_parent_process(shell, fd, reader);
 	(*i)++;
 }
 
-void	ft_redirection(t_mini *shell)
+int	ft_redirection(t_mini *shell, t_env *env)
 {
 	int		i;
 	int		fd[2];
@@ -71,16 +111,19 @@ void	ft_redirection(t_mini *shell)
 	{
 		if (shell->tab_pars[i][0] == '<'
 				&& shell->tab_pars[i][1] == '<' && shell->tab_pars[i + 1])
-			ft_here_doc(shell, &i, fd);
+			ft_here_doc(shell, &i, fd, env);
 		else if (shell->tab_pars[i][0] == '<' && shell->tab_pars[i + 1])
+		{
 			shell->filein = open(shell->tab_pars[i + 1], O_RDONLY);
-		if (shell->tab_pars[i][0] == '>'
-			&& shell->tab_pars[i][1] == '>' && shell->tab_pars[i + 1])
-			shell->fileout = open(shell->tab_pars[i + 1], O_WRONLY
-					| O_CREAT | O_APPEND, 0777);
-		else if (shell->tab_pars[i][0] == '>' && shell->tab_pars[i + 1])
-			shell->fileout = open(shell->tab_pars[i + 1], O_WRONLY
-					| O_CREAT | O_TRUNC, 0777);
+			if (shell->filein == -1)
+			{
+				syntax_error(FILE_DIRECTORY);
+				return (1);
+			}
+			dup2(shell->filein, STDIN_FILENO);
+		}
+		ft_open_fd(shell, i);
 		i++;
 	}
+	return (0);
 }
